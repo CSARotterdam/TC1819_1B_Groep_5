@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -23,6 +24,13 @@ public class cGrid extends LinearLayout {
 	private ArrayList<LinearLayout> Rows = new ArrayList<>();
 	// If the view is a list or a grid
 	private boolean List = false;
+
+	private OnClickListener itemClicked = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+
+		}
+	};
 
 	public cGrid(Context context) {
 		super(context);
@@ -82,6 +90,8 @@ public class cGrid extends LinearLayout {
 				GI.setLayoutParams(lp);
 				// sets The Product
 				GI.setProduct(p);
+				// sets itemClicked Event
+				GI.setOnClickListener(itemClicked);
 				// checks if the row is full and makes a new one if it is
 				// and adds the product
 				if (Rows.get(Rows.size() - 1).getChildCount() == GetAmountInRow()) {
@@ -106,6 +116,8 @@ public class cGrid extends LinearLayout {
 				LI.setLayoutParams(lp);
 				// sets the product
 				LI.setProduct(p);
+				// sets itemClicked Event
+				LI.setOnClickListener(itemClicked);
 				addView(LI);
 			}
 	}
@@ -125,6 +137,8 @@ public class cGrid extends LinearLayout {
 				/// if only it worked
 				GI.setElevation(dptopx(5));
 				GI.setTranslationZ(dptopx(2));
+				// sets itemClicked Event
+				GI.setOnClickListener(itemClicked);
 				if (Rows.get(Rows.size() - 1).getChildCount() == GetAmountInRow()) {
 					LinearLayout L1 = new LinearLayout(getContext());
 					L1.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -144,6 +158,8 @@ public class cGrid extends LinearLayout {
 				lp.setMargins(0, margin, 0, margin);
 				LI.setLayoutParams(lp);
 				LI.setProduct(p);
+				// sets itemClicked Event
+				LI.setOnClickListener(itemClicked);
 				addView(LI);
 			}
 	}
@@ -206,6 +222,18 @@ public class cGrid extends LinearLayout {
 			Rows.add(L1);
 			Populate();
 		}
+	}
+
+	public void setItemClicked(OnClickListener itemClicked) {
+		this.itemClicked = itemClicked;
+		if(List)
+			for(int i = 0; i < getChildCount(); i++)
+				getChildAt(i).setOnClickListener(itemClicked);
+		else
+			for(LinearLayout Row: Rows)
+				for (int i = 0; i < Row.getChildCount(); i++)
+					Row.getChildAt(i).setOnClickListener(itemClicked);
+
 	}
 
 	private int dptopx(int dp) {

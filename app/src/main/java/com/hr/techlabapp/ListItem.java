@@ -22,7 +22,7 @@ public class ListItem extends ConstraintLayout {
 	private Product product;
 
 	@DrawableRes
-	private final static int[] images = new int[] { R.drawable.arduino };
+	private final static int[] images = new int[] { R.drawable.arduino, R.drawable.cuteaf };
 
 	private final static Random r = new Random();
 	private ImageView image;

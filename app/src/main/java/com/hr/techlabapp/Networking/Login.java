@@ -13,6 +13,13 @@ import java.security.NoSuchAlgorithmException;
 public class Login {
     public static final String TAG = "TL.Networking-Login";
 
+    /**
+     * Given a username and password, will attempt to authenticate the client.
+     * This cannot be run on the UI thread. Use AsyncTask.
+     * @param username A string containing the username.
+     * @param password  A string containing the password.
+     * @return  A boolean that defines whether the login was successful.
+     */
     public static boolean LoginUser(String username, String password){
 
         //Hash password

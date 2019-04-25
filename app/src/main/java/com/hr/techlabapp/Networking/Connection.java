@@ -14,6 +14,11 @@ import java.net.URL;
 public class Connection {
     private final String TAG = "TL.Networking-Connection";
 
+    /**
+     * Sends a request to the server.
+     * @param request A JSONObject containing the request that needs to be sent.
+     * @return A JSONObject containing the server's response to the request.
+     */
     static JSONObject Send(JSONObject request){
         HttpURLConnection connection;
         JSONObject response;

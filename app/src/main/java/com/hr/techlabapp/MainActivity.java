@@ -83,15 +83,15 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.settings) {
             startActivity(new Intent(MainActivity.this, Main2Activity.class));
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.My_Items) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.Notifications) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.Help) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.Log_out) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.Products) {
 
         }
 

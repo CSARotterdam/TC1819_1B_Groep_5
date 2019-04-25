@@ -1,52 +1,57 @@
 package com.hr.techlabapp;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.hr.techlabapp.Networking.Login;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "TL-MainActivity";
+    public Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        this.context = getApplicationContext();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void loginButton(View view){
+        EditText usernameField = (EditText)findViewById(R.id.UsernameField);
+        String username = usernameField.getText().toString();
+        EditText passwordField = (EditText)findViewById((R.id.PasswordField));
+        String password = passwordField.getText().toString();
+        new LoginActivity().execute(username, password);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public class LoginActivity extends AsyncTask<String, Void, Boolean>{
+        private ProgressDialog dialog;
+
+        protected void onPreExecute(){
+            dialog = new ProgressDialog(MainActivity.this);
+            dialog.setMessage("Logging in...");
+            dialog.show();
         }
-
-        return super.onOptionsItemSelected(item);
+        protected Boolean doInBackground(String... params){
+            return Login.LoginUser(params[0], params[1]);
+        }
+        protected void onPostExecute(Boolean result){
+            dialog.dismiss();
+            Toast msgToast;
+            if(result){
+                msgToast = Toast.makeText(context, "Logged in!", Toast.LENGTH_SHORT);
+            } else {
+                msgToast = Toast.makeText(context, "Login failed!", Toast.LENGTH_SHORT);
+            }
+            msgToast.show();
+        }
     }
 }
+

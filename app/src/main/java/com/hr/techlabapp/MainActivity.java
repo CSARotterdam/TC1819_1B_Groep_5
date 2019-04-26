@@ -26,14 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 	//TODO: navGraph navigation
-	Button Login;
+	Button LoginButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-		Login = findViewById(R.id.login);
-		Login.setOnClickListener(new View.OnClickListener() {
+        LoginButton = findViewById(R.id.login);
+        LoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				//goes to the product list

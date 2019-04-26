@@ -5,21 +5,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/Language"
-
-            android:title="Language" />
+            android:id="@+id/Products"
+            android:title="Products" />
+        <item
+            android:id="@+id/My_Items"
+            android:title="My Items" />
         <item
             android:id="@+id/Notifications"
             android:title="Notifications" />
         <item
-            android:id="@+id/Account"
-            android:title="Account" />
-        <item
-            android:id="@+id/Terms_of_service"
-            android:title="Terms of service" />
-        <item
-            android:id="@+id/Contact"
-            android:title="Contact" />
+            android:id="@+id/Help"
+            android:title="Help" />
     </group>
 
     <item android:title="">

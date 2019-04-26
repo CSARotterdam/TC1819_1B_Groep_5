@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">TechLab App</string>
+	<string name="action_settings">Instellingen</string>
+	<string name="title_activity_login">LoginActivity</string>
+	<string name="username_input">Gebruikersnaam</string>
+	<string name="password_input">Wachtwoord</string>
+	<string name="login">Inloggen</string>
+	<string name="register">Registreren</string>
+	<string name="or">of</string>
+	<string name="borrow">Lenen</string>
+	<string name="product_name">Product Naam:</string>
+	<string name="date_of_request">Aanvraag verzonden op: %td-%tm-%tY</string>
+	<string name="user_history">Gebruiker Geschiedenis</string>
+	<string name="user_history_dialog_title">Gebruiker geschiedenis van %07d</string>
+	<string name="amount_value">Beschibaar: %d</string>
+	<string name="amount">Hoeveel:</string>
+	<string name="decline">Wijger</string>
+	<string name="accept">Accepteer</string>
+	<string name="image_description">Een afbeelding van het product</string>
+	<string name="delete_item_title">Verwijder "%s"</string>
+	<string name="delete_everything">Verwijder alles</string>
+	<string name="add_product">voeg product toe</string>
+	<string name="add_image">voeg afbeelding toe</string>
+	<string name="product_statistics">Product statistieken</string>
+	<string name="hour_min">%02d uur %02d min</string>
+	<string name="this_week">deze wee</string>
+	<string name="user_statistics">Gebruiker statistieken</string>
+	<string name="statistics">Statistieken</string>
+</resources>

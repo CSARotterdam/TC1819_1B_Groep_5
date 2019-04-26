@@ -1,10 +1,19 @@
 package com.hr.techlabapp;
 
+import android.content.Intent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Button;
+
+import androidx.navigation.Navigation;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,10 +24,22 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "TL-MainActivity";
     public Context context;
 
+
+	//TODO: navGraph navigation
+	Button Login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+		Login = findViewById(R.id.login);
+		Login.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//goes to the product list
+				startActivity(new Intent(MainActivity.this,ProductList.class));
+			}
+		});
         this.context = getApplicationContext();
     }
 

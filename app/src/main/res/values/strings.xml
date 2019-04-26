@@ -1,5 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TechLab App</string>
-    <string name="action_settings">Settings</string>
-    <string name="availability">%d/%d</string>
+	<string name="app_name">TechLab App</string>
+	<string name="action_settings">Settings</string>
+	<string name="availability" translatable="false">%d/%d</string>
+	<string name="title_activity_login">LoginActivity</string>
+	<string name="username_input">Username</string>
+	<string name="password_input">Password</string>
+	<string name="login">login</string>
+	<string name="register">register</string>
+	<string name="or">or</string>
+	<string name="borrow">Borrow</string>
+	<string name="product_name">Product Name:</string>
+	<string name="username_id" translatable="false">%s %s (%07d)</string>
+	<string name="date_of_request">Sent request on: %td-%tm-%tY</string>
+	<string name="user_history">User history</string>
+	<string name="user_history_dialog_title">User history of %07d</string>
+	<string name="amount_value">Amount: %d</string>
+	<string name="amount">Amount:</string>
+	<string name="decline">Decline</string>
+	<string name="accept">Accept</string>
+	<string name="image_description">An image of the product</string>
+	<string name="delete_item_title">Delete "%s"</string>
+	<string name="delete_everything">Delete everything</string>
+	<string name="add_product">Add product</string>
+	<string name="add_image">Add image</string>
+	<string name="product_statistics">Product statistics</string>
+	<string name="hour_min">%02d hr %02d min</string>
+	<string name="this_week">This week</string>
+	<string name="user_statistics">User statistics</string>
+	<string name="statistics">Statistics</string>
 </resources>

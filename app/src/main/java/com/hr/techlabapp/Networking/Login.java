@@ -42,10 +42,6 @@ public class Login {
         String ID = String.valueOf(System.currentTimeMillis() / 1000);
 
         //Create JSON object
-        Log.i(TAG, username);
-        Log.i(TAG, password);
-        Log.i(TAG, hash);
-
         JSONObject request;
         try {
             request = new JSONObject()

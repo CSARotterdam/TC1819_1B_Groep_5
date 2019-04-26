@@ -6,14 +6,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,22 +25,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        LoginButton = findViewById(R.id.login);
-        LoginButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				//goes to the product list
-				startActivity(new Intent(MainActivity.this,ProductList.class));
-			}
-		});
         this.context = getApplicationContext();
     }
 
     public void loginButton(View view){
-        EditText usernameField = (EditText)findViewById(R.id.UsernameField);
+        EditText usernameField = (EditText)findViewById(R.id.username);
         String username = usernameField.getText().toString();
-        EditText passwordField = (EditText)findViewById((R.id.PasswordField));
+        EditText passwordField = (EditText)findViewById((R.id.password));
         String password = passwordField.getText().toString();
         new LoginActivity().execute(username, password);
     }
@@ -67,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
             Toast msgToast;
             if(result){
                 msgToast = Toast.makeText(context, "Logged in!", Toast.LENGTH_SHORT);
+                startActivity(new Intent(MainActivity.this,ProductList.class));
             } else {
                 msgToast = Toast.makeText(context, "Login failed!", Toast.LENGTH_SHORT);
             }
             msgToast.show();
+
         }
     }
 }

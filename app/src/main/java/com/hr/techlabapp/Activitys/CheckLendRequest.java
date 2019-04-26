@@ -33,6 +33,7 @@ public class CheckLendRequest extends AppCompatActivity {
 		//TODO: I repeat NOT USE THIS
 		image.setImageBitmap(ProductInfo.currentProduct.getImage());
 
+		//sets the value
 		username = findViewById(R.id.username);
 		username.setText(getResources().getString(R.string.username_id,"Gijs","Puelinckx",958956));
 		requestDate = findViewById(R.id.request_date);
@@ -42,14 +43,19 @@ public class CheckLendRequest extends AppCompatActivity {
 		amount = findViewById(R.id.amount);
 		amount.setText(getResources().getString(R.string.amount_value,ProductInfo.currentProduct.getProductsAvailable()));
 
+		//sets the on click the event
 		userHistory = findViewById(R.id.user_history);
 		userHistory.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				//the dialog to show the user history
 				UserHistoryDialog dialog = new UserHistoryDialog();
+				//makes the arguments needed for the dialog
 				Bundle args = new Bundle();
 				args.putInt("ID",958956);
+				//sets the arguments
 				dialog.setArguments(args);
+				//shows the dialog
 				dialog.show(getSupportFragmentManager(),String.format("user history %07d",958956));
 			}
 		});

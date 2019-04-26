@@ -21,23 +21,27 @@ public class ProductList extends AppCompatActivity {
 		setContentView(R.layout.activity_product_list);
 		Products = findViewById(R.id.products);
 
+		// adds random products
 		for(int i = 0; i  < 30; i++)
 			Products.AddProduct(new Product("Arduino","des","man","ID","cat",8,5),false);
 		Products.AddProduct(new Product("Arduino","des","man","ID","cat",8,5));
 
+		// sets the itemClicked
 		Products.setItemClicked(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// sets the product to see in info
 				Product newp = v instanceof GridItem? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
 				ProductInfo.currentProduct = newp;
+				// starts the activity
 				startActivity(new Intent(ProductList.this, ProductInfo.class));
 			}
 		});
-
 		addProduct = findViewById(R.id.add_product);
 		addProduct.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// starts the add product activity
 				startActivity(new Intent(ProductList.this, AddProduct.class));
 			}
 		});
@@ -45,6 +49,7 @@ public class ProductList extends AppCompatActivity {
 		statistics.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// starts the statistics activity
 				startActivity(new Intent(ProductList.this, Statistics.class));
 			}
 		});

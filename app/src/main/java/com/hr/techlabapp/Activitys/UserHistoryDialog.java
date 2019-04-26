@@ -1,4 +1,4 @@
-package com.hr.techlabapp;
+package com.hr.techlabapp.Activitys;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

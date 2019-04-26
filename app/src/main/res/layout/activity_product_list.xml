@@ -4,7 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".ProductList">
+	tools:context=".Activitys.ProductList">
 	<ScrollView
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintBottom_toTopOf="@id/buttonPanel"
@@ -12,7 +12,7 @@
 		app:layout_constraintRight_toRightOf="parent"
 		android:layout_width="match_parent"
 		android:layout_height="0dp">
-		<com.hr.techlabapp.cGrid
+		<com.hr.techlabapp.Activitys.cGrid
 			android:id="@+id/products"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"/>

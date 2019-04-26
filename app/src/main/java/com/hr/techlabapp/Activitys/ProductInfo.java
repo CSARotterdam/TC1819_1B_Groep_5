@@ -1,4 +1,4 @@
-package com.hr.techlabapp;
+package com.hr.techlabapp.Activitys;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.hr.techlabapp.R;
 
 public class ProductInfo extends AppCompatActivity {
 	//TODO:not use this

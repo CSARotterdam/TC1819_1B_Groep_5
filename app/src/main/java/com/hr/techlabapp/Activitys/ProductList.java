@@ -1,10 +1,12 @@
-package com.hr.techlabapp;
+package com.hr.techlabapp.Activitys;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.hr.techlabapp.R;
 
 public class ProductList extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.hr.techlabapp;
+package com.hr.techlabapp.Activitys;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;

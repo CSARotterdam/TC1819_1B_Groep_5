@@ -1,4 +1,4 @@
-package com.hr.techlabapp;
+package com.hr.techlabapp.Activitys;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

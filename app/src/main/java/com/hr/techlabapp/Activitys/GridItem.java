@@ -1,4 +1,4 @@
-package com.hr.techlabapp;
+package com.hr.techlabapp.Activitys;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,11 +16,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hr.techlabapp.R;
+
 import java.util.Random;
 
-public class ListItem extends ConstraintLayout {
-	private Product product;
+public class GridItem extends ConstraintLayout {
 
+	private Product product;
+	// Useless just a place holder will be removed when we can get images from the
+	// database
 	@DrawableRes
 	private final static int[] images = new int[] { R.drawable.arduino, R.drawable.cuteaf };
 
@@ -29,17 +33,17 @@ public class ListItem extends ConstraintLayout {
 	private TextView name;
 	private TextView availability;
 
-	public ListItem(Context context) {
+	public GridItem(Context context) {
 		super(context);
 		Init(context);
 	}
 
-	public ListItem(Context context, AttributeSet attrs) {
+	public GridItem(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		Init(context);
 	}
 
-	public ListItem(Context context, AttributeSet attrs, int defStyleAttr) {
+	public GridItem(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		Init(context);
 	}
@@ -56,6 +60,8 @@ public class ListItem extends ConstraintLayout {
 
 	@RequiresApi(23)
 	private void Init23(Context context) {
+		// makes an image and sets its image to the image of the product
+		/// currently the arduino photo
 		image = new ImageView(context);
 		image.setId(R.id.image);
 		Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
@@ -74,21 +80,23 @@ public class ListItem extends ConstraintLayout {
 		name = new TextView(context);
 		name.setId(R.id.name);
 		name.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-		name.setTextColor(context.getColor(R.color.ListTextColor));
+		name.setTextColor(context.getColor(R.color.textColor));
+		name.setBackgroundColor(context.getColor(R.color.textBackground));
 		name.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		// makes the availability
 		availability = new TextView(context);
 		availability.setId(R.id.availability);
 		availability.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-		availability.setTextColor(context.getColor(R.color.ListTextColor));
+		availability.setTextColor(context.getColor(R.color.textColor));
+		availability.setBackgroundColor(context.getColor(R.color.textBackground));
 		availability.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		// adds the views
 		addView(image);
 		addView(availability);
 		addView(name);
-		// makes the layouts
+		// makes the layout
 		SetConstraints();
 	}
 
@@ -104,17 +112,21 @@ public class ListItem extends ConstraintLayout {
 		int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
 		int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
 		im = Bitmap.createScaledBitmap(im, nimw, nimh, false);
+		image.setImageBitmap(im);
+		image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		name = new TextView(context);
 		name.setId(R.id.name);
 		name.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-		name.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
+		name.setTextColor(ContextCompat.getColor(context, R.color.textColor));
 		name.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+		name.setBackgroundColor(ContextCompat.getColor(context, R.color.textBackground));
 		availability = new TextView(context);
 		availability.setId(R.id.availability);
 		availability.setTextAlignment(TEXT_ALIGNMENT_CENTER);
-		availability.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
+		availability.setTextColor(ContextCompat.getColor(context, R.color.textColor));
+		availability.setBackgroundColor(ContextCompat.getColor(context, R.color.textBackground));
 		availability.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		addView(image);
@@ -135,16 +147,20 @@ public class ListItem extends ConstraintLayout {
 		int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
 		int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
 		im = Bitmap.createScaledBitmap(im, nimw, nimh, false);
+		image.setImageBitmap(im);
+		image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		name = new TextView(context);
 		name.setId(ViewCompat.generateViewId());
-		name.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
+		name.setTextColor(ContextCompat.getColor(context, R.color.textColor));
 		name.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+		name.setBackgroundColor(ContextCompat.getColor(context, R.color.textBackground));
 		availability = new TextView(context);
 		availability.setId(R.id.availability);
-		availability.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
+		availability.setTextColor(ContextCompat.getColor(context, R.color.textColor));
 		availability.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+		availability.setBackgroundColor(ContextCompat.getColor(context, R.color.textBackground));
 		addView(image);
 		addView(availability);
 		addView(name);
@@ -152,9 +168,9 @@ public class ListItem extends ConstraintLayout {
 	}
 
 	private void SetConstraints() {
-		// makes the layout like listitem.xml
+		// make the layout like griditem.xml
 		ConstraintSet CSS = new ConstraintSet();
-		CSS.clone(getContext(), R.layout.listitem);
+		CSS.clone(getContext(), R.layout.griditem);
 		setConstraintSet(CSS);
 	}
 

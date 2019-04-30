@@ -22,7 +22,7 @@ public class Connection {
     static JSONObject Send(JSONObject request){
         HttpURLConnection connection;
         JSONObject response;
-        String address = "145.137.59.211"; //TODO: How will we even get the right address without hardcoding it?
+        String address = "192.168.178.9"; //TODO: How will we even get the right address without hardcoding it?
 
         try {
             //Connect to server

@@ -1,5 +1,6 @@
 package com.hr.techlabapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,11 +16,11 @@ import com.hr.techlabapp.Networking.Users;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "TL-MainActivity";
+    public static Users.User currentUser = null;
     public Context context;
 
 
 	//TODO: navGraph navigation
-	Button LoginButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,13 +29,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loginButton(View view){
-        EditText usernameField = (EditText)findViewById(R.id.username);
+        EditText usernameField = findViewById(R.id.username);
         String username = usernameField.getText().toString();
-        EditText passwordField = (EditText)findViewById((R.id.password));
+        EditText passwordField = findViewById((R.id.password));
         String password = passwordField.getText().toString();
         new LoginActivity().execute(username, password);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class LoginActivity extends AsyncTask<String, Void, Boolean>{
         private ProgressDialog dialog;
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         protected Boolean doInBackground(String... params){
             return Users.LoginUser(params[0], params[1]);
         }
+        @SuppressLint("ShowToast")
         protected void onPostExecute(Boolean result){
             dialog.dismiss();
             Toast msgToast;
@@ -63,13 +65,14 @@ public class MainActivity extends AppCompatActivity {
 
     //TODO Fix repetition. This stuff is basically identical to the code above.
     public void RegisterButton(View view){
-        EditText usernameField = (EditText)findViewById(R.id.username);
+        EditText usernameField = findViewById(R.id.username);
         String username = usernameField.getText().toString();
-        EditText passwordField = (EditText)findViewById((R.id.password));
+        EditText passwordField = findViewById((R.id.password));
         String password = passwordField.getText().toString();
         new RegisterUserActivity().execute(username, password);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class RegisterUserActivity extends AsyncTask<String, Void, Integer>{
         private ProgressDialog dialog;
 
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         protected Integer doInBackground(String... params){
             return Users.registerUser(params[0], params[1]);
         }
+        @SuppressLint("ShowToast")
         protected void onPostExecute(Integer result){
             dialog.dismiss();
             Toast msgToast;

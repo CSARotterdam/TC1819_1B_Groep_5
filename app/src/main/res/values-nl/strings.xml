@@ -20,11 +20,11 @@
 	<string name="image_description">Een afbeelding van het product</string>
 	<string name="delete_item_title">Verwijder "%s"</string>
 	<string name="delete_everything">Verwijder alles</string>
-	<string name="add_product">voeg product toe</string>
-	<string name="add_image">voeg afbeelding toe</string>
+	<string name="add_product">Product Toevoegen</string>
+	<string name="add_image">Afbeelding Toevoegen</string>
 	<string name="product_statistics">Product statistieken</string>
 	<string name="hour_min">%02d uur %02d min</string>
-	<string name="this_week">deze wee</string>
+	<string name="this_week">Deze week</string>
 	<string name="user_statistics">Gebruiker statistieken</string>
 	<string name="statistics">Statistieken</string>
 </resources>

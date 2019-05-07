@@ -6,8 +6,8 @@
 	<string name="title_activity_login">LoginActivity</string>
 	<string name="username_input">Username</string>
 	<string name="password_input">Password</string>
-	<string name="login">login</string>
-	<string name="register">register</string>
+	<string name="login">Login</string>
+	<string name="register">Register</string>
 	<string name="or">or</string>
 	<string name="borrow">Borrow</string>
 	<string name="product_name">Product Name:</string>

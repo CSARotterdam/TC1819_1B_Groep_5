@@ -3,6 +3,8 @@ package com.hr.techlabapp.Networking;
 import android.util.JsonReader;
 import android.util.Log;
 
+import com.hr.techlabapp.MainActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,8 +12,22 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Users {
+public class Authentication {
     public static final String TAG = "TL.Networking-Login";
+
+    public static class User {
+        String username;
+        String hash;
+        Long token;
+        int permissionLevel;
+
+        public User(String username, String hash, Long token, int permissionLevel){
+            this.username = username;
+            this.hash = hash;
+            this.token = token;
+            this.permissionLevel = permissionLevel;
+        }
+    }
 
     /**
      * Given a username and password, will attempt to authenticate the client.
@@ -26,6 +42,16 @@ public class Users {
         //Hash password
         String hash = getPasswordHash(username, password);
 
+        return auth(username, hash);
+    }
+
+    /**
+     * Given a username and password hash, will attempt to authenticate the client.
+     * @param username A string containing a username.
+     * @param hash A string containining a salted hash of the username.
+     * @return A boolean that defines whether the login was successful.
+     */
+    private static boolean auth(String username, String hash){
         //Create JSON object
         JSONObject request;
         try {
@@ -88,7 +114,6 @@ public class Users {
         try {
             JSONObject response = Connection.Send(request);
             requestData = (JSONObject) response.get("requestData");
-            Log.i(TAG, requestData.toString());
             registerUserSuccessful = requestData.getBoolean("registerUserSuccessful");
         } catch (JSONException e) {
             return -1;
@@ -112,6 +137,61 @@ public class Users {
         return -1;
     }
 
+    /*
+    * Attempts to end the current session. Fails if the client isn't authenticated.
+    * This cannot be run on the UI thread. Use AsyncTask.
+    * @return A boolean that shows whether the logout was successful.
+     */
+    public static boolean logout() throws UnexpectedServerResponseException {
+        //Create JSON object
+        JSONObject request;
+        try {
+            request = new JSONObject()
+                    .put("requestType", "logout")
+                    .put("requestData", new JSONObject()
+                            .put("username", MainActivity.currentUser.username)
+                            .put("token", MainActivity.currentUser.token)
+                    );
+        } catch (JSONException e) {
+            return false;
+        }
+
+        //Send request and wait for response
+        Boolean logoutSuccessful;
+        String reason = null;
+        JSONObject requestData;
+        try {
+            JSONObject response = Connection.Send(request);
+            requestData = (JSONObject) response.get("requestData");
+            logoutSuccessful = requestData.getBoolean("success");
+            reason = requestData.getString("reason");
+        } catch (JSONException e) {
+            return false;
+        }
+
+        //If the logout was successful, clear the currentUser and return true.
+        //If the logout was unsuccesful
+        if(logoutSuccessful){
+            MainActivity.currentUser = null;
+            return true;
+        } else if(reason == "Invalid or expired token"){
+            if(auth(MainActivity.currentUser.username, MainActivity.currentUser.hash)){
+                return logout();
+            } else {
+                MainActivity.currentUser = null;
+                return true;
+            }
+        } else {
+            throw new UnexpectedServerResponseException();
+        }
+    }
+
+    /**
+     * Creates a salted hash of a password, using a username.
+     * @param username A string containing a username.
+     * @param password A string containing a password.
+     * @return A salted hash of the password.
+     */
     private static String getPasswordHash(String username, String password){
         String hash = "";
         try {

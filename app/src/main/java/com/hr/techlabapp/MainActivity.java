@@ -12,11 +12,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.hr.techlabapp.Networking.Users;
+import com.hr.techlabapp.Networking.Authentication;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "TL-MainActivity";
-    public static Users.User currentUser = null;
+    public static Authentication.User currentUser = null;
     public Context context;
 
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         }
         protected Boolean doInBackground(String... params){
-            return Users.LoginUser(params[0], params[1]);
+            return Authentication.LoginUser(params[0], params[1]);
         }
         @SuppressLint("ShowToast")
         protected void onPostExecute(Boolean result){
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         }
         protected Integer doInBackground(String... params){
-            return Users.registerUser(params[0], params[1]);
+            return Authentication.registerUser(params[0], params[1]);
         }
         @SuppressLint("ShowToast")
         protected void onPostExecute(Integer result){

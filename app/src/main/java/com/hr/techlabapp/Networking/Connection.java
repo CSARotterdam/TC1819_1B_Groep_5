@@ -59,3 +59,17 @@ public class Connection {
         return response;
     }
 }
+
+/**
+ * Thrown when the client receives an unexpected exception. Examples include responses
+ * that the client doesn't know how to process.
+ */
+class UnexpectedServerResponseException extends Exception{
+    public UnexpectedServerResponseException(){
+        super();
+    }
+
+    public UnexpectedServerResponseException(String message) {
+        super(message);
+    }
+}

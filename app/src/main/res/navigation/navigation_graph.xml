@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/navigation_graph"
+	app:startDestination="@+id/productListFragment">
+
+	<fragment
+		android:id="@+id/loginFragment"
+		android:name="com.hr.techlabapp.Fragments.loginFragment"
+		android:label="fragment_login"
+		tools:layout="@layout/fragment_login">
+		<action
+			android:id="@+id/action_loginFragment_to_productListFragment"
+			app:destination="@id/productListFragment" />
+		<action
+			android:id="@+id/action_loginFragment_to_placeholder"
+			app:destination="@id/Register" />
+	</fragment>
+	<fragment
+		android:id="@+id/productListFragment"
+		android:name="com.hr.techlabapp.Fragments.ProductListFragment"
+		android:label="fragment_product_list"
+		tools:layout="@layout/fragment_product_list">
+		<action
+			android:id="@+id/action_productListFragment_to_productInfoFragment"
+			app:destination="@id/productInfoFragment" />
+		<action
+			android:id="@+id/action_productListFragment_to_addProductFragment"
+			app:destination="@id/addProductFragment" />
+		<action
+			android:id="@+id/action_productListFragment_to_statisticsFragment"
+			app:destination="@id/statisticsFragment" />
+		<action
+			android:id="@+id/action_productListFragment_to_loginFragment"
+			app:destination="@id/loginFragment" />
+		<action
+			android:id="@+id/action_productListFragment_to_placeholder2"
+			app:destination="@+id/Camera" />
+	</fragment>
+	<fragment
+		android:id="@+id/productInfoFragment"
+		android:name="com.hr.techlabapp.Fragments.ProductInfoFragment"
+		android:label="fragment_product_info"
+		tools:layout="@layout/fragment_product_info" >
+		<action
+			android:id="@+id/action_productInfoFragment_to_checkLendRequestFragment"
+			app:destination="@id/checkLendRequestFragment" />
+	</fragment>
+	<fragment
+		android:id="@+id/addProductFragment"
+		android:name="com.hr.techlabapp.Fragments.AddProductFragment"
+		android:label="fragment_add_product"
+		tools:layout="@layout/fragment_add_product" />
+	<fragment
+		android:id="@+id/statisticsFragment"
+		android:name="com.hr.techlabapp.Fragments.StatisticsFragment"
+		android:label="fragment_statistics"
+		tools:layout="@layout/fragment_statistics" />
+	<fragment android:id="@+id/Register">
+		<action
+			android:id="@+id/action_placeholder_to_productListFragment"
+			app:destination="@id/productListFragment" />
+	</fragment>
+	<fragment
+		android:id="@+id/checkLendRequestFragment"
+		android:name="com.hr.techlabapp.Fragments.CheckLendRequestFragment"
+		android:label="fragment_check_lend_request"
+		tools:layout="@layout/fragment_check_lend_request" >
+		<action
+			android:id="@+id/action_checkLendRequestFragment_to_productListFragment"
+			app:destination="@id/productListFragment" />
+	</fragment>
+	<fragment android:id="@+id/Camera" >
+		<action
+			android:id="@+id/action_Camera_to_checkLendRequestFragment"
+			app:destination="@id/checkLendRequestFragment" />
+	</fragment>
+</navigation>

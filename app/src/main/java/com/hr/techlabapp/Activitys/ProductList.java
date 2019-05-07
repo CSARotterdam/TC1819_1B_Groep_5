@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.hr.techlabapp.Classes.Product;
+import com.hr.techlabapp.CustomViews.GridItem;
+import com.hr.techlabapp.CustomViews.ListItem;
+import com.hr.techlabapp.CustomViews.cGrid;
 import com.hr.techlabapp.R;
 
 public class ProductList extends AppCompatActivity {
@@ -31,7 +35,7 @@ public class ProductList extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				// sets the product to see in info
-				Product newp = v instanceof GridItem? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
+				Product newp = v instanceof GridItem ? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
 				ProductInfo.currentProduct = newp;
 				// starts the activity
 				startActivity(new Intent(ProductList.this, ProductInfo.class));

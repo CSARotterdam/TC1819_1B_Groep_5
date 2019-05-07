@@ -1,4 +1,4 @@
-package com.hr.techlabapp.Activitys;
+package com.hr.techlabapp.CustomViews;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hr.techlabapp.Classes.Product;
 import com.hr.techlabapp.R;
 
 import java.util.Random;

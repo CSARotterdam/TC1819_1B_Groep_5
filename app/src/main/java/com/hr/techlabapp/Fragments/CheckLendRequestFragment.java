@@ -1,20 +1,30 @@
-package com.hr.techlabapp.Activitys;
+package com.hr.techlabapp.Fragments;
+
 
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hr.techlabapp.Activitys.ProductInfo;
 import com.hr.techlabapp.CustomViews.UserHistoryDialog;
 import com.hr.techlabapp.R;
 
 import java.time.LocalDate;
 import java.util.Calendar;
 
-public class CheckLendRequest extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class CheckLendRequestFragment extends Fragment {
 
 	private ImageView image;
 
@@ -24,28 +34,39 @@ public class CheckLendRequest extends AppCompatActivity {
 	private TextView amount;
 
 	private Button userHistory;
+	
+	
+	public CheckLendRequestFragment() {
+		// Required empty public constructor
+	}
+
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_check_lend_request);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		// Inflate the layout for this fragment
+		return inflater.inflate(R.layout.fragment_check_lend_request, container, false);
+	}
 
-		image = findViewById(R.id.image);
+	@Override
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		image = getView().findViewById(R.id.image);
 		//TODO: I repeat NOT USE THIS
 		image.setImageBitmap(ProductInfo.currentProduct.getImage());
 
 		//sets the value
-		username = findViewById(R.id.username);
+		username = getView().findViewById(R.id.username);
 		username.setText(getResources().getString(R.string.username_id,"Gijs","Puelinckx",958956));
-		requestDate = findViewById(R.id.request_date);
+		requestDate = getView().findViewById(R.id.request_date);
 		requestDate.setText(getResources().getString(R.string.date_of_request, Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(), Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(),Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime()));
-		name = findViewById(R.id.name);
+		name = getView().findViewById(R.id.name);
 		name.setText(ProductInfo.currentProduct.getName());
-		amount = findViewById(R.id.amount);
+		amount = getView().findViewById(R.id.amount);
 		amount.setText(getResources().getString(R.string.amount_value,ProductInfo.currentProduct.getProductsAvailable()));
 
 		//sets the on click the event
-		userHistory = findViewById(R.id.user_history);
+		userHistory = getView().findViewById(R.id.user_history);
 		userHistory.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -57,7 +78,7 @@ public class CheckLendRequest extends AppCompatActivity {
 				//sets the arguments
 				dialog.setArguments(args);
 				//shows the dialog
-				dialog.show(getSupportFragmentManager(),String.format("user history %07d",958956));
+				dialog.show(getFragmentManager(),String.format("user history %07d",958956));
 			}
 		});
 	}

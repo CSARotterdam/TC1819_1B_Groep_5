@@ -1,4 +1,4 @@
-package com.hr.techlabapp.Activitys;
+package com.hr.techlabapp.CustomViews;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.hr.techlabapp.Classes.Product;
 
 import java.util.ArrayList;
 

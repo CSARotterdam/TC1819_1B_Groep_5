@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hr.techlabapp.Classes.Product;
+import com.hr.techlabapp.CustomViews.DeleteItemDialog;
 import com.hr.techlabapp.R;
 
 public class ProductInfo extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.hr.techlabapp.Activitys;
+package com.hr.techlabapp.CustomViews;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

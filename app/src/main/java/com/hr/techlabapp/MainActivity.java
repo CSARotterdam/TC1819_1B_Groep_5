@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
             Toast msgToast;
             if(result){
                 msgToast = Toast.makeText(context, "Logged in!", Toast.LENGTH_SHORT);
-                startActivity(new Intent(MainActivity.this,ProductList.class));
             } else {
                 msgToast = Toast.makeText(context, "Login failed!", Toast.LENGTH_SHORT);
             }

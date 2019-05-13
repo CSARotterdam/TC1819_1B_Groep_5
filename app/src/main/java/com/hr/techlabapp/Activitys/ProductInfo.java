@@ -14,7 +14,7 @@ import com.hr.techlabapp.R;
 
 public class ProductInfo extends AppCompatActivity {
 	//TODO:not use this
-	public static Product currentProduct;
+	private Product Product;
 
 	private ImageView image;
 
@@ -31,20 +31,21 @@ public class ProductInfo extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_product_info);
+
 		image = findViewById(R.id.image);
-		image.setImageBitmap(currentProduct.getImage());
+		image.setImageBitmap(Product.getImage());
 
 		// sets the string values
 		name = findViewById(R.id.product_name);
-		name.setText(currentProduct.getName());
+		name.setText(Product.getName());
 		id = findViewById(R.id.product_id);
-		id.setText(currentProduct.getProductID());
+		id.setText(Product.getProductID());
 		man = findViewById(R.id.product_man);
-		man.setText(currentProduct.getManufacturer());
+		man.setText(Product.getManufacturer());
 		cat = findViewById(R.id.product_cat);
-		cat.setText(currentProduct.getProductCategory());
+		cat.setText(Product.getProductCategory());
 		stock = findViewById(R.id.product_stock);
-		stock.setText(String.valueOf(currentProduct.getProductsAvailable()));
+		stock.setText(String.valueOf(Product.getProductsAvailable()));
 
 		// sets the onClickListener
 		borrow = findViewById(R.id.borrow);
@@ -65,11 +66,11 @@ public class ProductInfo extends AppCompatActivity {
 				DeleteItemDialog dialog = new DeleteItemDialog();
 				// makes the args
 				Bundle args = new Bundle();
-				args.putCharSequence("ID",currentProduct.getProductID());
+				args.putCharSequence("ID", Product.getProductID());
 				// sets the args
 				dialog.setArguments(args);
 				// shows the dialog
-				dialog.show(getSupportFragmentManager(),String.format("delete item %s",currentProduct.getProductID()));
+				dialog.show(getSupportFragmentManager(),String.format("delete item %s", Product.getProductID()));
 			}
 		});
 	}

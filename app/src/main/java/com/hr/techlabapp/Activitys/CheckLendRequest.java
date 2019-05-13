@@ -31,18 +31,18 @@ public class CheckLendRequest extends AppCompatActivity {
 		setContentView(R.layout.activity_check_lend_request);
 
 		image = findViewById(R.id.image);
-		//TODO: I repeat NOT USE THIS
-		image.setImageBitmap(ProductInfo.currentProduct.getImage());
-
-		//sets the value
-		username = findViewById(R.id.username);
-		username.setText(getResources().getString(R.string.username_id,"Gijs","Puelinckx",958956));
-		requestDate = findViewById(R.id.request_date);
-		requestDate.setText(getResources().getString(R.string.date_of_request, Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(), Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(),Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime()));
-		name = findViewById(R.id.name);
-		name.setText(ProductInfo.currentProduct.getName());
-		amount = findViewById(R.id.amount);
-		amount.setText(getResources().getString(R.string.amount_value,ProductInfo.currentProduct.getProductsAvailable()));
+//		//TODO: I repeat NOT USE THIS
+//		image.setImageBitmap(ProductInfo.currentProduct.getImage());
+//
+//		//sets the value
+//		username = findViewById(R.id.username);
+//		username.setText(getResources().getString(R.string.username_id,"Gijs","Puelinckx",958956));
+//		requestDate = findViewById(R.id.request_date);
+//		requestDate.setText(getResources().getString(R.string.date_of_request, Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(), Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(),Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime()));
+//		name = findViewById(R.id.name);
+//		name.setText(ProductInfo.currentProduct.getName());
+//		amount = findViewById(R.id.amount);
+//		amount.setText(getResources().getString(R.string.amount_value,ProductInfo.currentProduct.getProductsAvailable()));
 
 		//sets the on click the event
 		userHistory = findViewById(R.id.user_history);

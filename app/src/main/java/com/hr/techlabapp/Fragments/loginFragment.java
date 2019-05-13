@@ -50,7 +50,6 @@ public class loginFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				//goes to the product list
-
 			}});
 		this.context = getView().getContext();
 

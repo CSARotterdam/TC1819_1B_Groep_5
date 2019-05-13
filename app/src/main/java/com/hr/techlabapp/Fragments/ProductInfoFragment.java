@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.navigation.Navigation;
+
 import com.hr.techlabapp.CustomViews.DeleteItemDialog;
 import com.hr.techlabapp.Classes.Product;
 import com.hr.techlabapp.R;
@@ -20,6 +22,8 @@ import com.hr.techlabapp.R;
  * A simple {@link Fragment} subclass.
  */
 public class ProductInfoFragment extends Fragment {
+	public static final String ProductArgumentKey = "ProductNameKey";
+
 	private Product product;
 	
 	private ImageView image;
@@ -48,6 +52,8 @@ public class ProductInfoFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		product = Product.GetProductByID(getArguments().getString(ProductArgumentKey));
+
 		image = getView().findViewById(R.id.image);
 		image.setImageBitmap(product.getImage());
 
@@ -65,12 +71,7 @@ public class ProductInfoFragment extends Fragment {
 
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
-		borrow.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// starts the CheckLendRequest Activity
-			}
-		});
+		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_checkLendRequestFragment,getArguments()));
 
 		// sets the onClickListener
 		delete = getView().findViewById(R.id.delete);

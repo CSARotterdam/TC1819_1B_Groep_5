@@ -46,6 +46,9 @@
 		<action
 			android:id="@+id/action_productInfoFragment_to_checkLendRequestFragment"
 			app:destination="@id/checkLendRequestFragment" />
+		<argument
+			android:name="ProductID"
+			app:argType="string" />
 	</fragment>
 	<fragment
 		android:id="@+id/addProductFragment"
@@ -70,6 +73,9 @@
 		<action
 			android:id="@+id/action_checkLendRequestFragment_to_productListFragment"
 			app:destination="@id/productListFragment" />
+		<argument
+			android:name="ProductID"
+			app:argType="string" />
 	</fragment>
 	<fragment android:id="@+id/Camera" >
 		<action

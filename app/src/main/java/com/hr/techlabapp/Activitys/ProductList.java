@@ -36,9 +36,8 @@ public class ProductList extends AppCompatActivity {
 			public void onClick(View v) {
 				// sets the product to see in info
 				Product newp = v instanceof GridItem ? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
-				ProductInfo.currentProduct = newp;
+
 				// starts the activity
-				startActivity(new Intent(ProductList.this, ProductInfo.class));
 			}
 		});
 		addProduct = findViewById(R.id.add_product);
@@ -46,7 +45,6 @@ public class ProductList extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				// starts the add product activity
-				startActivity(new Intent(ProductList.this, AddProduct.class));
 			}
 		});
 		statistics = findViewById(R.id.statistics);
@@ -54,7 +52,6 @@ public class ProductList extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				// starts the statistics activity
-				startActivity(new Intent(ProductList.this, Statistics.class));
 			}
 		});
 	}

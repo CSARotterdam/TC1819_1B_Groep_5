@@ -1,6 +1,7 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.os.Binder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import com.hr.techlabapp.Classes.Product;
+import com.hr.techlabapp.CustomViews.GridItem;
+import com.hr.techlabapp.CustomViews.ListItem;
 import com.hr.techlabapp.CustomViews.cGrid;
 import com.hr.techlabapp.R;
 
@@ -50,22 +56,17 @@ public class ProductListFragment extends Fragment {
 		Products.setItemClicked(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				Product p = v instanceof GridItem? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
+				Bundle b = new Bundle();
+				b.putString(ProductInfoFragment.ProductArgumentKey,p.getProductID());
+				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_productInfoFragment,b);
 			}
 		});
+
 		addProduct = getView().findViewById(R.id.add_product);
-		addProduct.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
+		addProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_addProductFragment));
 
-			}
-		});
 		statistics = getView().findViewById(R.id.statistics);
-		statistics.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
+		statistics.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_statisticsFragment));
 	}
 }

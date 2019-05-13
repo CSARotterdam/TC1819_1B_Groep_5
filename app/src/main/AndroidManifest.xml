@@ -21,30 +21,7 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<activity
-			android:name=".Activitys.Statistics"
-			android:screenOrientation="portrait" />
-		<activity
-			android:name=".Activitys.AddProduct"
-			android:screenOrientation="portrait" /> <!-- TODO: Add labels -->
-		<activity
-			android:name=".Activitys.CheckLendRequest"
-			android:screenOrientation="portrait" />
-		<activity
-			android:name=".Activitys.ProductList"
-			android:screenOrientation="portrait" />
-		<activity
-			android:name=".Activitys.ProductInfo"
-			android:screenOrientation="portrait" />
-		<activity
-			android:name=".MainActivity"
-			android:label="@string/app_name"
-			android:screenOrientation="portrait"
-			android:theme="@style/AppTheme.NoActionBar">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-			</intent-filter>
-		</activity>
+		<!-- TODO: Add labels -->
 	</application>
 
 </manifest>

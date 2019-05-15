@@ -1,6 +1,5 @@
 package com.hr.techlabapp.Networking;
 
-import android.util.JsonReader;
 import android.util.Log;
 
 import com.hr.techlabapp.MainActivity;
@@ -8,26 +7,11 @@ import com.hr.techlabapp.MainActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Authentication {
     public static final String TAG = "TL.Networking-Login";
-
-    public static class User {
-        String username;
-        String hash;
-        Long token;
-        int permissionLevel;
-
-        public User(String username, String hash, Long token, int permissionLevel){
-            this.username = username;
-            this.hash = hash;
-            this.token = token;
-            this.permissionLevel = permissionLevel;
-        }
-    }
 
     /**
      * Given a username and password, will attempt to authenticate the client.

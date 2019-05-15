@@ -13,10 +13,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hr.techlabapp.Networking.Authentication;
+import com.hr.techlabapp.Networking.User;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "TL-MainActivity";
-    public static Authentication.User currentUser = null;
+    public static User currentUser = null;
     public Context context;
 
 

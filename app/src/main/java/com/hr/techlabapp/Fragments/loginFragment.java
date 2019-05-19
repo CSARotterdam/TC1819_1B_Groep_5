@@ -52,7 +52,6 @@ public class loginFragment extends Fragment {
 				//goes to the product list
 			}});
 		this.context = getView().getContext();
-
 	}
 
 	public void loginButton(View view){

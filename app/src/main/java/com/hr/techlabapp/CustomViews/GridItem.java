@@ -1,10 +1,15 @@
 package com.hr.techlabapp.CustomViews;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -12,8 +17,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.hr.techlabapp.Classes.Product;
@@ -24,6 +31,7 @@ import java.util.Random;
 public class GridItem extends ConstraintLayout {
 
 	private Product product;
+	private boolean ImageLoaded  = false;
 	// Useless just a place holder will be removed when we can get images from the
 	// database
 	@DrawableRes
@@ -65,18 +73,6 @@ public class GridItem extends ConstraintLayout {
 		/// currently the arduino photo
 		image = new ImageView(context);
 		image.setId(R.id.image);
-		Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
-		// scales the bitmap
-		int imh = im.getHeight();
-		int imw = im.getWidth();
-		int aspectRatio = imw / imh;
-		/// advanced code yay \(￣▽￣)/
-		// TODO: should use attributes
-		int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
-		int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
-		im = Bitmap.createScaledBitmap(im, nimw, nimh, false);
-		image.setImageBitmap(im);
-		image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		// makes the name
 		name = new TextView(context);
 		name.setId(R.id.name);
@@ -104,18 +100,7 @@ public class GridItem extends ConstraintLayout {
 	@RequiresApi(17)
 	private void Init17(Context context) {
 		image = new ImageView(context);
-		name.setId(R.id.name);
-		Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
-		int imh = im.getHeight();
-		int imw = im.getWidth();
-		int aspectRatio = imw / imh;
-		// TODO: should use attributes
-		int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
-		int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
-		im = Bitmap.createScaledBitmap(im, nimw, nimh, false);
-		image.setImageBitmap(im);
-		image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		image.setId(R.id.image);
 		name = new TextView(context);
 		name.setId(R.id.name);
 		name.setTextAlignment(TEXT_ALIGNMENT_CENTER);
@@ -139,17 +124,7 @@ public class GridItem extends ConstraintLayout {
 	@RequiresApi(15)
 	private void Init15(Context context) {
 		image = new ImageView(context);
-		name.setId(R.id.name);
-		Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
-		int imh = im.getHeight();
-		int imw = im.getWidth();
-		int aspectRatio = imw / imh;
-		// TODO: should use attributes
-		int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
-		int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
-		im = Bitmap.createScaledBitmap(im, nimw, nimh, false);
-		image.setImageBitmap(im);
-		image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		image.setId(R.id.image);
 		name = new TextView(context);
 		name.setId(ViewCompat.generateViewId());
 		name.setTextColor(ContextCompat.getColor(context, R.color.textColor));
@@ -168,11 +143,49 @@ public class GridItem extends ConstraintLayout {
 		SetConstraints();
 	}
 
+	@Override
+	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		super.onLayout(changed, left, top, right, bottom);
+		Scrolled();
+	}
+
 	private void SetConstraints() {
 		// make the layout like griditem.xml
 		ConstraintSet CSS = new ConstraintSet();
 		CSS.clone(getContext(), R.layout.griditem);
 		setConstraintSet(CSS);
+	}
+
+	public void Scrolled() {
+		ShowImage s = new ShowImage();
+		s.execute();
+	}
+
+	class ShowImage extends AsyncTask<Void,Void,Void> {
+
+		@Override
+		protected Void doInBackground(Void... voids) {
+			if(!ImageLoaded && isVisibleToUser()) {
+				Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
+				product.setImage(im);
+				int imh = im.getHeight();
+				int imw = im.getWidth();
+				int aspectRatio = imw / imh;
+				// TODO: should use attributes
+				int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
+				int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
+				final Bitmap fim = Bitmap.createScaledBitmap(im, nimw, nimh, false);
+				((Activity)getContext()).runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						image.setImageBitmap(fim);
+						image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+					}
+				});
+				ImageLoaded = true;
+			}
+			return null;
+		}
 	}
 
 	private void setValues() {
@@ -188,11 +201,16 @@ public class GridItem extends ConstraintLayout {
 
 	public void setProduct(Product p) {
 		this.product = p;
-		// sets the image for the current product
-		/// currently no use will be usefull when not all images are loaded
-		/// and we want to load images only once they apear
-		p.setImage(this.image.getDrawable());
 		setValues();
+	}
+
+	private boolean isVisibleToUser(){
+		Rect scrollBounds = new Rect();
+		View parent = (View)getParent();
+		while (!(parent instanceof ScrollView))
+			parent = (View)parent.getParent();
+		parent.getHitRect(scrollBounds);
+		return getLocalVisibleRect(scrollBounds);
 	}
 
 	private int dptopx(int dp) {

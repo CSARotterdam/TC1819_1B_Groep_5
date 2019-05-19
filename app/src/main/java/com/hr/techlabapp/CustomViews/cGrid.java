@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -234,6 +235,20 @@ public class cGrid extends LinearLayout {
 					Row.getChildAt(i).setOnClickListener(itemClicked);
 
 	}
+
+	public ArrayList<ConstraintLayout> getItems(){
+		ArrayList<ConstraintLayout> res = new ArrayList<>();
+		if(List)
+			for(int i = 0; i < getChildCount(); i++)
+				res.add((ListItem)getChildAt(i));
+		else
+			for(LinearLayout r: Rows)
+				for(int i = 0; i < r.getChildCount(); i++ )
+					res.add((GridItem)r.getChildAt(i));
+		return res;
+	}
+
+	public boolean isList() {return List;}
 
 	private int dptopx(int dp) {
 		// changes a value from dp to px

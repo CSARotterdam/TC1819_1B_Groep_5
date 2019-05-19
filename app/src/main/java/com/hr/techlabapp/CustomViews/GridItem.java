@@ -70,7 +70,6 @@ public class GridItem extends ConstraintLayout {
 	@RequiresApi(23)
 	private void Init23(Context context) {
 		// makes an image and sets its image to the image of the product
-		/// currently the arduino photo
 		image = new ImageView(context);
 		image.setId(R.id.image);
 		// makes the name
@@ -156,6 +155,7 @@ public class GridItem extends ConstraintLayout {
 		setConstraintSet(CSS);
 	}
 
+
 	public void Scrolled() {
 		ShowImage s = new ShowImage();
 		s.execute();
@@ -165,19 +165,26 @@ public class GridItem extends ConstraintLayout {
 
 		@Override
 		protected Void doInBackground(Void... voids) {
+			// checks if the image isn't already loaded and visible to the user
 			if(!ImageLoaded && isVisibleToUser()) {
+				// gets a random image
+				// TODO: make it not random
 				Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
+				// sets the image of the product
 				product.setImage(im);
 				int imh = im.getHeight();
 				int imw = im.getWidth();
 				int aspectRatio = imw / imh;
+				// sets the new img width and height depending of the aspect ratio of the image
 				// TODO: should use attributes
 				int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
 				int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
+				// Scales the bitmap
 				final Bitmap fim = Bitmap.createScaledBitmap(im, nimw, nimh, false);
 				((Activity)getContext()).runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
+						// Draws the image
 						image.setImageBitmap(fim);
 						image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 					}
@@ -204,12 +211,16 @@ public class GridItem extends ConstraintLayout {
 		setValues();
 	}
 
+	// gets if the view is visible to the user
 	private boolean isVisibleToUser(){
 		Rect scrollBounds = new Rect();
+		// gets the scrollview
 		View parent = (View)getParent();
 		while (!(parent instanceof ScrollView))
 			parent = (View)parent.getParent();
+		// sets the visible Rect to scrollBounds
 		parent.getHitRect(scrollBounds);
+		// check's if the view is in the visible rect
 		return getLocalVisibleRect(scrollBounds);
 	}
 

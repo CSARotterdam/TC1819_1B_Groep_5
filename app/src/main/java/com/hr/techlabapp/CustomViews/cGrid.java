@@ -224,6 +224,7 @@ public class cGrid extends LinearLayout {
 		}
 	}
 
+	//sets the item clicked event for each item
 	public void setItemClicked(OnClickListener itemClicked) {
 		this.itemClicked = itemClicked;
 		if(List)
@@ -236,6 +237,7 @@ public class cGrid extends LinearLayout {
 
 	}
 
+	// get all the items
 	public ArrayList<ConstraintLayout> getItems(){
 		ArrayList<ConstraintLayout> res = new ArrayList<>();
 		if(List)
@@ -247,7 +249,7 @@ public class cGrid extends LinearLayout {
 					res.add((GridItem)r.getChildAt(i));
 		return res;
 	}
-
+	
 	public boolean isList() {return List;}
 
 	private int dptopx(int dp) {

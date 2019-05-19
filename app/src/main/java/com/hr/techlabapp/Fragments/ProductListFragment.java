@@ -29,6 +29,8 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
+// gets rid of the useless/usefull warnings
+@SuppressWarnings("all")
 public class ProductListFragment extends Fragment {
 
 	private cGrid Products;

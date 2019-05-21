@@ -1,4 +1,4 @@
-package com.hr.techlabapp;
+package com.hr.techlabapp.Classes;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -9,11 +9,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 // a class to hold all the product data
 public class Product {
+    private static final ArrayList<Product> products= new ArrayList<>();
+
     private String Name;
     private String Description;
     private String Manufacturer;
@@ -32,6 +35,7 @@ public class Product {
         this.ProductCategory = ProductCategory;
         this.ProductCount = ProductCount;
         this.ProductsAvailable = ProductsAvailable;
+        products.add(this);
     }
 
     public String getName() {
@@ -94,5 +98,12 @@ public class Product {
         image.draw(canvas);
         // saves the bitmap
         this.Image = bitmap;
+    }
+
+    public static Product GetProductByID(String ProductID){
+        for(Product p: products)
+            if(p.ProductID == ProductID)
+                return p;
+        return null;
     }
 }

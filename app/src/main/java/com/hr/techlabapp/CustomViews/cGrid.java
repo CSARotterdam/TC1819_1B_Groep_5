@@ -1,19 +1,19 @@
-package com.hr.techlabapp;
+package com.hr.techlabapp.CustomViews;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Point;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.hr.techlabapp.Classes.Product;
 
 import java.util.ArrayList;
 
@@ -224,6 +224,7 @@ public class cGrid extends LinearLayout {
 		}
 	}
 
+	//sets the item clicked event for each item
 	public void setItemClicked(OnClickListener itemClicked) {
 		this.itemClicked = itemClicked;
 		if(List)
@@ -235,6 +236,21 @@ public class cGrid extends LinearLayout {
 					Row.getChildAt(i).setOnClickListener(itemClicked);
 
 	}
+
+	// get all the items
+	public ArrayList<ConstraintLayout> getItems(){
+		ArrayList<ConstraintLayout> res = new ArrayList<>();
+		if(List)
+			for(int i = 0; i < getChildCount(); i++)
+				res.add((ListItem)getChildAt(i));
+		else
+			for(LinearLayout r: Rows)
+				for(int i = 0; i < r.getChildCount(); i++ )
+					res.add((GridItem)r.getChildAt(i));
+		return res;
+	}
+	
+	public boolean isList() {return List;}
 
 	private int dptopx(int dp) {
 		// changes a value from dp to px

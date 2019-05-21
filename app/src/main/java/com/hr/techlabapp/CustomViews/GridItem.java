@@ -33,7 +33,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class GridItem extends ConstraintLayout {
 
 	private Product product;
-	private boolean ImageLoaded  = false;
+	private boolean ImageLoaded = false;
 	// Useless just a place holder will be removed when we can get images from the
 	// database
 	@DrawableRes
@@ -43,8 +43,6 @@ public class GridItem extends ConstraintLayout {
 	private ImageView image;
 	private TextView name;
 	private TextView availability;
-
-	private  boolean SImageStarted = false;
 
 	public GridItem(Context context) {
 		super(context);
@@ -129,7 +127,7 @@ public class GridItem extends ConstraintLayout {
 		image = new ImageView(context);
 		image.setId(R.id.image);
 		name = new TextView(context);
-		name.setId(ViewCompat.generateViewId());
+		name.setId(R.id.name);
 		name.setTextColor(ContextCompat.getColor(context, R.color.textColor));
 		name.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -159,7 +157,7 @@ public class GridItem extends ConstraintLayout {
 		setConstraintSet(CSS);
 	}
 
-	class ShowImage extends AsyncTask<Void,Void,Bitmap> {
+	class ShowImage extends AsyncTask<Void, Void, Bitmap> {
 
 		@Override
 		protected Bitmap doInBackground(Void... voids) {
@@ -190,7 +188,7 @@ public class GridItem extends ConstraintLayout {
 		protected void onPostExecute(Bitmap aVoid) {
 			super.onPostExecute(aVoid);
 			SImageStarted = false;
-			if(aVoid == null)
+			if (aVoid == null)
 				return;
 			image.setImageBitmap(aVoid);
 			image.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -215,12 +213,12 @@ public class GridItem extends ConstraintLayout {
 	}
 
 	// gets if the view is visible to the user
-	private boolean isVisibleToUser(){
+	private boolean isVisibleToUser() {
 		Rect scrollBounds = new Rect();
 		// gets the scrollview
-		View parent = (View)getParent();
+		View parent = (View) getParent();
 		while (!(parent instanceof ScrollView))
-			parent = (View)parent.getParent();
+			parent = (View) parent.getParent();
 		// sets the visible Rect to scrollBounds
 		parent.getHitRect(scrollBounds);
 		// check's if the view is in the visible rect

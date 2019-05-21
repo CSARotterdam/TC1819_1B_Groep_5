@@ -33,7 +33,7 @@ import java.util.logging.LogRecord;
 
 public class ListItem extends ConstraintLayout {
 	private Product product;
-	private boolean ImageLoaded  = false;
+	private boolean ImageLoaded = false;
 
 	@DrawableRes
 	private final static int[] images = new int[] { R.drawable.arduino, R.drawable.cuteaf };
@@ -121,7 +121,7 @@ public class ListItem extends ConstraintLayout {
 		image = new ImageView(context);
 		image.setId(R.id.image);
 		name = new TextView(context);
-		name.setId(ViewCompat.generateViewId());
+		name.setId(R.id.name);
 		name.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
 		name.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -160,7 +160,7 @@ public class ListItem extends ConstraintLayout {
 		return product;
 	}
 
-	class ShowImage extends AsyncTask<Void,Void,Bitmap>{
+	class ShowImage extends AsyncTask<Void, Void, Bitmap> {
 		@Override
 		protected Bitmap doInBackground(Void... voids) {
 			while (!ImageLoaded)
@@ -189,7 +189,7 @@ public class ListItem extends ConstraintLayout {
 		@Override
 		protected void onPostExecute(Bitmap aVoid) {
 			super.onPostExecute(aVoid);
-			if(aVoid == null)
+			if (aVoid == null)
 				return;
 			image.setImageBitmap(aVoid);
 			image.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -197,21 +197,16 @@ public class ListItem extends ConstraintLayout {
 		}
 	}
 
-
 	public void setProduct(Product p) {
 		this.product = p;
-		// sets the image for the current product
-		/// currently no use will be usefull when not all images are loaded
-		/// and we want to load images only once they apear
-		p.setImage(this.image.getDrawable());
 		setValues();
 	}
 
-	private boolean isVisibleToUser(){
+	private boolean isVisibleToUser() {
 		Rect scrollBounds = new Rect();
-		View parent = (View)getParent();
+		View parent = (View) getParent();
 		while (!(parent instanceof ScrollView))
-			parent = (View)parent.getParent();
+			parent = (View) parent.getParent();
 		parent.getHitRect(scrollBounds);
 		return getLocalVisibleRect(scrollBounds);
 	}

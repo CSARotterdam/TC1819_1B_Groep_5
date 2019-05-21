@@ -2,9 +2,11 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/frameLayout3"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".ProductInfo">
+	tools:context=".Fragments.ProductInfoFragment">
+
 	<ImageView
 		android:id="@+id/image"
 		app:layout_constraintTop_toTopOf="parent"
@@ -109,7 +111,7 @@
 		app:layout_constraintBottom_toTopOf="@id/info_lower_space"/>
 	<android.support.constraint.ConstraintLayout
 		android:id="@+id/lower-button-holder"
-	 	app:layout_constraintLeft_toRightOf="@id/leftspacer"
+		app:layout_constraintLeft_toRightOf="@id/leftspacer"
 		app:layout_constraintRight_toLeftOf="@id/rightspacer"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"

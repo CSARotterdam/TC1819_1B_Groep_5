@@ -2,9 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/frameLayout5"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".Statistics">
+	tools:context=".Fragments.StatisticsFragment">
 	<android.support.constraint.ConstraintLayout
 		android:id="@+id/product_statistics"
 		app:layout_constraintTop_toTopOf="parent"
@@ -26,7 +27,7 @@
 			android:text="@string/product_statistics"
 			android:textAllCaps="true"
 			android:textColor="@color/textColor"
-			 android:background="@color/colorPrimary"/>
+			android:background="@color/colorPrimary"/>
 		<TextView
 			android:id="@+id/this_week_text"
 			android:layout_width="wrap_content"

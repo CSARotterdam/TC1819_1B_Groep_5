@@ -59,8 +59,7 @@ public class ProductListFragment extends Fragment {
 
 		// adds random products
 		for(int i = 0; i  < 30; i++)
-			Products.AddProduct(new Product("Arduino","des","man","ID","cat",8,5),false);
-		Products.AddProduct(new Product("Arduino","des","man","ID","cat",8,5));
+			Products.AddProduct(new Product("Arduino","des","man","ID","cat",8,5));
 
 		scrollView = getView().findViewById(R.id.scrollView);
 		scrollView.setOnTouchListener(new View.OnTouchListener() {

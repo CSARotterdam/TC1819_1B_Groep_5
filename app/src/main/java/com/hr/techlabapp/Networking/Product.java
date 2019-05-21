@@ -89,7 +89,7 @@ public final class Product {
             throw new Exceptions.MissingArgumentException("Product name requires at minimum an English translation.");
         }
 
-        //Create base request
+        //Create request
         JSONObject request = new JSONObject()
             .put("username", loginFragment.currentUser.username)
             .put("token", loginFragment.currentUser.token)
@@ -114,6 +114,34 @@ public final class Product {
             throw new Exceptions.NoSuchProductCategoryException();
         } else if(reason.equals("MissingArguments")){
             throw  new Exceptions.MissingArgumentException(requestData.toString());
+        } else if(!requestData.isNull("reason")){
+            throw new Exceptions.UnexpectedServerResponseException(requestData.toString());
+        }
+    }
+
+    public static void deleteProduct(String productID) throws
+        JSONException,
+        Exceptions.MissingArgumentException,
+        Exceptions.UnexpectedServerResponseException,
+            Exceptions.NoSuchProductException
+    {
+        //Create request
+        JSONObject request = new JSONObject()
+            .put("username", loginFragment.currentUser.username)
+            .put("token", loginFragment.currentUser.token)
+            .put("requestType", "deleteProduct")
+            .put("requestData", new JSONObject()
+                .put("productID", productID)
+            );
+
+        JSONObject response = Connection.Send(request);
+        JSONObject requestData = (JSONObject) response.get("requestData");
+        String reason = requestData.getString("reason");
+
+        if(reason.equals("NoSuchProduct")){
+            throw new Exceptions.NoSuchProductException();
+        } else if(reason.equals("MissingArguments")){
+            throw new Exceptions.MissingArgumentException(requestData.toString());
         } else if(!requestData.isNull("reason")){
             throw new Exceptions.UnexpectedServerResponseException(requestData.toString());
         }

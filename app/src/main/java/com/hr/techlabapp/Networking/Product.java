@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -72,7 +73,6 @@ public final class Product {
             for (HashMap.Entry<String, String> entry : criteria.entrySet())
                 requestCriteria.put(entry.getKey(), entry.getValue());
         }
-
         JSONObject request = new JSONObject()
                 .put("requestType", "getProducts")
                 .put("username", loginFragment.currentUser.username)
@@ -80,7 +80,7 @@ public final class Product {
                 .put("requestData", new JSONObject()
                         .put("columns", fields)
                         .put("criteria", requestCriteria)
-                        .put("language", languages)
+                        .put("language", languages == null ? null : new JSONArray(Arrays.asList(languages)))
                         .put("start", start)
                         .put("amount", amount)
                 );
@@ -92,12 +92,6 @@ public final class Product {
         for (int i = 0; i < responseData.length(); i++) {
             JSONObject product = (JSONObject) responseData.get(i);
             HashMap<String, String> name = null;
-            out.add(new Product(
-                    (String) product.opt("id"),
-                    (String) product.opt("manufacturer"),
-                    (String) product.opt("category"),
-                    name
-            ));
             if (product.has("name")) {
                 name = new HashMap<>();
                 Iterator<String> itr = ((JSONObject)product.get("name")).keys();
@@ -106,6 +100,12 @@ public final class Product {
                     name.put(key, ((JSONObject)product.get("name")).getString(key));
                 }
             }
+            out.add(new Product(
+                    (String) product.opt("id"),
+                    (String) product.opt("manufacturer"),
+                    (String) product.opt("category"),
+                    name
+            ));
         }
 
         return out;

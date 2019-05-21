@@ -2,7 +2,7 @@ package com.hr.techlabapp.Networking;
 
 import android.util.Log;
 
-import com.hr.techlabapp.MainActivity;
+import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +38,8 @@ public class Authentication {
     private static boolean auth(String username, String hash){
         //Create JSON object
         JSONObject request;
+        Log.i(TAG, username);
+        Log.i(TAG, hash);
         try {
             request = new JSONObject()
                     .put("requestType", "login")
@@ -54,8 +56,8 @@ public class Authentication {
         try {
             JSONObject response = Connection.Send(request);
             JSONObject requestData = (JSONObject) response.get("requestData");
-            Log.i(TAG, requestData.toString());
             loginResult = requestData.getBoolean("loginSuccesful");
+            loginFragment.currentUser = new User(username, hash, requestData.getLong("token"), requestData.getInt("permissionLevel"));
         } catch (JSONException e) {
             return false;
         }
@@ -76,34 +78,25 @@ public class Authentication {
      *      1. A user already exists with the specified username.
      *      2. The specified password is not valid.
      */
-    public static int registerUser(String username, String password) {
+    public static int registerUser(String username, String password) throws JSONException {
         //Hash password
         String hash = getPasswordHash(username, password);
 
         //Create JSON object
         JSONObject request;
-        try {
-            request = new JSONObject()
-                    .put("requestType", "registerUser")
-                    .put("requestData", new JSONObject()
-                            .put("username", username)
-                            .put("password", hash)
-                    );
-        } catch (JSONException e) {
-            return -1;
-        }
+        request = new JSONObject()
+            .put("requestType", "registerUser")
+            .put("requestData", new JSONObject()
+                .put("username", username)
+                .put("password", hash)
+            );
 
-        Boolean registerUserSuccessful;
-        JSONObject requestData;
-        try {
-            JSONObject response = Connection.Send(request);
-            requestData = (JSONObject) response.get("requestData");
-            registerUserSuccessful = requestData.getBoolean("registerUserSuccessful");
-        } catch (JSONException e) {
-            return -1;
-        }
+        JSONObject response = Connection.Send(request);
+        JSONObject requestData = (JSONObject) response.get("requestData");
+        Boolean registerUserSuccessful = requestData.getBoolean("registerUserSuccessful");
 
         if(registerUserSuccessful){
+            loginFragment.currentUser = new User(username, hash, requestData.getLong("token"), requestData.getInt("permissionLevel"));
             return 0;
         } else {
             String reason;
@@ -112,9 +105,9 @@ public class Authentication {
             } catch (JSONException e){
                 throw new RuntimeException(e);
             }
-            if(reason.equals("User already exists.")){
+            if(reason.equals("AlreadyExists")){
                 return 1;
-            } else if (reason.equals("Password not valid.")){
+            } else if (reason.equals("InvalidPassword")){
                 return 2;
             }
         }
@@ -133,8 +126,8 @@ public class Authentication {
             request = new JSONObject()
                     .put("requestType", "logout")
                     .put("requestData", new JSONObject()
-                            .put("username", MainActivity.currentUser.username)
-                            .put("token", MainActivity.currentUser.token)
+                            .put("username", loginFragment.currentUser.username)
+                            .put("token", loginFragment.currentUser.token)
                     );
         } catch (JSONException e) {
             return false;
@@ -156,13 +149,13 @@ public class Authentication {
         //If the logout was successful, clear the currentUser and return true.
         //If the logout was unsuccesful
         if(logoutSuccessful){
-            MainActivity.currentUser = null;
+            loginFragment.currentUser = null;
             return true;
         } else if(reason == "Invalid or expired token"){
-            if(auth(MainActivity.currentUser.username, MainActivity.currentUser.hash)){
+            if(auth(loginFragment.currentUser.username, loginFragment.currentUser.hash)){
                 return logout();
             } else {
-                MainActivity.currentUser = null;
+                loginFragment.currentUser = null;
                 return true;
             }
         } else {

@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import androidx.navigation.Navigation;
 
-import com.hr.techlabapp.Activitys.NavHostActivity;
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.CustomViews.DeleteItemDialog;
 import com.hr.techlabapp.Classes.Product;
 import com.hr.techlabapp.R;

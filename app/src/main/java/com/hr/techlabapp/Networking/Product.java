@@ -2,7 +2,7 @@ package com.hr.techlabapp.Networking;
 
 import android.support.v4.util.ArrayMap;
 
-import com.hr.techlabapp.MainActivity;
+import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,8 +39,8 @@ public final class Product {
 
     public static List<Product> GetProducts(int amount) throws JSONException {
         JSONObject json = new JSONObject()
-                .put("username", MainActivity.currentUser.username)
-                .put("token", MainActivity.currentUser.token)
+                .put("username", loginFragment.currentUser.username)
+                .put("token", loginFragment.currentUser.token)
                 .put("requestType", "getProductList")
                 .put("requestData", new JSONObject()
                         .put("criteria", new JSONObject()));

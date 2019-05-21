@@ -1,5 +1,7 @@
 package com.hr.techlabapp.Networking;
 
+import com.hr.techlabapp.Fragments.loginFragment;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +13,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static com.hr.techlabapp.Networking.Authentication.auth;
+
 public class Connection {
     private final String TAG = "TL.Networking-Connection";
 
@@ -21,7 +25,7 @@ public class Connection {
      */
     static JSONObject Send(JSONObject request){
         HttpURLConnection connection;
-        JSONObject response;
+        JSONObject responseData;
         String address = "192.168.178.9"; //TODO: How will we even get the right address without hardcoding it?
 
         try {
@@ -48,7 +52,38 @@ public class Connection {
             while ((s = d.readLine()) != null) {
                 sb.append(s);
             }
-            response = new JSONObject(sb.toString());
+            JSONObject response = new JSONObject(sb.toString());
+            responseData = (JSONObject) response.get("requestData");
+            String reason = responseData.getString("reason");
+
+            if(reason.equals("ExpiredToken")) {
+                if(auth(loginFragment.currentUser.username, loginFragment.currentUser.hash)){
+                    return Send(request);
+                } else {
+                    loginFragment.currentUser = null;
+                    throw new Exceptions.TokenRenewalException();
+                }
+            } else if(reason.equals("AccessDenied")){
+                throw new Exceptions.AccessDenied();
+            } else if(reason.equals("InvalidLogin")) {
+                throw new Exceptions.InvalidLogin();
+            } else if(reason.equals("NoSuchProduct")) {
+                throw new Exceptions.NoSuchProduct();
+            } else if(reason.equals("NoSuchProductCategory")) {
+                throw new Exceptions.NoSuchProductCategory();
+            } else if(reason.equals("NoSuchUser")) {
+                throw new Exceptions.NoSuchUser();
+            } else if(reason.equals("AlreadyExists")) {
+                throw new Exceptions.AlreadyExists();
+            } else if(reason.equals("MissingArgument")){
+                throw  new Exceptions.MissingArgument(responseData.toString());
+            } else if(reason.equals("ServerError")){
+                throw  new Exceptions.ServerError(responseData.toString());
+            } else if(reason.equals("InvalidArguments")){
+                throw  new Exceptions.InvalidArguments(responseData.toString());
+            } else if(!responseData.isNull("reason")){
+                throw new Exceptions.UnexpectedServerResponse(responseData.toString());
+            }
 
         } catch (IOException e){
             throw new RuntimeException(e);
@@ -56,7 +91,7 @@ public class Connection {
             throw new RuntimeException(e);
         }
 
-        return response;
+        return responseData;
     }
 }
 

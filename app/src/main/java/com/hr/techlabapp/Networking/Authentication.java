@@ -119,7 +119,7 @@ public class Authentication {
     * This cannot be run on the UI thread. Use AsyncTask.
     * @return A boolean that shows whether the logout was successful.
      */
-    public static boolean logout() throws UnexpectedServerResponseException {
+    public static boolean logout() throws Exceptions.UnexpectedServerResponseException {
         //Create JSON object
         JSONObject request;
         try {
@@ -159,7 +159,7 @@ public class Authentication {
                 return true;
             }
         } else {
-            throw new UnexpectedServerResponseException();
+            throw new Exceptions.UnexpectedServerResponseException();
         }
     }
 

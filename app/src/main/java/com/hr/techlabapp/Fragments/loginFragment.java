@@ -26,8 +26,6 @@ public class loginFragment extends Fragment {
 	private static final String TAG = "TL-MainActivity";
 	public Context context;
 
-
-	//TODO: navGraph navigation
 	Button LoginButton;
 
 	public loginFragment() {

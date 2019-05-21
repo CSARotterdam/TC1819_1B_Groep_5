@@ -53,7 +53,6 @@ public class CheckLendRequestFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		image = getView().findViewById(R.id.image);
 		product = Product.GetProductByID(getArguments().getString(ProductInfoFragment.ProductArgumentKey));
-		//TODO: I repeat NOT USE THIS
 		image.setImageBitmap(product.getImage());
 
 		//sets the value

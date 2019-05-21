@@ -60,20 +60,6 @@ public class ProductListFragment extends Fragment {
 		// adds random products
 		for(int i = 0; i  < 30; i++)
 			Products.AddProduct(new Product("Arduino","des","man","ID","cat",8,5));
-
-		scrollView = getView().findViewById(R.id.scrollView);
-		scrollView.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(Products.isList())
-					for(ConstraintLayout Cl: Products.getItems())
-						((ListItem)Cl).Scrolled();
-				else
-					for(ConstraintLayout Cl: Products.getItems())
-						((GridItem)Cl).Scrolled();
-				return false;
-			}
-		});
 		// sets the itemClicked
 		Products.setItemClicked(new View.OnClickListener() {
 			@Override

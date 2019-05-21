@@ -57,6 +57,17 @@ public final class Product {
                     (String) values.get(3),
                     (String) values.get(4)
             ));
+    public static List<Product> GetProducts() throws JSONException {
+        //Create JSON object
+        JSONObject critera = new JSONObject();
+        JSONObject request = new JSONObject()
+            .put("requestType", "registerUser")
+            .put("requestData", new JSONObject()
+                .put("criteria", critera)
+            );
+
+        return null;
+    }
         }
         return out;
     }

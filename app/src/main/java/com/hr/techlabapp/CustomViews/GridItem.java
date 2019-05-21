@@ -164,7 +164,6 @@ public class GridItem extends ConstraintLayout {
 			while (!ImageLoaded)
 				if (isVisibleToUser()) {
 					// checks if the image isn't already loaded and visible to the user
-					Log.i("Background", "doInBackground: Begin");
 					// gets a random image
 					// TODO: make it not random
 					Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
@@ -187,12 +186,10 @@ public class GridItem extends ConstraintLayout {
 		@Override
 		protected void onPostExecute(Bitmap aVoid) {
 			super.onPostExecute(aVoid);
-			SImageStarted = false;
 			if (aVoid == null)
 				return;
 			image.setImageBitmap(aVoid);
 			image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			Log.i("Background", "doInBackground: End");
 		}
 	}
 

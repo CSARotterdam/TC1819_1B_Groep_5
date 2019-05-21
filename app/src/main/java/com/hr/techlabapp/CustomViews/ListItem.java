@@ -165,8 +165,6 @@ public class ListItem extends ConstraintLayout {
 		protected Bitmap doInBackground(Void... voids) {
 			while (!ImageLoaded)
 				if (isVisibleToUser()) {
-					// checks if the image isn't already loaded and visible to the user
-					Log.i("Background", "doInBackground: Begin");
 					// gets a random image
 					// TODO: make it not random
 					Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
@@ -193,7 +191,6 @@ public class ListItem extends ConstraintLayout {
 				return;
 			image.setImageBitmap(aVoid);
 			image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			Log.i("Background", "doInBackground: End");
 		}
 	}
 

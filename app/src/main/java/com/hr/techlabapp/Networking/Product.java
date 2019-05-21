@@ -22,25 +22,33 @@ import java.util.Map;
 import static java.lang.System.in;
 
 public final class Product {
-    public String id;
+    public String productID;
     public String manufacturer;
-    public String category;
-    public String name;
-    public String image;
+    public String categoryID;
+    public HashMap<String, String> name;
+    public Bitmap image;
 
-    public Product(String id, String manufacturer, String category, String name, String image) {
-        this.id = id;
+    public Product(String productID, String manufacturer, HashMap<String, String> name){
+        this(productID, manufacturer, "uncategorized", name, null);
+    }
+
+    public Product(String productID, String manufacturer, String categoryID, HashMap<String, String> name){
+        this(productID, manufacturer, categoryID, name, null);
+    }
+
+    public Product(String productID, String manufacturer, String categoryID, HashMap<String, String> name, Bitmap image) {
+        this.productID = productID;
         this.manufacturer = manufacturer;
-        this.category = category;
+        this.categoryID = categoryID;
         this.name = name;
         this.image = image;
     }
 
     protected Map<String, Object> getValues() {
         Map<String, Object> out = new ArrayMap<>();
-        out.put("id", id);
+        out.put("id", productID);
         out.put("manufacturer", manufacturer);
-        out.put("category", category);
+        out.put("category", categoryID);
         out.put("name", name);
         out.put("image", image);
         return out;
@@ -58,17 +66,7 @@ public final class Product {
         return null;
     }
 
-    public static void AddProduct(String productID, String categoryID, String manufacturer, HashMap<String, String> name) throws
-            JSONException,
-            Exceptions.MissingArgumentException,
-            Exceptions.AccessDeniedException,
-            Exceptions.UnexpectedServerResponseException,
-            Exceptions.AlreadyExistsException,
-            Exceptions.NoSuchProductCategoryException
-    {
-        AddProduct(productID, categoryID, manufacturer, name, null);
-    }
-    public static void AddProduct(String productID, String categoryID, String manufacturer, HashMap<String, String> name, Bitmap image) throws
+    public static void AddProduct(Product product) throws
             JSONException,
             Exceptions.MissingArgumentException,
             Exceptions.AccessDeniedException,
@@ -78,16 +76,16 @@ public final class Product {
     {
 
         String encodedImage;
-        if(image != null){
+        if(product.image != null){
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            product.image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream .toByteArray();
             encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
         } else {
             encodedImage = null;
         }
 
-        if(!name.containsKey("en")){
+        if(!product.name.containsKey("en")){
             throw new Exceptions.MissingArgumentException("Product name requires at minimum an English translation.");
         }
 
@@ -97,18 +95,15 @@ public final class Product {
             .put("token", loginFragment.currentUser.token)
             .put("requestType", "addProduct")
             .put("requestData", new JSONObject()
-                .put("productID", productID)
-                .put("categoryID", categoryID)
-                .put("manufacturer", manufacturer)
+                .put("productID", product.productID)
+                .put("categoryID", product.categoryID)
+                .put("manufacturer", product.manufacturer)
                 .put("image", encodedImage)
-                .put("name", new JSONObject(name))
+                .put("name", new JSONObject(product.name))
             );
-        Log.i("test", request.toString());
 
         JSONObject response = Connection.Send(request);
         JSONObject requestData = (JSONObject) response.get("requestData");
-        Log.i("test", requestData.toString());
-        Boolean success = requestData.getBoolean("success");
         String reason = requestData.getString("reason");
 
         if(reason.equals("AlreadyExists")) {
@@ -118,9 +113,9 @@ public final class Product {
         } else if(reason.equals("NoSuchProductCategory")) {
             throw new Exceptions.NoSuchProductCategoryException();
         } else if(reason.equals("MissingArguments")){
-            throw  new Exceptions.MissingArgumentException();
-        } else if(!success && reason != null){
-            throw new Exceptions.UnexpectedServerResponseException();
+            throw  new Exceptions.MissingArgumentException(requestData.toString());
+        } else if(!requestData.isNull("reason")){
+            throw new Exceptions.UnexpectedServerResponseException(requestData.toString());
         }
     }
 }

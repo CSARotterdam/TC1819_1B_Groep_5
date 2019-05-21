@@ -38,8 +38,6 @@ public class Authentication {
     private static boolean auth(String username, String hash){
         //Create JSON object
         JSONObject request;
-        Log.i(TAG, username);
-        Log.i(TAG, hash);
         try {
             request = new JSONObject()
                     .put("requestType", "login")

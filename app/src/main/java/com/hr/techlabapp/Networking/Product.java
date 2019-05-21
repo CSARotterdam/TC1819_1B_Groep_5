@@ -172,7 +172,7 @@ public final class Product {
             .put("requestType", "updateProduct")
             .put("requestData", new JSONObject()
                 .put("productID", product.productIDCopy)
-                .put("productID", product.productID)
+                .put("newProductID", product.productID)
                 .put("categoryID", product.categoryID)
                 .put("manufacturer", product.manufacturer)
                 .put("image", encodedImage)

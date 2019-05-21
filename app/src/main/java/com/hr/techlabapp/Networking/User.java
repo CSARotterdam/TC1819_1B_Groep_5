@@ -1,10 +1,8 @@
 package com.hr.techlabapp.Networking;
 
-import android.support.v4.util.ArrayMap;
+import java.util.HashMap;
 
-import java.util.Map;
-
-public class User extends TechlabData {
+public class User {
     String username;
     String hash;
     long token;
@@ -17,8 +15,8 @@ public class User extends TechlabData {
         this.permissionLevel = permissionLevel;
     }
 
-    protected Map<String, Object> getValues() {
-        Map<String, Object> out = new ArrayMap<>();
+    protected HashMap<String, Object> getValues() {
+        HashMap<String, Object> out = new HashMap<>();
         out.put("username", username);
         out.put("hash", hash);
         out.put("token", token);

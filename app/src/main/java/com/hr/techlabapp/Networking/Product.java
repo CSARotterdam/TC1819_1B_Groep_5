@@ -8,6 +8,7 @@ import android.util.Log;
 import com.hr.techlabapp.Fragments.AddProductFragment;
 import com.hr.techlabapp.Fragments.loginFragment;
 
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,8 +46,8 @@ public final class Product {
         this.image = image;
     }
 
-    protected Map<String, Object> getValues() {
-        Map<String, Object> out = new ArrayMap<>();
+    protected HashMap<String, Object> getValues() {
+        HashMap<String, Object> out = new HashMap<>();
         out.put("id", productID);
         out.put("manufacturer", manufacturer);
         out.put("category", categoryID);
@@ -54,16 +56,62 @@ public final class Product {
         return out;
     }
 
-    public static List<Product> GetProducts() throws JSONException {
+    public static List<Product> GetProducts(@Nullable HashMap<String, String> criteria,
+                                            @Nullable String[] languages)
+        throws JSONException {
+        return GetProducts(null, criteria, languages, null, null);
+    }
+
+    public static List<Product> GetProducts(@Nullable String[] fields,
+                                            @Nullable HashMap<String, String> criteria,
+                                            @Nullable String[] languages,
+                                            @Nullable Integer start,
+                                            @Nullable Integer amount)
+            throws JSONException {
         //Create JSON object
-        JSONObject critera = new JSONObject();
+        JSONObject requestCriteria = null;
+        if (criteria != null) {
+            requestCriteria = new JSONObject();
+            for (HashMap.Entry<String, String> entry : criteria.entrySet())
+                requestCriteria.put(entry.getKey(), entry.getValue());
+        }
+
         JSONObject request = new JSONObject()
-            .put("requestType", "registerUser")
+            .put("requestType", "getProducts")
+            .put("username", loginFragment.currentUser.username)
+            .put("token", loginFragment.currentUser.token)
             .put("requestData", new JSONObject()
-                .put("criteria", critera)
+                .put("columns", fields)
+                .put("criteria", requestCriteria)
+                .put("language", languages)
+                .put("start", start)
+                .put("amount", amount)
             );
 
-        return null;
+        JSONObject response = Connection.Send(request);
+        JSONArray responseData = (JSONArray) response.get("responseData");
+
+        List<Product> out = new ArrayList<>();
+        for (int i = 0; i < responseData.length(); i++) {
+            JSONObject product = (JSONObject) responseData.get(i);
+            HashMap<String, String> name = null;
+            out.add(new Product(
+                    (String) product.opt("id"),
+                    (String) product.opt("manufacturer"),
+                    (String) product.opt("category"),
+                    name
+                ));
+            if (product.has("name")) {
+                name = new HashMap<>();
+                Iterator<String> itr = ((JSONObject)product.get("name")).keys();
+                while (itr.hasNext()) {
+                    String key = itr.next();
+                    name.put(key, ((JSONObject)product.get("name")).getString(key));
+                }
+            }
+        }
+
+        return out;
     }
 
     public static void AddProduct(Product product) throws
@@ -74,6 +122,9 @@ public final class Product {
             Exceptions.AlreadyExistsException,
             Exceptions.NoSuchProductCategoryException
     {
+        if(!product.name.containsKey("en")){
+            throw new Exceptions.MissingArgumentException("Product must contain an English translation.");
+        }
 
         String encodedImage;
         if(product.image != null){
@@ -85,9 +136,6 @@ public final class Product {
             encodedImage = null;
         }
 
-        if(!product.name.containsKey("en")){
-            throw new Exceptions.MissingArgumentException("Product name requires at minimum an English translation.");
-        }
 
         //Create base request
         JSONObject request = new JSONObject()

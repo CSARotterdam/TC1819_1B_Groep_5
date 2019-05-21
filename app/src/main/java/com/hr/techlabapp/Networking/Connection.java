@@ -58,6 +58,7 @@ public class Connection {
 
             if(reason.equals("ExpiredToken")) {
                 if(auth(loginFragment.currentUser.username, loginFragment.currentUser.hash)){
+                    request.put("token", loginFragment.currentUser.token);
                     return Send(request);
                 } else {
                     loginFragment.currentUser = null;

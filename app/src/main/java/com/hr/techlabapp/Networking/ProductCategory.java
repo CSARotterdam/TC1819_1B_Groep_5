@@ -48,16 +48,9 @@ public final class ProductCategory {
         return null;
     }
 
-    public static void addProductCategory(ProductCategory category) throws
-            JSONException,
-            Exceptions.MissingArgumentException,
-            Exceptions.AccessDeniedException,
-            Exceptions.UnexpectedServerResponseException,
-            Exceptions.AlreadyExistsException
-    {
-
-        if(!category.name.containsKey("en")){
-            throw new Exceptions.MissingArgumentException("Product name requires at minimum an English translation.");
+    public static void addProductCategory(ProductCategory category)  throws JSONException, Exceptions.MissingArgument {
+        if (!category.name.containsKey("en")) {
+            throw new Exceptions.MissingArgument("Product name requires at minimum an English translation.");
         }
 
         //Create request
@@ -71,26 +64,9 @@ public final class ProductCategory {
                 );
 
         JSONObject response = Connection.Send(request);
-        JSONObject requestData = (JSONObject) response.get("requestData");
-        String reason = requestData.getString("reason");
-
-        if(reason.equals("AlreadyExists")) {
-            throw new Exceptions.AlreadyExistsException();
-        } else if(reason.equals("AccessDenied")){
-            throw new Exceptions.AccessDeniedException();
-        } else if(reason.equals("MissingArguments")){
-            throw  new Exceptions.MissingArgumentException(requestData.toString());
-        } else if(!requestData.isNull("reason")){
-            throw new Exceptions.UnexpectedServerResponseException(requestData.toString());
-        }
     }
 
-    public static void deleteProductCategory(String categoryID) throws
-            JSONException,
-            Exceptions.MissingArgumentException,
-            Exceptions.UnexpectedServerResponseException,
-            Exceptions.NoSuchProductException
-    {
+    public static void deleteProductCategory(String categoryID) throws JSONException {
         //Create request
         JSONObject request = new JSONObject()
                 .put("username", loginFragment.currentUser.username)
@@ -100,27 +76,10 @@ public final class ProductCategory {
                         .put("categoryID", categoryID)
                 );
 
-        JSONObject response = Connection.Send(request);
-        JSONObject requestData = (JSONObject) response.get("requestData");
-        String reason = requestData.getString("reason");
-
-        if(reason.equals("NoSuchProduct")){
-            throw new Exceptions.NoSuchProductException();
-        } else if(reason.equals("MissingArguments")){
-            throw new Exceptions.MissingArgumentException(requestData.toString());
-        } else if(!requestData.isNull("reason")){
-            throw new Exceptions.UnexpectedServerResponseException(requestData.toString());
-        }
+        Connection.Send(request);
     }
 
-    public static void updateProductCategory(ProductCategory category) throws
-            JSONException,
-            Exceptions.MissingArgumentException,
-            Exceptions.UnexpectedServerResponseException,
-            Exceptions.AccessDeniedException,
-            Exceptions.AlreadyExistsException,
-            Exceptions.NoSuchProductCategoryException
-    {
+    public static void updateProductCategory(ProductCategory category) throws JSONException{
         //Create request
         JSONObject request = new JSONObject()
                 .put("username", loginFragment.currentUser.username)
@@ -131,20 +90,6 @@ public final class ProductCategory {
                         .put("name", new JSONObject(category.name))
                 );
 
-        JSONObject response = Connection.Send(request);
-        JSONObject requestData = (JSONObject) response.get("requestData");
-        String reason = requestData.getString("reason");
-
-        if(reason.equals("AlreadyExists")) {
-            throw new Exceptions.AlreadyExistsException();
-        } else if(reason.equals("AccessDenied")){
-            throw new Exceptions.AccessDeniedException();
-        } else if(reason.equals("NoSuchProductCategory")) {
-            throw new Exceptions.NoSuchProductCategoryException();
-        } else if(reason.equals("MissingArguments")){
-            throw  new Exceptions.MissingArgumentException(requestData.toString());
-        } else if(!requestData.isNull("reason")){
-            throw new Exceptions.UnexpectedServerResponseException(requestData.toString());
-        }
+        Connection.Send(request);
     }
 }

@@ -65,15 +65,8 @@ public final class Product {
         return null;
     }
 
-    public static void AddProduct(Product product) throws
-            JSONException,
-            Exceptions.MissingArgumentException,
-            Exceptions.AccessDeniedException,
-            Exceptions.UnexpectedServerResponseException,
-            Exceptions.AlreadyExistsException,
-            Exceptions.NoSuchProductCategoryException
+    public static void AddProduct(Product product) throws JSONException
     {
-
         Object encodedImage;
         if(product.image != null){
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -85,7 +78,7 @@ public final class Product {
         }
 
         if(!product.name.containsKey("en")){
-            throw new Exceptions.MissingArgumentException("Product name requires at minimum an English translation.");
+            throw new Exceptions.MissingArgument("Product name requires at minimum an English translation.");
         }
 
         //Create request
@@ -101,29 +94,10 @@ public final class Product {
                 .put("name", new JSONObject(product.name))
             );
 
-        JSONObject response = Connection.Send(request);
-        JSONObject requestData = (JSONObject) response.get("requestData");
-        String reason = requestData.getString("reason");
-
-        if(reason.equals("AlreadyExists")) {
-            throw new Exceptions.AlreadyExistsException();
-        } else if(reason.equals("AccessDenied")){
-            throw new Exceptions.AccessDeniedException();
-        } else if(reason.equals("NoSuchProductCategory")) {
-            throw new Exceptions.NoSuchProductCategoryException();
-        } else if(reason.equals("MissingArguments")){
-            throw  new Exceptions.MissingArgumentException(requestData.toString());
-        } else if(!requestData.isNull("reason")){
-            throw new Exceptions.UnexpectedServerResponseException(requestData.toString());
-        }
+        Connection.Send(request);
     }
 
-    public static void deleteProduct(String productID) throws
-        JSONException,
-        Exceptions.MissingArgumentException,
-        Exceptions.UnexpectedServerResponseException,
-        Exceptions.NoSuchProductException
-    {
+    public static void deleteProduct(String productID) throws JSONException{
         //Create request
         JSONObject request = new JSONObject()
             .put("username", loginFragment.currentUser.username)
@@ -133,28 +107,10 @@ public final class Product {
                 .put("productID", productID)
             );
 
-        JSONObject response = Connection.Send(request);
-        JSONObject requestData = (JSONObject) response.get("requestData");
-        String reason = requestData.getString("reason");
-
-        if(reason.equals("NoSuchProduct")){
-            throw new Exceptions.NoSuchProductException();
-        } else if(reason.equals("MissingArguments")){
-            throw new Exceptions.MissingArgumentException(requestData.toString());
-        } else if(!requestData.isNull("reason")){
-            throw new Exceptions.UnexpectedServerResponseException(requestData.toString());
-        }
+        Connection.Send(request);
     }
 
-    public static void updateProduct(Product product) throws
-            JSONException,
-            Exceptions.MissingArgumentException,
-            Exceptions.UnexpectedServerResponseException,
-            Exceptions.NoSuchProductException,
-            Exceptions.AccessDeniedException,
-            Exceptions.AlreadyExistsException,
-            Exceptions.NoSuchProductCategoryException
-    {
+    public static void updateProduct(Product product) throws JSONException{
         Object encodedImage;
         if(product.image != null){
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -178,23 +134,6 @@ public final class Product {
                 .put("image", encodedImage)
                 .put("name", new JSONObject(product.name))
             );
-
-        JSONObject response = Connection.Send(request);
-        JSONObject requestData = (JSONObject) response.get("requestData");
-        String reason = requestData.getString("reason");
-
-        if(reason.equals("AlreadyExists")) {
-            throw new Exceptions.AlreadyExistsException();
-        } else if(reason.equals("NoSuchProduct")){
-            throw new Exceptions.NoSuchProductException();
-        } else if(reason.equals("AccessDenied")){
-            throw new Exceptions.AccessDeniedException();
-        } else if(reason.equals("NoSuchProductCategory")) {
-            throw new Exceptions.NoSuchProductCategoryException();
-        } else if(reason.equals("MissingArguments")){
-            throw  new Exceptions.MissingArgumentException(requestData.toString());
-        } else if(!requestData.isNull("reason")){
-            throw new Exceptions.UnexpectedServerResponseException(requestData.toString());
-        }
+        Connection.Send(request);
     }
 }

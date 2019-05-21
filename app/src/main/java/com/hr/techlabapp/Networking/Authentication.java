@@ -22,10 +22,7 @@ public class Authentication {
      * @return A boolean that defines whether the login was successful.
      */
     public static boolean LoginUser(String username, String password) {
-
-        //Hash password
         String hash = getPasswordHash(username, password);
-
         return auth(username, hash);
     }
 
@@ -35,7 +32,7 @@ public class Authentication {
      * @param hash A string containining a salted hash of the username.
      * @return A boolean that defines whether the login was successful.
      */
-    private static boolean auth(String username, String hash){
+    public static boolean auth(String username, String hash){
         //Create JSON object
         JSONObject request;
         try {
@@ -52,10 +49,9 @@ public class Authentication {
         //Send request to server + receive response
         Boolean loginResult;
         try {
-            JSONObject response = Connection.Send(request);
-            JSONObject requestData = (JSONObject) response.get("requestData");
-            loginResult = requestData.getBoolean("loginSuccesful");
-            loginFragment.currentUser = new User(username, hash, requestData.getLong("token"), requestData.getInt("permissionLevel"));
+            JSONObject responseData = Connection.Send(request);
+            loginResult = responseData.getBoolean("loginSuccesful");
+            loginFragment.currentUser = new User(username, hash, responseData.getLong("token"), responseData.getInt("permissionLevel"));
         } catch (JSONException e) {
             return false;
         }
@@ -89,17 +85,16 @@ public class Authentication {
                 .put("password", hash)
             );
 
-        JSONObject response = Connection.Send(request);
-        JSONObject requestData = (JSONObject) response.get("requestData");
-        Boolean registerUserSuccessful = requestData.getBoolean("registerUserSuccessful");
+        JSONObject responseData = Connection.Send(request);
+        Boolean registerUserSuccessful = responseData.getBoolean("registerUserSuccessful");
 
         if(registerUserSuccessful){
-            loginFragment.currentUser = new User(username, hash, requestData.getLong("token"), requestData.getInt("permissionLevel"));
+            loginFragment.currentUser = new User(username, hash, responseData.getLong("token"), responseData.getInt("permissionLevel"));
             return 0;
         } else {
             String reason;
             try{
-                 reason = requestData.getString("reason");
+                 reason = responseData.getString("reason");
             } catch (JSONException e){
                 throw new RuntimeException(e);
             }
@@ -117,7 +112,7 @@ public class Authentication {
     * This cannot be run on the UI thread. Use AsyncTask.
     * @return A boolean that shows whether the logout was successful.
      */
-    public static boolean logout() throws Exceptions.UnexpectedServerResponseException {
+    public static boolean logout() throws Exceptions.UnexpectedServerResponse {
         //Create JSON object
         JSONObject request;
         try {
@@ -136,16 +131,15 @@ public class Authentication {
         String reason = null;
         JSONObject requestData;
         try {
-            JSONObject response = Connection.Send(request);
-            requestData = (JSONObject) response.get("requestData");
-            logoutSuccessful = requestData.getBoolean("success");
-            reason = requestData.getString("reason");
+            JSONObject responseData = Connection.Send(request);
+            logoutSuccessful = responseData.getBoolean("success");
+            reason = responseData.getString("reason");
         } catch (JSONException e) {
             return false;
         }
 
         //If the logout was successful, clear the currentUser and return true.
-        //If the logout was unsuccesful
+        //If the logout was unsuccesful, authenticate and try again.
         if(logoutSuccessful){
             loginFragment.currentUser = null;
             return true;
@@ -157,7 +151,7 @@ public class Authentication {
                 return true;
             }
         } else {
-            throw new Exceptions.UnexpectedServerResponseException();
+            throw new Exceptions.UnexpectedServerResponse();
         }
     }
 

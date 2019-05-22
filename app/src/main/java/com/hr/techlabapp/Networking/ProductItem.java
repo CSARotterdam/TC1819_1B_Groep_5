@@ -22,44 +22,40 @@ public final class ProductItem {
         this.productId = productId;
     }
 
-    public static List<ProductItem> GetProductItems(String productId) throws JSONException {
-        HashMap<String, String> criteria = new HashMap<>();
-        criteria.put("product", productId);
-        return GetProductItems(null, criteria, null, null);
-    }
-
-    public static List<ProductItem> GetProductItems(@Nullable String[] fields,
-                                                    @Nullable HashMap<String, String> criteria,
-                                                    @Nullable Integer start,
-                                                    @Nullable Integer amount)
+    /**
+     * Returns the items of the given product types.
+     *
+     * @param productIds An array of product id's whose items to return.
+     * @return A map containing a list of items per specified product.
+     * @throws JSONException
+     */
+    public static HashMap<String, List<ProductItem>> getProductItems(String... productIds)
         throws JSONException {
         //Create JSON object
-        JSONObject requestCriteria = null;
-        if (criteria != null) {
-            requestCriteria = new JSONObject();
-            for (HashMap.Entry<String, String> entry : criteria.entrySet())
-                requestCriteria.put(entry.getKey(), entry.getValue());
-        }
         JSONObject request = new JSONObject()
                 .put("requestType", "getProductItems")
                 .put("username", loginFragment.currentUser.username)
                 .put("token", loginFragment.currentUser.token)
                 .put("requestData", new JSONObject()
-                        .put("columns", fields)
-                        .put("criteria", requestCriteria)
-                        .put("start", start)
-                        .put("amount", amount)
+                        .put("products", new JSONArray(Arrays.asList(productIds)))
                 );
 
-        JSONArray responseData = (JSONArray) Connection.Send(request);
+        JSONObject responseData = (JSONObject) Connection.Send(request);
 
-        List<ProductItem> out = new ArrayList<>();
-        for (int i = 0; i < responseData.length(); i++) {
-            JSONObject item = (JSONObject) responseData.get(i);
-            out.add(new ProductItem(
-                    (Integer) item.opt("id"),
-                    (String) item.opt("product")
-            ));
+        HashMap<String, List<ProductItem>> out = new HashMap<>();
+        Iterator<String> itr = responseData.keys();
+        while (itr.hasNext()) {
+            String key = itr.next();
+            JSONArray items = ((JSONObject)responseData).getJSONArray(key);
+            List<ProductItem> outSubset = new ArrayList<>();
+            for (int i = 0; i < items.length(); i++) {
+                JSONObject item = (JSONObject) items.get(i);
+                outSubset.add(new ProductItem(
+                        (Integer) item.opt("id"),
+                        (String) item.opt("product")
+                ));
+            }
+            out.put(key, outSubset);
         }
 
         return out;

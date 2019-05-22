@@ -28,7 +28,7 @@ public class Connection {
     static Object Send(JSONObject request){
         HttpURLConnection connection;
         Object responseData;
-        String address = "192.168.178.9"; //TODO: How will we even get the right address without hardcoding it?
+        String address = "192.168.2.101"; //TODO: How will we even get the right address without hardcoding it?
 
         try {
             //Connect to server
@@ -55,9 +55,10 @@ public class Connection {
                 sb.append(s);
             }
             JSONObject response = new JSONObject(sb.toString());
-            responseData = response.get("responseData");
-            String reason = ((JSONObject)responseData).optString("reason");
-            String message = ((JSONObject)responseData).optString("message");
+            Log.i(TAG, response.toString());
+            JSONObject responseBody = (JSONObject) response.get("body");
+            String reason = responseBody.optString("reason");
+            String message = responseBody.optString("message");
 
             switch (reason) {
                 case "ExpiredToken":
@@ -71,6 +72,7 @@ public class Connection {
                     }
                 case "AccessDenied": throw new Exceptions.AccessDenied(message);
                 case "InvalidLogin": throw new Exceptions.InvalidLogin(message);
+                case "InvalidRequestType": throw new Exceptions.InvalidRequestType(message);
                 case "NoSuchProduct": throw new Exceptions.NoSuchProduct(message);
                 case "NoSuchProductCategory": throw new Exceptions.NoSuchProductCategory(message);
                 case "NoSuchUser": throw new Exceptions.AlreadyExists(message);
@@ -81,7 +83,7 @@ public class Connection {
                 case "Exception": throw new Exceptions.NetworkingException(message);
                 case "": throw new Exceptions.UnexpectedServerResponse();
             }
-
+            responseData = responseBody.opt("responseData");
         } catch (IOException e){
             Log.e("Connection.Send()", e.getMessage(), e);
             throw new Exceptions.NetworkingException(e);
@@ -89,7 +91,6 @@ public class Connection {
             Log.e("Connection.Send()", e.getMessage(), e);
             throw new Exceptions.NetworkingException(e);
         }
-
         return responseData;
     }
 }

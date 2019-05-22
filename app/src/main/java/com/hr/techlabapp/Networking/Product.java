@@ -3,6 +3,7 @@ package com.hr.techlabapp.Networking;
 import android.graphics.Bitmap;
 import android.support.v4.util.ArrayMap;
 import android.util.Base64;
+import android.util.Log;
 
 import com.hr.techlabapp.Fragments.loginFragment;
 
@@ -55,14 +56,35 @@ public final class Product {
     }
 
 
-
-    public static List<Product> GetProducts(@Nullable HashMap<String, String> criteria,
+    /**
+     * Gets all products matching the given criteria.
+     * @param criteria A map of field names and conditions.
+     * @param languages A string array of language codes of the languages to return. If null, the
+     *                  id of the translation will be returned instead. If the array is empty,
+     *                  all translations will be returned.
+     * @return A list of products.
+     * @throws JSONException
+     */
+    public static List<Product> getProducts(@Nullable HashMap<String, String> criteria,
                                             @Nullable String[] languages)
             throws JSONException {
-        return GetProducts(null, criteria, languages, null, null);
+        return getProducts(null, criteria, languages, null, null);
     }
 
-    public static List<Product> GetProducts(@Nullable String[] fields,
+    /**
+     * Returns a list of products based on the given parameters.
+     *
+     * @param fields An array containing the names of the fields to return.
+     * @param criteria A map of field names and conditions.
+     * @param languages A string array of language codes of the languages to return. If null, the
+     *                  id of the translation will be returned instead. If the array is empty,
+     *                  all translations will be returned.
+     * @param start The amount of potential results to skip before returning anything.
+     * @param amount The amount of results to return.
+     * @return A list of results. Length may be lower than 'amount'.
+     * @throws JSONException
+     */
+    public static List<Product> getProducts(@Nullable String[] fields,
                                             @Nullable HashMap<String, String> criteria,
                                             @Nullable String[] languages,
                                             @Nullable Integer start,
@@ -93,14 +115,15 @@ public final class Product {
         for (int i = 0; i < responseData.length(); i++) {
             JSONObject product = (JSONObject) responseData.get(i);
             HashMap<String, String> name = null;
-            if (product.has("name")) {
+            if (product.has("name") && languages != null) {
                 name = new HashMap<>();
                 Iterator<String> itr = ((JSONObject)product.get("name")).keys();
                 while (itr.hasNext()) {
                     String key = itr.next();
                     name.put(key, ((JSONObject)product.get("name")).getString(key));
                 }
-            }
+            } else if (product.has("name"))
+                name.put("id", product.getString("name"));
             out.add(new Product(
                     (String) product.opt("id"),
                     (String) product.opt("manufacturer"),
@@ -112,7 +135,7 @@ public final class Product {
         return out;
     }
 
-    public static void AddProduct(Product product) throws JSONException
+    public static void addProduct(Product product) throws JSONException
     {
         Object encodedImage;
         if(product.image != null){

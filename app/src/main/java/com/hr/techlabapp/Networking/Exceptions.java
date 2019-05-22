@@ -46,7 +46,15 @@ public class Exceptions {
         public InvalidLogin(String message) {
             super(message);
         }
+    }
 
+    static class InvalidRequestType extends NetworkingException {
+        public InvalidRequestType(){
+            super();
+        }
+        public InvalidRequestType(String message) {
+            super(message);
+        }
     }
 
     /**

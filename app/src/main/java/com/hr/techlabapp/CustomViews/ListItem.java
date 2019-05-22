@@ -1,9 +1,13 @@
 package com.hr.techlabapp.CustomViews;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Looper;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
@@ -11,18 +15,25 @@ import android.support.constraint.ConstraintSet;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.hr.techlabapp.Classes.Product;
 import com.hr.techlabapp.R;
 
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class ListItem extends ConstraintLayout {
 	private Product product;
+	private boolean ImageLoaded = false;
 
 	@DrawableRes
 	private final static int[] images = new int[] { R.drawable.arduino, R.drawable.cuteaf };
@@ -61,18 +72,6 @@ public class ListItem extends ConstraintLayout {
 	private void Init23(Context context) {
 		image = new ImageView(context);
 		image.setId(R.id.image);
-		Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
-		// scales the bitmap
-		int imh = im.getHeight();
-		int imw = im.getWidth();
-		int aspectRatio = imw / imh;
-		/// advanced code yay \(￣▽￣)/
-		// TODO: should use attributes
-		int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
-		int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
-		im = Bitmap.createScaledBitmap(im, nimw, nimh, false);
-		image.setImageBitmap(im);
-		image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		// makes the name
 		name = new TextView(context);
 		name.setId(R.id.name);
@@ -98,16 +97,7 @@ public class ListItem extends ConstraintLayout {
 	@RequiresApi(17)
 	private void Init17(Context context) {
 		image = new ImageView(context);
-		name.setId(R.id.name);
-		Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
-		int imh = im.getHeight();
-		int imw = im.getWidth();
-		int aspectRatio = imw / imh;
-		// TODO: should use attributes
-		int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
-		int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
-		im = Bitmap.createScaledBitmap(im, nimw, nimh, false);
-		image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		image.setId(R.id.image);
 		name = new TextView(context);
 		name.setId(R.id.name);
 		name.setTextAlignment(TEXT_ALIGNMENT_CENTER);
@@ -129,17 +119,9 @@ public class ListItem extends ConstraintLayout {
 	@RequiresApi(15)
 	private void Init15(Context context) {
 		image = new ImageView(context);
-		name.setId(R.id.name);
-		Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
-		int imh = im.getHeight();
-		int imw = im.getWidth();
-		int aspectRatio = imw / imh;
-		// TODO: should use attributes
-		int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
-		int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
-		im = Bitmap.createScaledBitmap(im, nimw, nimh, false);
+		image.setId(R.id.image);
 		name = new TextView(context);
-		name.setId(ViewCompat.generateViewId());
+		name.setId(R.id.name);
 		name.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
 		name.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -168,17 +150,62 @@ public class ListItem extends ConstraintLayout {
 				product.getProductCount()));
 	}
 
+	@Override
+	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		super.onLayout(changed, left, top, right, bottom);
+		new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	}
+
 	public Product getProduct() {
 		return product;
 	}
 
+	class ShowImage extends AsyncTask<Void, Void, Bitmap> {
+		@Override
+		protected Bitmap doInBackground(Void... voids) {
+			while (!ImageLoaded)
+				if (isVisibleToUser()) {
+					// gets a random image
+					// TODO: make it not random
+					Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
+					// sets the image of the product
+					product.setImage(im);
+					int imh = im.getHeight();
+					int imw = im.getWidth();
+					int aspectRatio = imw / imh;
+					// sets the new img width and height depending of the aspect ratio of the image
+					// TODO: should use attributes
+					int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
+					int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
+					// Scales the bitmap
+					ImageLoaded = true;
+					return Bitmap.createScaledBitmap(im, nimw, nimh, false);
+				}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap aVoid) {
+			super.onPostExecute(aVoid);
+			if (aVoid == null)
+				return;
+			image.setImageBitmap(aVoid);
+			image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		}
+	}
+
 	public void setProduct(Product p) {
 		this.product = p;
-		// sets the image for the current product
-		/// currently no use will be usefull when not all images are loaded
-		/// and we want to load images only once they apear
-		p.setImage(this.image.getDrawable());
 		setValues();
+	}
+
+	private boolean isVisibleToUser() {
+		Rect scrollBounds = new Rect();
+		View parent = (View) getParent();
+		while (!(parent instanceof ScrollView))
+			parent = (View) parent.getParent();
+		parent.getHitRect(scrollBounds);
+		return getLocalVisibleRect(scrollBounds);
 	}
 
 	private int dptopx(int dp) {

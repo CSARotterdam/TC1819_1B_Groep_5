@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -132,10 +133,6 @@ public class cGrid extends LinearLayout {
 				lp.setMargins(margin, margin, margin, margin);
 				GI.setLayoutParams(lp);
 				GI.setProduct(p);
-				// sets the elevation for shadows
-				/// if only it worked
-				GI.setElevation(dptopx(5));
-				GI.setTranslationZ(dptopx(2));
 				// sets itemClicked Event
 				GI.setOnClickListener(itemClicked);
 				if (Rows.get(Rows.size() - 1).getChildCount() == GetAmountInRow()) {
@@ -170,30 +167,39 @@ public class cGrid extends LinearLayout {
 		return Size.widthPixels / dptopx(135);
 	}
 
-	// adds the product and repopulates the view
-	public void AddProduct(Product p) {
-		AddProduct(p, true);
-	}
-
 	// adds the product and if repopulate is true it repopulates the view
-	public void AddProduct(Product p, boolean repopulate) {
+	public void AddProduct(Product p) {
 		Products.add(p);
-		if (repopulate) {
-			// clears the view
-			for (LinearLayout l : Rows)
-				l.removeAllViews();
-			removeAllViews();
-			Rows.clear();
-			if (!List) {
-				// makes the first row
+		if (!List) {
+			GridItem GI = new GridItem(getContext());
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dptopx(100), dptopx(125));
+			int margin = dptopx(5);
+			lp.setMargins(margin, margin, margin, margin);
+			GI.setLayoutParams(lp);
+			GI.setProduct(p);
+			// sets itemClicked Event
+			GI.setOnClickListener(itemClicked);
+			if (Rows.get(Rows.size() - 1).getChildCount() == GetAmountInRow()) {
 				LinearLayout L1 = new LinearLayout(getContext());
 				L1.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 				L1.setOrientation(HORIZONTAL);
+				L1.addView(GI);
 				addView(L1);
 				Rows.add(L1);
+			} else {
+				Rows.get(Rows.size() - 1).addView(GI);
 			}
-			// repopulates
-			Populate();
+		}
+		else {
+			ListItem LI = new ListItem(getContext());
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dptopx(125));
+			int margin = dptopx(5);
+			lp.setMargins(0, margin, 0, margin);
+			LI.setLayoutParams(lp);
+			LI.setProduct(p);
+			// sets itemClicked Event
+			LI.setOnClickListener(itemClicked);
+			addView(LI);
 		}
 	}
 
@@ -223,6 +229,7 @@ public class cGrid extends LinearLayout {
 		}
 	}
 
+	//sets the item clicked event for each item
 	public void setItemClicked(OnClickListener itemClicked) {
 		this.itemClicked = itemClicked;
 		if(List)
@@ -234,6 +241,21 @@ public class cGrid extends LinearLayout {
 					Row.getChildAt(i).setOnClickListener(itemClicked);
 
 	}
+
+	// get all the items
+	public ArrayList<ConstraintLayout> getItems(){
+		ArrayList<ConstraintLayout> res = new ArrayList<>();
+		if(List)
+			for(int i = 0; i < getChildCount(); i++)
+				res.add((ListItem)getChildAt(i));
+		else
+			for(LinearLayout r: Rows)
+				for(int i = 0; i < r.getChildCount(); i++ )
+					res.add((GridItem)r.getChildAt(i));
+		return res;
+	}
+	
+	public boolean isList() {return List;}
 
 	private int dptopx(int dp) {
 		// changes a value from dp to px

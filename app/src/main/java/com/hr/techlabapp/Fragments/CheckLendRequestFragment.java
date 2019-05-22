@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hr.techlabapp.Activitys.ProductInfo;
+import com.hr.techlabapp.Classes.Product;
 import com.hr.techlabapp.CustomViews.UserHistoryDialog;
 import com.hr.techlabapp.R;
 
@@ -25,6 +24,7 @@ import java.util.Calendar;
  * A simple {@link Fragment} subclass.
  */
 public class CheckLendRequestFragment extends Fragment {
+	private Product product;
 
 	private ImageView image;
 
@@ -52,8 +52,8 @@ public class CheckLendRequestFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		image = getView().findViewById(R.id.image);
-		//TODO: I repeat NOT USE THIS
-		image.setImageBitmap(ProductInfo.currentProduct.getImage());
+		product = Product.GetProductByID(getArguments().getString(ProductInfoFragment.ProductArgumentKey));
+		image.setImageBitmap(product.getImage());
 
 		//sets the value
 		username = getView().findViewById(R.id.username);
@@ -61,9 +61,9 @@ public class CheckLendRequestFragment extends Fragment {
 		requestDate = getView().findViewById(R.id.request_date);
 		requestDate.setText(getResources().getString(R.string.date_of_request, Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(), Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(),Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime()));
 		name = getView().findViewById(R.id.name);
-		name.setText(ProductInfo.currentProduct.getName());
+		name.setText(product.getName());
 		amount = getView().findViewById(R.id.amount);
-		amount.setText(getResources().getString(R.string.amount_value,ProductInfo.currentProduct.getProductsAvailable()));
+		amount.setText(getResources().getString(R.string.amount_value,product.getProductsAvailable()));
 
 		//sets the on click the event
 		userHistory = getView().findViewById(R.id.user_history);

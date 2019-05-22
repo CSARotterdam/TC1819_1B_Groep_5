@@ -12,7 +12,7 @@
         android:text=" your language :"
         android:fontFamily="monospace"
         android:textSize="40dp"
-        android:background="#9999ff"
+        android:background="@color/colorAccent"
         android:textColor="#ffff"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"

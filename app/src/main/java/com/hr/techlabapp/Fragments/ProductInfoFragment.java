@@ -61,7 +61,12 @@ public class ProductInfoFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+<<<<<<< HEAD
 /*		product = new Product(
+=======
+		// TODO Fix
+		product = new Product(
+>>>>>>> c2a94e6239e5b9f0bc388c21776c098a31f75744
 				getArguments().getString(PRODUCT_ID_KEY),
 				getArguments().getString(PRODUCT_MANUFACTURER_KEY),
 				getArguments().getString(PRODUCT_CATEGORY_KEY),
@@ -72,7 +77,11 @@ public class ProductInfoFragment extends Fragment {
 		image.setImageBitmap(product.image);
 		// sets the string values
 		name = getView().findViewById(R.id.product_name);
+<<<<<<< HEAD
 		name.setText(product.name.get(Locale.getDefault().getDisplayLanguage()));
+=======
+		name.setText(product.getName());
+>>>>>>> c2a94e6239e5b9f0bc388c21776c098a31f75744
 		id = getView().findViewById(R.id.product_id);
 		id.setText(product.productID);
 		man = getView().findViewById(R.id.product_man);

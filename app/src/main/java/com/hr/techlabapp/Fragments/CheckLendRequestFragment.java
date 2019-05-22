@@ -21,7 +21,6 @@ import com.hr.techlabapp.R;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Locale;
 
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_CATEGORY_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_ID_KEY;
@@ -60,22 +59,24 @@ public class CheckLendRequestFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-/*		product = new Product(
+		// TODO Fix
+		product = new Product(
 				getArguments().getString(PRODUCT_MANUFACTURER_KEY),
 				getArguments().getString(PRODUCT_ID_KEY),
 				getArguments().getString(PRODUCT_CATEGORY_KEY),
 				getArguments().getString(PRODUCT_NAME_KEY),
 				getArguments().getString(PRODUCT_IMAGE_KEY)
-		);*/
+		);
 		image = getView().findViewById(R.id.image);
-		image.setImageBitmap(product.image);
+		byte[] imbytes = product.image.getBytes(Charset.forName("UTF-8"));
+		image.setImageBitmap(BitmapFactory.decodeByteArray(imbytes,0,imbytes.length));
 		//sets the value
 		username = getView().findViewById(R.id.username);
 		username.setText(getResources().getString(R.string.username_id,"Gijs","Puelinckx",958956));
 		requestDate = getView().findViewById(R.id.request_date);
 		requestDate.setText(getResources().getString(R.string.date_of_request, Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(), Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(),Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime()));
 		name = getView().findViewById(R.id.name);
-		name.setText(product.name.get(Locale.getDefault().getDisplayLanguage()));
+		name.setText(product.getName());
 		amount = getView().findViewById(R.id.amount);
 		// TODO: get availability from api
 		amount.setText(getResources().getString(R.string.amount_value,4));

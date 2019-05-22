@@ -29,7 +29,6 @@ import com.hr.techlabapp.R;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -195,7 +194,7 @@ public class GridItem extends ConstraintLayout {
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.name.get(Locale.getDefault().getDisplayLanguage()));
+		this.name.setText(product.getName());
 		// TODO: get availability from API
 		this.availability.setText(getResources().getString(R.string.availability, 4,5));
 	}

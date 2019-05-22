@@ -60,6 +60,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 // using RingtoneManager.
                 if (TextUtils.isEmpty(stringValue)) {
                     // Empty values correspond to 'silent' (no ringtone).
+                    // TODO fix
                     preference.setSummary(R.string.pref_ringtone_silent);
 
                 } else {

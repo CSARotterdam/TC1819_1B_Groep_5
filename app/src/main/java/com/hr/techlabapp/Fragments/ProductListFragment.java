@@ -83,10 +83,18 @@ public class ProductListFragment extends Fragment {
 			public void onClick(View v) {
 				Product p = v instanceof GridItem? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
 				Bundle b = new Bundle();
+<<<<<<< HEAD
 				b.putString(PRODUCT_CATEGORY_KEY, p.categoryID);
 				b.putString(PRODUCT_ID_KEY, p.productID);
 				b.putString(PRODUCT_IMAGE_KEY, null);
 				b.putString(PRODUCT_NAME_KEY, p.name.get(Locale.getDefault().getDisplayLanguage()));
+=======
+				// TODO fix
+				b.putString(PRODUCT_CATEGORY_KEY, p.categoryID);
+				b.putString(PRODUCT_ID_KEY, p.productID);
+				b.putString(PRODUCT_IMAGE_KEY, p.image);
+				b.putString(PRODUCT_NAME_KEY, p.name);
+>>>>>>> c2a94e6239e5b9f0bc388c21776c098a31f75744
 				b.putString(PRODUCT_MANUFACTURER_KEY, p.manufacturer);
 				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_productInfoFragment,b);
 			}

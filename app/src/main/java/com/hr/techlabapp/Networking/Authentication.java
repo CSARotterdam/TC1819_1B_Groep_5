@@ -1,7 +1,5 @@
 package com.hr.techlabapp.Networking;
 
-import android.util.Log;
-
 import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.json.JSONException;
@@ -21,7 +19,7 @@ public class Authentication {
      * @param password A string containing the password.
      * @return A boolean that defines whether the login was successful.
      */
-    public static boolean LoginUser(String username, String password) {
+    public static boolean LoginUser(String username, String password){
         String hash = getPasswordHash(username, password);
         return auth(username, hash);
     }
@@ -32,31 +30,24 @@ public class Authentication {
      * @param hash A string containining a salted hash of the username.
      * @return A boolean that defines whether the login was successful.
      */
-    public static boolean auth(String username, String hash){
+    static boolean auth(String username, String hash){
         //Create JSON object
-        JSONObject request;
         try {
-            request = new JSONObject()
-                    .put("requestType", "login")
-                    .put("requestData", new JSONObject()
-                            .put("username", username)
-                            .put("password", hash)
-                    );
-        } catch (JSONException e) {
-            return false;
-        }
+            JSONObject request = new JSONObject()
+                .put("requestType", "login")
+                .put("requestData", new JSONObject()
+                   .put("username", username)
+                   .put("password", hash)
+           );
 
-        //Send request to server + receive response
-        Boolean loginResult;
-        try {
             JSONObject responseData = (JSONObject) Connection.Send(request);
-            loginResult = responseData.getBoolean("loginSuccesful");
             loginFragment.currentUser = new User(username, hash, responseData.getLong("token"), responseData.getInt("permissionLevel"));
-        } catch (JSONException e) {
+        } catch (Exceptions.InvalidLogin _){
             return false;
+        } catch (JSONException e){
+            throw new RuntimeException(e);
         }
-
-        return loginResult;
+        return true;
     }
 
     /**
@@ -66,13 +57,8 @@ public class Authentication {
      *
      * @param username A string containing the username.
      * @param password A string containing the password.
-     * @return An int, which shows the result of the registration attempt;
-     *      -1. A clientside exception was thrown.
-     *      0. Registration successful.
-     *      1. A user already exists with the specified username.
-     *      2. The specified password is not valid.
-     */
-    public static int registerUser(String username, String password) throws JSONException {
+    **/
+    public static void registerUser(String username, String password) throws JSONException {
         //Hash password
         String hash = getPasswordHash(username, password);
 
@@ -85,74 +71,23 @@ public class Authentication {
                 .put("password", hash)
             );
 
-        JSONObject responseData = (JSONObject) Connection.Send(request);
-        Boolean registerUserSuccessful = responseData.getBoolean("registerUserSuccessful");
-
-        if(registerUserSuccessful){
-            loginFragment.currentUser = new User(username, hash, responseData.getLong("token"), responseData.getInt("permissionLevel"));
-            return 0;
-        } else {
-            String reason;
-            try{
-                 reason = responseData.getString("reason");
-            } catch (JSONException e){
-                throw new RuntimeException(e);
-            }
-            if(reason.equals("AlreadyExists")){
-                return 1;
-            } else if (reason.equals("InvalidPassword")){
-                return 2;
-            }
-        }
-        return -1;
+        Connection.Send(request);
     }
 
     /*
     * Attempts to end the current session. Fails if the client isn't authenticated.
     * This cannot be run on the UI thread. Use AsyncTask.
-    * @return A boolean that shows whether the logout was successful.
      */
-    public static boolean logout() throws Exceptions.UnexpectedServerResponse {
-        //Create JSON object
-        JSONObject request;
-        try {
-            request = new JSONObject()
-                    .put("requestType", "logout")
-                    .put("requestData", new JSONObject()
-                            .put("username", loginFragment.currentUser.username)
-                            .put("token", loginFragment.currentUser.token)
-                    );
-        } catch (JSONException e) {
-            return false;
-        }
+    public static void logout() throws JSONException {
+        //Create JSON object;
+        JSONObject request = new JSONObject()
+            .put("requestType", "logout")
+            .put("requestData", new JSONObject()
+                .put("username", loginFragment.currentUser.username)
+                .put("token", loginFragment.currentUser.token)
+            );
 
-        //Send request and wait for response
-        Boolean logoutSuccessful;
-        String reason = null;
-        JSONObject requestData;
-        try {
-            JSONObject responseData = (JSONObject) Connection.Send(request);
-            logoutSuccessful = responseData.getBoolean("success");
-            reason = responseData.getString("reason");
-        } catch (JSONException e) {
-            return false;
-        }
-
-        //If the logout was successful, clear the currentUser and return true.
-        //If the logout was unsuccesful, authenticate and try again.
-        if(logoutSuccessful){
-            loginFragment.currentUser = null;
-            return true;
-        } else if(reason == "Invalid or expired token"){
-            if(auth(loginFragment.currentUser.username, loginFragment.currentUser.hash)){
-                return logout();
-            } else {
-                loginFragment.currentUser = null;
-                return true;
-            }
-        } else {
-            throw new Exceptions.UnexpectedServerResponse();
-        }
+        Connection.Send(request);
     }
 
     /**
@@ -169,8 +104,8 @@ public class Authentication {
             byte[] bytes = md.digest(password.getBytes());
 
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < bytes.length; i++) {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            for (byte aByte : bytes) {
+                sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
             }
             hash = sb.toString();
         } catch (NoSuchAlgorithmException e) {

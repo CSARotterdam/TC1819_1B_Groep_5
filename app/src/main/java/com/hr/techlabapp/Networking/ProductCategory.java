@@ -63,7 +63,7 @@ public final class ProductCategory {
                         .put("name", new JSONObject(category.name))
                 );
 
-        JSONObject response = Connection.Send(request);
+        Connection.Send(request);
     }
 
     public static void deleteProductCategory(String categoryID) throws JSONException {
@@ -87,6 +87,7 @@ public final class ProductCategory {
                 .put("requestType", "updateProductCategory")
                 .put("requestData", new JSONObject()
                         .put("categoryID", category.categoryID)
+                        .put("newCategoryID", category.categoryIDCopy)
                         .put("name", new JSONObject(category.name))
                 );
 

@@ -3,7 +3,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/navigation_graph"
-	app:startDestination="@id/loginFragment">
+	app:startDestination="@id/productListFragment">
 
 	<fragment
 		android:id="@+id/loginFragment"
@@ -49,17 +49,28 @@
 		<argument
 			android:name="ProductID"
 			app:argType="string" />
+		<action
+			android:id="@+id/action_productInfoFragment_to_loginFragment"
+			app:destination="@id/loginFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/addProductFragment"
 		android:name="com.hr.techlabapp.Fragments.AddProductFragment"
 		android:label="fragment_add_product"
-		tools:layout="@layout/fragment_add_product" />
+		tools:layout="@layout/fragment_add_product" >
+		<action
+			android:id="@+id/action_addProductFragment_to_loginFragment"
+			app:destination="@id/loginFragment" />
+	</fragment>
 	<fragment
 		android:id="@+id/statisticsFragment"
 		android:name="com.hr.techlabapp.Fragments.StatisticsFragment"
 		android:label="fragment_statistics"
-		tools:layout="@layout/fragment_statistics" />
+		tools:layout="@layout/fragment_statistics" >
+		<action
+			android:id="@+id/action_statisticsFragment_to_loginFragment"
+			app:destination="@id/loginFragment" />
+	</fragment>
 	<fragment android:id="@+id/Register">
 		<action
 			android:id="@+id/action_placeholder_to_productListFragment"
@@ -76,10 +87,16 @@
 		<argument
 			android:name="ProductID"
 			app:argType="string" />
+		<action
+			android:id="@+id/action_checkLendRequestFragment_to_loginFragment"
+			app:destination="@id/loginFragment" />
 	</fragment>
 	<fragment android:id="@+id/Camera" >
 		<action
 			android:id="@+id/action_Camera_to_checkLendRequestFragment"
 			app:destination="@id/checkLendRequestFragment" />
+		<action
+			android:id="@+id/action_Camera_to_loginFragment"
+			app:destination="@id/loginFragment" />
 	</fragment>
 </navigation>

@@ -64,6 +64,24 @@ public class ProductListFragment extends Fragment {
 		Products.setItemClicked(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (v instanceof  GridItem){
+					for(ConstraintLayout c: Products.getItems()){
+						GridItem g = (GridItem)c;
+						if(g != v)
+							g.DisposeImage();
+						else
+							g.SetImage();
+					}
+				}
+				else {
+					for(ConstraintLayout c: Products.getItems()){
+						ListItem l = (ListItem) c;
+						if(l != v)
+							l.DisposeImage();
+						else
+							l.SetImage();
+					}
+				}
 				Product p = v instanceof GridItem? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
 				Bundle b = new Bundle();
 				b.putString(ProductInfoFragment.ProductArgumentKey,p.getProductID());

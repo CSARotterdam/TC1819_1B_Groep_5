@@ -180,6 +180,8 @@ public class GridItem extends ConstraintLayout {
 					ImageLoaded = true;
 					return Bitmap.createScaledBitmap(im, nimw, nimh, false);
 				}
+			if(product.getImage() == null)
+				product.setImage(image.getDrawable());
 			return null;
 		}
 
@@ -220,6 +222,19 @@ public class GridItem extends ConstraintLayout {
 		parent.getHitRect(scrollBounds);
 		// check's if the view is in the visible rect
 		return getLocalVisibleRect(scrollBounds);
+	}
+
+	public void DisposeImage(){
+		if(product.getImage() == null)
+			return;
+		product.getImage().recycle();
+		product.setImage((Bitmap) null);
+	}
+
+	public void SetImage(){
+		if(product.getImage() != null)
+			return;
+		product.setImage(image.getDrawable());
 	}
 
 	private int dptopx(int dp) {

@@ -56,7 +56,6 @@ public class ProductInfoFragment extends Fragment {
 
 		image = getView().findViewById(R.id.image);
 		image.setImageBitmap(product.getImage());
-
 		// sets the string values
 		name = getView().findViewById(R.id.product_name);
 		name.setText(product.getName());

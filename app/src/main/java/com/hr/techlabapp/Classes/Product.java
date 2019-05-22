@@ -70,6 +70,7 @@ public class Product {
         return Image;
     }
 
+
     public void setImage(Bitmap image) {
         this.Image = image;
     }

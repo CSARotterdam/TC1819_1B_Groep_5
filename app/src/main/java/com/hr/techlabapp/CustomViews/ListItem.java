@@ -208,6 +208,19 @@ public class ListItem extends ConstraintLayout {
 		return getLocalVisibleRect(scrollBounds);
 	}
 
+	public void DisposeImage(){
+		if(product.getImage() == null)
+			return;
+		product.getImage().recycle();
+		product.setImage((Bitmap) null);
+	}
+
+	public void SetImage(){
+		if(product.getImage() != null)
+			return;
+		product.setImage(image.getDrawable());
+	}
+
 	private int dptopx(int dp) {
 		// changes a value from dp to px
 		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());

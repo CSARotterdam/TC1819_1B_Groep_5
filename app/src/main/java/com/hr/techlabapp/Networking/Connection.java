@@ -17,7 +17,7 @@ import java.net.URL;
 
 import static com.hr.techlabapp.Networking.Authentication.auth;
 
-public class Connection {
+class Connection {
     private static final String TAG = "TL.Networking-Conn.";
 
     /**
@@ -49,7 +49,7 @@ public class Connection {
             //Receive data
             DataInputStream inStream = new DataInputStream(connection.getInputStream());
             BufferedReader d = new BufferedReader(new InputStreamReader(inStream));
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             String s;
             while ((s = d.readLine()) != null) {
                 sb.append(s);
@@ -74,6 +74,7 @@ public class Connection {
                 case "InvalidLogin": throw new Exceptions.InvalidLogin(message);
                 case "InvalidRequestType": throw new Exceptions.InvalidRequestType(message);
                 case "NoSuchProduct": throw new Exceptions.NoSuchProduct(message);
+                case "NoSuchProductItem": throw new Exceptions.NoSuchProductItem(message);
                 case "NoSuchProductCategory": throw new Exceptions.NoSuchProductCategory(message);
                 case "NoSuchUser": throw new Exceptions.AlreadyExists(message);
                 case "AlreadyExists": throw new Exceptions.AlreadyExists(message);

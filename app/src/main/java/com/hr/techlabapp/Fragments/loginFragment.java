@@ -19,10 +19,15 @@ import android.widget.Toast;
 import androidx.navigation.Navigation;
 
 import com.hr.techlabapp.Networking.Authentication;
+import com.hr.techlabapp.Networking.Exceptions;
+import com.hr.techlabapp.Networking.Product;
+import com.hr.techlabapp.Networking.ProductCategory;
 import com.hr.techlabapp.Networking.User;
 import com.hr.techlabapp.R;
 
 import org.json.JSONException;
+
+import java.util.HashMap;
 
 
 /**
@@ -121,7 +126,16 @@ public class loginFragment extends Fragment {
 		protected Integer doInBackground(String... params){
 			try {
 				Log.i(TAG, "register");
-				return Authentication.registerUser(params[0], params[1]);
+				try {
+					Authentication.registerUser(params[0], params[1]);
+					return 0;
+				}catch (Exceptions.AlreadyExists _){
+					return 1;
+				}catch (Exceptions.InvalidPassword _){
+					return 2;
+				} catch (Exceptions.NetworkingException _){
+					return -1;
+				}
 			} catch (JSONException e){
 				throw new RuntimeException(e);
 			}

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,13 +19,21 @@ import android.widget.ScrollView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.hr.techlabapp.Classes.Product;
+import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.CustomViews.GridItem;
 import com.hr.techlabapp.CustomViews.ListItem;
 import com.hr.techlabapp.CustomViews.cGrid;
 import com.hr.techlabapp.R;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
+
+import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_CATEGORY_KEY;
+import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_ID_KEY;
+import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_IMAGE_KEY;
+import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_MANUFACTURER_KEY;
+import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_NAME_KEY;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,29 +67,25 @@ public class ProductListFragment extends Fragment {
 		Products = getView().findViewById(R.id.products);
 
 		// adds random products
-		for(int i = 0; i  < 30; i++)
-			Products.AddProduct(new Product("Arduino","des","man","ID","cat",8,5));
-
-		scrollView = getView().findViewById(R.id.scrollView);
-		scrollView.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(Products.isList())
-					for(ConstraintLayout Cl: Products.getItems())
-						((ListItem)Cl).Scrolled();
-				else
-					for(ConstraintLayout Cl: Products.getItems())
-						((GridItem)Cl).Scrolled();
-				return false;
-			}
-		});
+		try {
+			for (Product p : Product.GetProducts())
+				Products.AddProduct(p);
+		}
+		catch (JSONException ex)
+		{
+			Log.e("JSON", ex.getMessage(),ex.getCause());
+		}
 		// sets the itemClicked
 		Products.setItemClicked(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Product p = v instanceof GridItem? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
 				Bundle b = new Bundle();
-				b.putString(ProductInfoFragment.ProductArgumentKey,p.getProductID());
+				b.putString(PRODUCT_CATEGORY_KEY, p.category);
+				b.putString(PRODUCT_ID_KEY, p.id);
+				b.putString(PRODUCT_IMAGE_KEY, p.image);
+				b.putString(PRODUCT_NAME_KEY, p.name);
+				b.putString(PRODUCT_MANUFACTURER_KEY, p.manufacturer);
 				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_productInfoFragment,b);
 			}
 		});

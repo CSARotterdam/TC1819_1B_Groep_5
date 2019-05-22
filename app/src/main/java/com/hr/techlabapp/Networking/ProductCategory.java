@@ -152,6 +152,7 @@ public final class ProductCategory {
                 .put("requestType", "updateProductCategory")
                 .put("requestData", new JSONObject()
                         .put("categoryID", category.categoryID)
+                        .put("newCategoryID", category.categoryIDCopy)
                         .put("name", new JSONObject(category.name))
                 );
 

@@ -7,4 +7,10 @@
 	<dimen name="info_image_margin">10dp</dimen>
 	<dimen name="info_image_height">150dp</dimen>
 	<dimen name="check_image_height">175dp</dimen>
+	<!--TODO: give values-->
+	<dimen name="nav_header_height"/>
+	<dimen name="activity_horizontal_margin"/>
+	<dimen name="activity_vertical_margin"/>
+	<dimen name="nav_header_vertical_spacing"/>
+
 </resources>

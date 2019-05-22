@@ -167,8 +167,7 @@ public class GridItem extends ConstraintLayout {
 				if (isVisibleToUser()) {
 					// checks if the image isn't already loaded and visible to the user
 					// gets a random image
-					byte[] imbytes = product.image.getBytes(Charset.forName("UTF-8"));
-					Bitmap im = BitmapFactory.decodeByteArray(imbytes,0,imbytes.length);
+					Bitmap im = product.image;
 					int imh = im.getHeight();
 					int imw = im.getWidth();
 					int aspectRatio = imw / imh;

@@ -54,6 +54,8 @@ public final class Product {
         return out;
     }
 
+
+
     public static List<Product> GetProducts(@Nullable HashMap<String, String> criteria,
                                             @Nullable String[] languages)
             throws JSONException {
@@ -85,8 +87,7 @@ public final class Product {
                         .put("amount", amount)
                 );
 
-        JSONObject response = Connection.Send(request);
-        JSONArray responseData = (JSONArray) response.get("responseData");
+        JSONArray responseData = (JSONArray) Connection.Send(request);
 
         List<Product> out = new ArrayList<>();
         for (int i = 0; i < responseData.length(); i++) {

@@ -60,16 +60,15 @@ public class CheckLendRequestFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		// TODO Fix
-		product = new Product(
+		/*product = new Product(
 				getArguments().getString(PRODUCT_MANUFACTURER_KEY),
 				getArguments().getString(PRODUCT_ID_KEY),
 				getArguments().getString(PRODUCT_CATEGORY_KEY),
 				getArguments().getString(PRODUCT_NAME_KEY),
 				getArguments().getString(PRODUCT_IMAGE_KEY)
-		);
+		);*/
 		image = getView().findViewById(R.id.image);
-		byte[] imbytes = product.image.getBytes(Charset.forName("UTF-8"));
-		image.setImageBitmap(BitmapFactory.decodeByteArray(imbytes,0,imbytes.length));
+		image.setImageBitmap(product.image);
 		//sets the value
 		username = getView().findViewById(R.id.username);
 		username.setText(getResources().getString(R.string.username_id,"Gijs","Puelinckx",958956));

@@ -1,5 +1,7 @@
 package com.hr.techlabapp.Networking;
 
+import android.util.Log;
+
 import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.json.JSONException;
@@ -16,16 +18,16 @@ import java.net.URL;
 import static com.hr.techlabapp.Networking.Authentication.auth;
 
 public class Connection {
-    private final String TAG = "TL.Networking-Connection";
+    private static final String TAG = "TL.Networking-Conn.";
 
     /**
      * Sends a request to the server.
      * @param request A JSONObject containing the request that needs to be sent.
      * @return A JSONObject containing the server's response to the request.
      */
-    static JSONObject Send(JSONObject request){
+    static Object Send(JSONObject request){
         HttpURLConnection connection;
-        JSONObject responseData;
+        Object responseData;
         String address = "192.168.178.9"; //TODO: How will we even get the right address without hardcoding it?
 
         try {
@@ -48,48 +50,44 @@ public class Connection {
             DataInputStream inStream = new DataInputStream(connection.getInputStream());
             BufferedReader d = new BufferedReader(new InputStreamReader(inStream));
             StringBuffer sb = new StringBuffer();
-            String s = "";
+            String s;
             while ((s = d.readLine()) != null) {
                 sb.append(s);
             }
             JSONObject response = new JSONObject(sb.toString());
-            responseData = (JSONObject) response.get("responseData");
-            String reason = responseData.getString("reason");
+            responseData = response.get("responseData");
+            String reason = ((JSONObject)responseData).optString("reason");
+            String message = ((JSONObject)responseData).optString("message");
 
-            if(reason.equals("ExpiredToken")) {
-                if(auth(loginFragment.currentUser.username, loginFragment.currentUser.hash)){
-                    request.put("token", loginFragment.currentUser.token);
-                    return Send(request);
-                } else {
-                    loginFragment.currentUser = null;
-                    throw new Exceptions.TokenRenewalException();
-                }
-            } else if(reason.equals("AccessDenied")){
-                throw new Exceptions.AccessDenied();
-            } else if(reason.equals("InvalidLogin")) {
-                throw new Exceptions.InvalidLogin();
-            } else if(reason.equals("NoSuchProduct")) {
-                throw new Exceptions.NoSuchProduct();
-            } else if(reason.equals("NoSuchProductCategory")) {
-                throw new Exceptions.NoSuchProductCategory();
-            } else if(reason.equals("NoSuchUser")) {
-                throw new Exceptions.NoSuchUser();
-            } else if(reason.equals("AlreadyExists")) {
-                throw new Exceptions.AlreadyExists();
-            } else if(reason.equals("MissingArgument")){
-                throw  new Exceptions.MissingArgument(responseData.toString());
-            } else if(reason.equals("ServerError")){
-                throw  new Exceptions.ServerError(responseData.toString());
-            } else if(reason.equals("InvalidArguments")){
-                throw  new Exceptions.InvalidArguments(responseData.toString());
-            } else if(!responseData.isNull("reason")){
-                throw new Exceptions.UnexpectedServerResponse(responseData.toString());
+            switch (reason) {
+                case "ExpiredToken":
+                    if(auth(loginFragment.currentUser.username, loginFragment.currentUser.hash)){
+                        Log.i(TAG, "Token expired; fetching new token...");
+                        request.put("token", loginFragment.currentUser.token);
+                        return Send(request);
+                    } else {
+                        loginFragment.currentUser = null;
+                        throw new Exceptions.TokenRenewalException();
+                    }
+                case "AccessDenied": throw new Exceptions.AccessDenied(message);
+                case "InvalidLogin": throw new Exceptions.InvalidLogin(message);
+                case "NoSuchProduct": throw new Exceptions.NoSuchProduct(message);
+                case "NoSuchProductCategory": throw new Exceptions.NoSuchProductCategory(message);
+                case "NoSuchUser": throw new Exceptions.AlreadyExists(message);
+                case "AlreadyExists": throw new Exceptions.AlreadyExists(message);
+                case "MissingArguments": throw new Exceptions.MissingArgument(message);
+                case "ServerError": throw new Exceptions.ServerError(message);
+                case "InvalidArguments": throw new Exceptions.InvalidArguments(message);
+                case "Exception": throw new Exceptions.NetworkingException(message);
+                case "": throw new Exceptions.UnexpectedServerResponse();
             }
 
         } catch (IOException e){
-            throw new RuntimeException(e);
+            Log.e("Connection.Send()", e.getMessage(), e);
+            throw new Exceptions.NetworkingException(e);
         } catch (JSONException e){
-            throw new RuntimeException(e);
+            Log.e("Connection.Send()", e.getMessage(), e);
+            throw new Exceptions.NetworkingException(e);
         }
 
         return responseData;

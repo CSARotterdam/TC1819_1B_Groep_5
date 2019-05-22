@@ -49,7 +49,7 @@ public class Authentication {
         //Send request to server + receive response
         Boolean loginResult;
         try {
-            JSONObject responseData = Connection.Send(request);
+            JSONObject responseData = (JSONObject) Connection.Send(request);
             loginResult = responseData.getBoolean("loginSuccesful");
             loginFragment.currentUser = new User(username, hash, responseData.getLong("token"), responseData.getInt("permissionLevel"));
         } catch (JSONException e) {
@@ -85,7 +85,7 @@ public class Authentication {
                 .put("password", hash)
             );
 
-        JSONObject responseData = Connection.Send(request);
+        JSONObject responseData = (JSONObject) Connection.Send(request);
         Boolean registerUserSuccessful = responseData.getBoolean("registerUserSuccessful");
 
         if(registerUserSuccessful){
@@ -131,7 +131,7 @@ public class Authentication {
         String reason = null;
         JSONObject requestData;
         try {
-            JSONObject responseData = Connection.Send(request);
+            JSONObject responseData = (JSONObject) Connection.Send(request);
             logoutSuccessful = responseData.getBoolean("success");
             reason = responseData.getString("reason");
         } catch (JSONException e) {

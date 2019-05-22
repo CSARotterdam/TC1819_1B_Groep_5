@@ -53,7 +53,7 @@ public class Connection {
                 sb.append(s);
             }
             JSONObject response = new JSONObject(sb.toString());
-            responseData = (JSONObject) response.get("requestData");
+            responseData = (JSONObject) response.get("responseData");
             String reason = responseData.getString("reason");
 
             if(reason.equals("ExpiredToken")) {

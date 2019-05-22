@@ -27,6 +27,7 @@ public final class Product {
     public String categoryID;
     public HashMap<String, String> name;
     public Bitmap image;
+    public String imageId;
 
     public Product(String productID, String manufacturer, HashMap<String, String> name){
         this(productID, manufacturer, "uncategorized", name, null);
@@ -36,13 +37,18 @@ public final class Product {
         this(productID, manufacturer, categoryID, name, null);
     }
 
-    public Product(String productID, String manufacturer, String categoryID, HashMap<String, String> name, Bitmap image) {
+    public Product(String productID, String manufacturer, String categoryID, HashMap<String, String> name, String imageId){
+        this(productID, manufacturer, categoryID, name, null, imageId);
+    }
+
+    public Product(String productID, String manufacturer, String categoryID, HashMap<String, String> name, Bitmap image, String imageId) {
         this.productID = productID;
         this.productIDCopy = productID;
         this.manufacturer = manufacturer;
         this.categoryID = categoryID;
         this.name = name;
         this.image = image;
+        this.imageId = imageId;
     }
 
     protected Map<String, Object> getValues() {
@@ -55,6 +61,16 @@ public final class Product {
         return out;
     }
 
+    public String getName() {
+        return getName(null);
+    }
+    public String getName(@Nullable String language) {
+        // TODO retrieve language from settings
+        if (language == null) language = "en"; // Primary fallback is english
+        if (name.containsKey(language)) return name.get(language);
+        else if (name.containsKey("id")) return name.get("id"); // Secondary fallback is to id. (if present)
+        return ""; // Final fallback is blank
+    }
 
     /**
      * Gets all products matching the given criteria.
@@ -128,7 +144,8 @@ public final class Product {
                     (String) product.opt("id"),
                     (String) product.opt("manufacturer"),
                     (String) product.opt("category"),
-                    name
+                    name,
+                    (String) product.opt("image")
             ));
         }
 

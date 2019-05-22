@@ -40,7 +40,6 @@ public class loginFragment extends Fragment {
 
 	Button LoginButton;
 	Button RegisterButton;
-	Button TestButton;
 
 	public loginFragment() {
 		// Required empty public constructor
@@ -80,14 +79,6 @@ public class loginFragment extends Fragment {
 				EditText passwordField = (EditText)getView().findViewById((R.id.password));
 				String password = passwordField.getText().toString();
 				new  RegisterActivity().execute(username, password);
-			}
-		});
-
-		TestButton = getView().findViewById(R.id.button);
-		TestButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				new  testActivity().execute();
 			}
 		});
 	}
@@ -163,36 +154,6 @@ public class loginFragment extends Fragment {
 				msgToast = Toast.makeText(context, "An unexpected error occured. Please try again later.", Toast.LENGTH_LONG);
 			}
 			msgToast.show();
-		}
-	}
-
-
-	public void testButton(View view){
-		new  RegisterActivity().execute();
-	}
-	public class testActivity extends AsyncTask<String, Void, Integer> {
-		private ProgressDialog dialog;
-
-		protected void onPreExecute(){
-			dialog = new ProgressDialog(getContext());
-			dialog.setMessage("...");
-			dialog.show();
-		}
-		protected Integer doInBackground(String... params){
-			try {
-				Authentication.LoginUser("test", "password");
-
-				HashMap<String, String> name = new HashMap<>();
-				name.put("en", "two lizards");
-
-				ProductCategory.deleteProductCategory("test");
-			} catch (Exception e){
-				throw new RuntimeException(e);
-			}
-			return 1;
-		}
-		protected void onPostExecute(Integer result){
-			dialog.dismiss();
 		}
 	}
 }

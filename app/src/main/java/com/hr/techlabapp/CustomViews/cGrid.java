@@ -13,7 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.hr.techlabapp.Classes.Product;
+import com.hr.techlabapp.Networking.Product;
 
 import java.util.ArrayList;
 

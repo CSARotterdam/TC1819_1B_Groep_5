@@ -23,9 +23,10 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.hr.techlabapp.Classes.Product;
+import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
 
+import java.nio.charset.Charset;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Handler;
@@ -145,9 +146,9 @@ public class ListItem extends ConstraintLayout {
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.getName());
-		this.availability.setText(getResources().getString(R.string.availability, product.getProductsAvailable(),
-				product.getProductCount()));
+		this.name.setText(product.name);
+		// TODO: Get availability from API
+		this.availability.setText(getResources().getString(R.string.availability, 4, 5));
 	}
 
 	@Override
@@ -167,9 +168,8 @@ public class ListItem extends ConstraintLayout {
 				if (isVisibleToUser()) {
 					// gets a random image
 					// TODO: make it not random
-					Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
-					// sets the image of the product
-					product.setImage(im);
+					byte[] imbytes = product.image.getBytes(Charset.forName("UTF-8"));
+					Bitmap im = BitmapFactory.decodeByteArray(imbytes,0,imbytes.length);
 					int imh = im.getHeight();
 					int imw = im.getWidth();
 					int aspectRatio = imw / imh;
@@ -206,19 +206,6 @@ public class ListItem extends ConstraintLayout {
 			parent = (View) parent.getParent();
 		parent.getHitRect(scrollBounds);
 		return getLocalVisibleRect(scrollBounds);
-	}
-
-	public void DisposeImage(){
-		if(product.getImage() == null)
-			return;
-		product.getImage().recycle();
-		product.setImage((Bitmap) null);
-	}
-
-	public void SetImage(){
-		if(product.getImage() != null)
-			return;
-		product.setImage(image.getDrawable());
 	}
 
 	private int dptopx(int dp) {

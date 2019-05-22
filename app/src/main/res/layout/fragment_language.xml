@@ -7,42 +7,44 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text=" your language :"
-        android:fontFamily="monospace"
-        android:textSize="40dp"
-        android:background="@color/colorAccent"
-        android:textColor="#ffff"
-        android:layout_marginTop="20dp"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        />
+        android:layout_marginTop="40dp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-thin"
+        android:text=" your language :"
+        android:textColor="#000"
+        android:textSize="40dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nederlands"
         android:layout_marginTop="300dp"
-        android:layout_marginLeft="119dp"
-        android:textColor="#111"
-        android:background="#ffff"
+        android:layout_marginLeft="100dp"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:background="@color/colorAccent"
         android:textSize="40dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="English"
         android:layout_marginTop="400dp"
-        android:layout_marginLeft="154dp"
-        android:background="#fff"
-        android:textColor="#111"
+        android:layout_marginLeft="135dp"
+        android:background="@color/colorAccent"
+        android:textColor="#fff"
+        android:textStyle="bold"
         android:textSize="40dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="العربية"
         android:layout_marginTop="500dp"
-        android:layout_marginLeft="172dp"
-        android:background="#fff"
-        android:textColor="#111"
+        android:layout_marginLeft="150dp"
+        android:background="@color/colorAccent"
+        android:textColor="#fff"
         android:textSize="40dp"
         />
 

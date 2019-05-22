@@ -28,6 +28,7 @@ import com.hr.techlabapp.R;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_CATEGORY_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_ID_KEY;
@@ -68,7 +69,7 @@ public class ProductListFragment extends Fragment {
 
 		// adds random products
 		try {
-			for (Product p : Product.GetProducts())
+			for (Product p : Product.getProducts(null,null))
 				Products.AddProduct(p);
 		}
 		catch (JSONException ex)
@@ -76,15 +77,16 @@ public class ProductListFragment extends Fragment {
 			Log.e("JSON", ex.getMessage(),ex.getCause());
 		}
 		// sets the itemClicked
+		// TODO: Fix this
 		Products.setItemClicked(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Product p = v instanceof GridItem? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
 				Bundle b = new Bundle();
-				b.putString(PRODUCT_CATEGORY_KEY, p.category);
-				b.putString(PRODUCT_ID_KEY, p.id);
-				b.putString(PRODUCT_IMAGE_KEY, p.image);
-				b.putString(PRODUCT_NAME_KEY, p.name);
+				b.putString(PRODUCT_CATEGORY_KEY, p.categoryID);
+				b.putString(PRODUCT_ID_KEY, p.productID);
+				b.putString(PRODUCT_IMAGE_KEY, null);
+				b.putString(PRODUCT_NAME_KEY, p.name.get(Locale.getDefault().getDisplayLanguage()));
 				b.putString(PRODUCT_MANUFACTURER_KEY, p.manufacturer);
 				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_productInfoFragment,b);
 			}

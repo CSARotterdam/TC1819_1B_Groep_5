@@ -21,6 +21,7 @@ import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
 
 import java.nio.charset.Charset;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,25 +61,24 @@ public class ProductInfoFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		product = new Product(
+/*		product = new Product(
 				getArguments().getString(PRODUCT_ID_KEY),
 				getArguments().getString(PRODUCT_MANUFACTURER_KEY),
 				getArguments().getString(PRODUCT_CATEGORY_KEY),
 				getArguments().getString(PRODUCT_NAME_KEY),
 				getArguments().getString(PRODUCT_IMAGE_KEY)
-			);
+			);*/
 		image = getView().findViewById(R.id.image);
-		byte[] imbytes = product.image.getBytes(Charset.forName("UTF-8"));
-		image.setImageBitmap(BitmapFactory.decodeByteArray(imbytes,0,imbytes.length));
+		image.setImageBitmap(product.image);
 		// sets the string values
 		name = getView().findViewById(R.id.product_name);
-		name.setText(product.name);
+		name.setText(product.name.get(Locale.getDefault().getDisplayLanguage()));
 		id = getView().findViewById(R.id.product_id);
-		id.setText(product.id);
+		id.setText(product.productID);
 		man = getView().findViewById(R.id.product_man);
 		man.setText(product.manufacturer);
 		cat = getView().findViewById(R.id.product_cat);
-		cat.setText(product.category);
+		cat.setText(product.categoryID);
 		stock = getView().findViewById(R.id.product_stock);
 		// TODO: Get availability from the api
 		stock.setText(String.valueOf(4));
@@ -96,11 +96,11 @@ public class ProductInfoFragment extends Fragment {
 				DeleteItemDialog dialog = new DeleteItemDialog();
 				// makes the args
 				Bundle args = new Bundle();
-				args.putCharSequence("ID",product.id);
+				args.putCharSequence("ID",product.productID);
 				// sets the args
 				dialog.setArguments(args);
 				// shows the dialog
-				dialog.show(getFragmentManager(),String.format("delete item %s",product.id));
+				dialog.show(getFragmentManager(),String.format("delete item %s",product.productID));
 			}
 		});
 	}

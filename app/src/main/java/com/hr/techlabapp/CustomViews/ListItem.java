@@ -27,6 +27,7 @@ import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
 
 import java.nio.charset.Charset;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Handler;
@@ -146,7 +147,7 @@ public class ListItem extends ConstraintLayout {
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.name);
+		this.name.setText(product.name.get(Locale.getDefault().getDisplayLanguage()));
 		// TODO: Get availability from API
 		this.availability.setText(getResources().getString(R.string.availability, 4, 5));
 	}
@@ -168,8 +169,7 @@ public class ListItem extends ConstraintLayout {
 				if (isVisibleToUser()) {
 					// gets a random image
 					// TODO: make it not random
-					byte[] imbytes = product.image.getBytes(Charset.forName("UTF-8"));
-					Bitmap im = BitmapFactory.decodeByteArray(imbytes,0,imbytes.length);
+					Bitmap im = product.image;
 					int imh = im.getHeight();
 					int imw = im.getWidth();
 					int aspectRatio = imw / imh;

@@ -81,8 +81,9 @@ public class ProductListFragment extends Fragment {
 			public void onClick(View v) {
 				Product p = v instanceof GridItem? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
 				Bundle b = new Bundle();
-				b.putString(PRODUCT_CATEGORY_KEY, p.category);
-				b.putString(PRODUCT_ID_KEY, p.id);
+				// TODO fix
+				b.putString(PRODUCT_CATEGORY_KEY, p.categoryID);
+				b.putString(PRODUCT_ID_KEY, p.productID);
 				b.putString(PRODUCT_IMAGE_KEY, p.image);
 				b.putString(PRODUCT_NAME_KEY, p.name);
 				b.putString(PRODUCT_MANUFACTURER_KEY, p.manufacturer);

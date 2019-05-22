@@ -129,11 +129,11 @@ public class loginFragment extends Fragment {
 				try {
 					Authentication.registerUser(params[0], params[1]);
 					return 0;
-				}catch (Exceptions.AlreadyExists _){
+				}catch (Exceptions.AlreadyExists e){
 					return 1;
-				}catch (Exceptions.InvalidPassword _){
+				}catch (Exceptions.InvalidPassword e){
 					return 2;
-				} catch (Exceptions.NetworkingException _){
+				} catch (Exceptions.NetworkingException e){
 					return -1;
 				}
 			} catch (JSONException e){

@@ -146,7 +146,7 @@ public class ListItem extends ConstraintLayout {
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.name);
+		this.name.setText(product.getName());
 		// TODO: Get availability from API
 		this.availability.setText(getResources().getString(R.string.availability, 4, 5));
 	}
@@ -168,6 +168,7 @@ public class ListItem extends ConstraintLayout {
 				if (isVisibleToUser()) {
 					// gets a random image
 					// TODO: make it not random
+					// TODO: Use new imageId and image values
 					byte[] imbytes = product.image.getBytes(Charset.forName("UTF-8"));
 					Bitmap im = BitmapFactory.decodeByteArray(imbytes,0,imbytes.length);
 					int imh = im.getHeight();

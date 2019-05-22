@@ -59,6 +59,7 @@ public class CheckLendRequestFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		// TODO Fix
 		product = new Product(
 				getArguments().getString(PRODUCT_MANUFACTURER_KEY),
 				getArguments().getString(PRODUCT_ID_KEY),
@@ -75,7 +76,7 @@ public class CheckLendRequestFragment extends Fragment {
 		requestDate = getView().findViewById(R.id.request_date);
 		requestDate.setText(getResources().getString(R.string.date_of_request, Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(), Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime(),Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime()));
 		name = getView().findViewById(R.id.name);
-		name.setText(product.name);
+		name.setText(product.getName());
 		amount = getView().findViewById(R.id.amount);
 		// TODO: get availability from api
 		amount.setText(getResources().getString(R.string.amount_value,4));

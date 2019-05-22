@@ -42,7 +42,7 @@ public class Authentication {
 
             JSONObject responseData = (JSONObject) Connection.Send(request);
             loginFragment.currentUser = new User(username, hash, responseData.getLong("token"), responseData.getInt("permissionLevel"));
-        } catch (Exceptions.InvalidLogin _){
+        } catch (Exceptions.InvalidLogin e){
             return false;
         } catch (JSONException e){
             throw new RuntimeException(e);

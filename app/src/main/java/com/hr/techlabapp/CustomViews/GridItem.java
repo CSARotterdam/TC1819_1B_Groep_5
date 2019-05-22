@@ -194,7 +194,7 @@ public class GridItem extends ConstraintLayout {
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.name);
+		this.name.setText(product.getName());
 		// TODO: get availability from API
 		this.availability.setText(getResources().getString(R.string.availability, 4,5));
 	}

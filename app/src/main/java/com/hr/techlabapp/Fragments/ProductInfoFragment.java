@@ -1,11 +1,12 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +16,21 @@ import android.widget.TextView;
 
 import androidx.navigation.Navigation;
 
-import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.CustomViews.DeleteItemDialog;
-import com.hr.techlabapp.Classes.Product;
+import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
+
+import java.nio.charset.Charset;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ProductInfoFragment extends Fragment {
-	public static final String ProductArgumentKey = "ProductNameKey";
+	public static final String PRODUCT_NAME_KEY = "ProductName";
+	public static final String PRODUCT_IMAGE_KEY = "ProductImage";
+	public static final String PRODUCT_ID_KEY = "ProductId";
+	public static final String PRODUCT_MANUFACTURER_KEY = "ProductManufacturer";
+	public static final String PRODUCT_CATEGORY_KEY = "ProductCategory";
 
 	private Product product;
 	
@@ -54,22 +60,28 @@ public class ProductInfoFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		product = Product.GetProductByID(getArguments().getString(ProductArgumentKey));
-
+		product = new Product(
+				getArguments().getString(PRODUCT_ID_KEY),
+				getArguments().getString(PRODUCT_MANUFACTURER_KEY),
+				getArguments().getString(PRODUCT_CATEGORY_KEY),
+				getArguments().getString(PRODUCT_NAME_KEY),
+				getArguments().getString(PRODUCT_IMAGE_KEY)
+			);
 		image = getView().findViewById(R.id.image);
-		image.setImageBitmap(product.getImage());
-
+		byte[] imbytes = product.image.getBytes(Charset.forName("UTF-8"));
+		image.setImageBitmap(BitmapFactory.decodeByteArray(imbytes,0,imbytes.length));
 		// sets the string values
 		name = getView().findViewById(R.id.product_name);
-		name.setText(product.getName());
+		name.setText(product.name);
 		id = getView().findViewById(R.id.product_id);
-		id.setText(product.getProductID());
+		id.setText(product.id);
 		man = getView().findViewById(R.id.product_man);
-		man.setText(product.getManufacturer());
+		man.setText(product.manufacturer);
 		cat = getView().findViewById(R.id.product_cat);
-		cat.setText(product.getProductCategory());
+		cat.setText(product.category);
 		stock = getView().findViewById(R.id.product_stock);
-		stock.setText(String.valueOf(product.getProductsAvailable()));
+		// TODO: Get availability from the api
+		stock.setText(String.valueOf(4));
 
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
@@ -84,11 +96,11 @@ public class ProductInfoFragment extends Fragment {
 				DeleteItemDialog dialog = new DeleteItemDialog();
 				// makes the args
 				Bundle args = new Bundle();
-				args.putCharSequence("ID",product.getProductID());
+				args.putCharSequence("ID",product.id);
 				// sets the args
 				dialog.setArguments(args);
 				// shows the dialog
-				dialog.show(getFragmentManager(),String.format("delete item %s",product.getProductID()));
+				dialog.show(getFragmentManager(),String.format("delete item %s",product.id));
 			}
 		});
 	}

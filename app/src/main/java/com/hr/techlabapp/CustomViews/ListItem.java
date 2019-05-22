@@ -15,6 +15,7 @@ import android.support.constraint.ConstraintSet;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,10 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.hr.techlabapp.Classes.Product;
+import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
 
+import java.nio.charset.Charset;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Handler;
@@ -32,7 +34,7 @@ import java.util.logging.LogRecord;
 
 public class ListItem extends ConstraintLayout {
 	private Product product;
-	private boolean ImageLoaded  = false;
+	private boolean ImageLoaded = false;
 
 	@DrawableRes
 	private final static int[] images = new int[] { R.drawable.arduino, R.drawable.cuteaf };
@@ -120,7 +122,7 @@ public class ListItem extends ConstraintLayout {
 		image = new ImageView(context);
 		image.setId(R.id.image);
 		name = new TextView(context);
-		name.setId(ViewCompat.generateViewId());
+		name.setId(R.id.name);
 		name.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
 		name.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -144,68 +146,64 @@ public class ListItem extends ConstraintLayout {
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.getName());
-		this.availability.setText(getResources().getString(R.string.availability, product.getProductsAvailable(),
-				product.getProductCount()));
+		this.name.setText(product.name);
+		// TODO: Get availability from API
+		this.availability.setText(getResources().getString(R.string.availability, 4, 5));
 	}
 
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
-		Scrolled();
+		new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	public Product getProduct() {
 		return product;
 	}
 
-	public void Scrolled() {
-		ShowImage s = new ShowImage();
-		s.execute();
-	}
-
-	class ShowImage extends AsyncTask<Void,Void,Void>{
+	class ShowImage extends AsyncTask<Void, Void, Bitmap> {
+		@Override
+		protected Bitmap doInBackground(Void... voids) {
+			while (!ImageLoaded)
+				if (isVisibleToUser()) {
+					// gets a random image
+					// TODO: make it not random
+					byte[] imbytes = product.image.getBytes(Charset.forName("UTF-8"));
+					Bitmap im = BitmapFactory.decodeByteArray(imbytes,0,imbytes.length);
+					int imh = im.getHeight();
+					int imw = im.getWidth();
+					int aspectRatio = imw / imh;
+					// sets the new img width and height depending of the aspect ratio of the image
+					// TODO: should use attributes
+					int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
+					int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
+					// Scales the bitmap
+					ImageLoaded = true;
+					return Bitmap.createScaledBitmap(im, nimw, nimh, false);
+				}
+			return null;
+		}
 
 		@Override
-		protected Void doInBackground(Void... voids) {
-			if(!ImageLoaded && isVisibleToUser()) {
-				Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
-				product.setImage(im);
-				int imh = im.getHeight();
-				int imw = im.getWidth();
-				int aspectRatio = imw / imh;
-				// TODO: should use attributes
-				int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
-				int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
-				final Bitmap fim = Bitmap.createScaledBitmap(im, nimw, nimh, false);
-				((Activity)getContext()).runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						image.setImageBitmap(fim);
-						image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-					}
-				});
-				ImageLoaded = true;
-			}
-			return null;
+		protected void onPostExecute(Bitmap aVoid) {
+			super.onPostExecute(aVoid);
+			if (aVoid == null)
+				return;
+			image.setImageBitmap(aVoid);
+			image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		}
 	}
 
-
 	public void setProduct(Product p) {
 		this.product = p;
-		// sets the image for the current product
-		/// currently no use will be usefull when not all images are loaded
-		/// and we want to load images only once they apear
-		p.setImage(this.image.getDrawable());
 		setValues();
 	}
 
-	private boolean isVisibleToUser(){
+	private boolean isVisibleToUser() {
 		Rect scrollBounds = new Rect();
-		View parent = (View)getParent();
+		View parent = (View) getParent();
 		while (!(parent instanceof ScrollView))
-			parent = (View)parent.getParent();
+			parent = (View) parent.getParent();
 		parent.getHitRect(scrollBounds);
 		return getLocalVisibleRect(scrollBounds);
 	}

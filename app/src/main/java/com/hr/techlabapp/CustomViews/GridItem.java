@@ -16,6 +16,7 @@ import android.support.constraint.ConstraintSet;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +24,18 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.hr.techlabapp.Classes.Product;
+import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class GridItem extends ConstraintLayout {
 
 	private Product product;
-	private boolean ImageLoaded  = false;
+	private boolean ImageLoaded = false;
 	// Useless just a place holder will be removed when we can get images from the
 	// database
 	@DrawableRes
@@ -125,7 +129,7 @@ public class GridItem extends ConstraintLayout {
 		image = new ImageView(context);
 		image.setId(R.id.image);
 		name = new TextView(context);
-		name.setId(ViewCompat.generateViewId());
+		name.setId(R.id.name);
 		name.setTextColor(ContextCompat.getColor(context, R.color.textColor));
 		name.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -145,7 +149,7 @@ public class GridItem extends ConstraintLayout {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
-		Scrolled();
+		new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	private void SetConstraints() {
@@ -155,51 +159,45 @@ public class GridItem extends ConstraintLayout {
 		setConstraintSet(CSS);
 	}
 
-
-	public void Scrolled() {
-		ShowImage s = new ShowImage();
-		s.execute();
-	}
-
-	class ShowImage extends AsyncTask<Void,Void,Void> {
+	class ShowImage extends AsyncTask<Void, Void, Bitmap> {
 
 		@Override
-		protected Void doInBackground(Void... voids) {
-			// checks if the image isn't already loaded and visible to the user
-			if(!ImageLoaded && isVisibleToUser()) {
-				// gets a random image
-				// TODO: make it not random
-				Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
-				// sets the image of the product
-				product.setImage(im);
-				int imh = im.getHeight();
-				int imw = im.getWidth();
-				int aspectRatio = imw / imh;
-				// sets the new img width and height depending of the aspect ratio of the image
-				// TODO: should use attributes
-				int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
-				int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
-				// Scales the bitmap
-				final Bitmap fim = Bitmap.createScaledBitmap(im, nimw, nimh, false);
-				((Activity)getContext()).runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						// Draws the image
-						image.setImageBitmap(fim);
-						image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-					}
-				});
-				ImageLoaded = true;
-			}
+		protected Bitmap doInBackground(Void... voids) {
+			while (!ImageLoaded)
+				if (isVisibleToUser()) {
+					// checks if the image isn't already loaded and visible to the user
+					// gets a random image
+					byte[] imbytes = product.image.getBytes(Charset.forName("UTF-8"));
+					Bitmap im = BitmapFactory.decodeByteArray(imbytes,0,imbytes.length);
+					int imh = im.getHeight();
+					int imw = im.getWidth();
+					int aspectRatio = imw / imh;
+					// sets the new img width and height depending of the aspect ratio of the image
+					// TODO: should use attributes
+					int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
+					int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
+					// Scales the bitmap
+					ImageLoaded = true;
+					return Bitmap.createScaledBitmap(im, nimw, nimh, false);
+				}
 			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap aVoid) {
+			super.onPostExecute(aVoid);
+			if (aVoid == null)
+				return;
+			image.setImageBitmap(aVoid);
+			image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		}
 	}
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.getName());
-		this.availability.setText(getResources().getString(R.string.availability, product.getProductsAvailable(),
-				product.getProductCount()));
+		this.name.setText(product.name);
+		// TODO: get availability from API
+		this.availability.setText(getResources().getString(R.string.availability, 4,5));
 	}
 
 	public Product getProduct() {
@@ -212,12 +210,12 @@ public class GridItem extends ConstraintLayout {
 	}
 
 	// gets if the view is visible to the user
-	private boolean isVisibleToUser(){
+	private boolean isVisibleToUser() {
 		Rect scrollBounds = new Rect();
 		// gets the scrollview
-		View parent = (View)getParent();
+		View parent = (View) getParent();
 		while (!(parent instanceof ScrollView))
-			parent = (View)parent.getParent();
+			parent = (View) parent.getParent();
 		// sets the visible Rect to scrollBounds
 		parent.getHitRect(scrollBounds);
 		// check's if the view is in the visible rect

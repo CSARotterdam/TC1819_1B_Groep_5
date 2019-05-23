@@ -130,9 +130,8 @@ public final class Product {
         List<Product> out = new ArrayList<>();
         for (int i = 0; i < responseData.length(); i++) {
             JSONObject product = (JSONObject) responseData.get(i);
-            HashMap<String, String> name = null;
+            HashMap<String, String> name = new HashMap<>();
             if (product.has("name") && languages != null) {
-                name = new HashMap<>();
                 Iterator<String> itr = ((JSONObject)product.get("name")).keys();
                 while (itr.hasNext()) {
                     String key = itr.next();

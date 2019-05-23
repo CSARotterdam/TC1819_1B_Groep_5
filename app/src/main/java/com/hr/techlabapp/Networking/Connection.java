@@ -55,10 +55,8 @@ class Connection {
                 sb.append(s);
             }
             JSONObject response = new JSONObject(sb.toString());
-            Log.i(TAG, response.toString());
-            JSONObject responseBody = (JSONObject) response.get("body");
-            String reason = responseBody.optString("reason");
-            String message = responseBody.optString("message");
+            String reason = response.optString("reason");
+            String message = response.optString("message");
 
             switch (reason) {
                 case "ExpiredToken":
@@ -84,7 +82,7 @@ class Connection {
                 case "Exception": throw new Exceptions.NetworkingException(message);
                 case "": throw new Exceptions.UnexpectedServerResponse();
             }
-            responseData = responseBody.opt("responseData");
+            responseData = response.opt("responseData");
         } catch (IOException e){
             Log.e("Connection.Send()", e.getMessage(), e);
             throw new Exceptions.NetworkingException(e);

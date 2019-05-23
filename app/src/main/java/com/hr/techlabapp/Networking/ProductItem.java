@@ -46,13 +46,12 @@ public final class ProductItem {
         Iterator<String> itr = responseData.keys();
         while (itr.hasNext()) {
             String key = itr.next();
-            JSONArray items = ((JSONObject)responseData).getJSONArray(key);
+            JSONArray items = responseData.getJSONArray(key);
             List<ProductItem> outSubset = new ArrayList<>();
             for (int i = 0; i < items.length(); i++) {
-                JSONObject item = (JSONObject) items.get(i);
                 outSubset.add(new ProductItem(
-                        (Integer) item.opt("id"),
-                        (String) item.opt("product")
+                        (Integer) items.opt(0),
+                        key
                 ));
             }
             out.put(key, outSubset);

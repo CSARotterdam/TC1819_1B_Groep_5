@@ -10,10 +10,10 @@
         android:layout_width="318dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:textStyle="bold"
-        android:fontFamily="sans-serif-thin"
-        android:text=" your language :"
+        android:fontFamily="sans-serif-light"
+        android:text=" Your language :"
         android:textColor="#000"
         android:textSize="40dp" />
     <TextView
@@ -24,7 +24,7 @@
         android:layout_marginLeft="100dp"
         android:textColor="#fff"
         android:textStyle="bold"
-        android:background="@color/colorAccent"
+        android:background="#CC0133"
         android:textSize="40dp"/>
     <TextView
         android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
         android:text="English"
         android:layout_marginTop="400dp"
         android:layout_marginLeft="135dp"
-        android:background="@color/colorAccent"
+        android:background="#CC0133"
         android:textColor="#fff"
         android:textStyle="bold"
         android:textSize="40dp"/>
@@ -43,7 +43,7 @@
         android:text="العربية"
         android:layout_marginTop="500dp"
         android:layout_marginLeft="150dp"
-        android:background="@color/colorAccent"
+        android:background="#CC0133"
         android:textColor="#fff"
         android:textSize="40dp"
         />

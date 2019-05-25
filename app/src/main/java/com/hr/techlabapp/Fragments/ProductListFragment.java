@@ -84,7 +84,7 @@ public class ProductListFragment extends Fragment {
 				Product p = v instanceof GridItem? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
 				Bundle b = new Bundle();
 				b.putString(PRODUCT_CATEGORY_KEY, p.categoryID);
-				b.putString(PRODUCT_ID_KEY, p.productID);
+				b.putString(PRODUCT_ID_KEY, p.ID);
 				b.putString(PRODUCT_IMAGE_KEY, null);
 				b.putString(PRODUCT_NAME_KEY, p.getName());
 				b.putString(PRODUCT_MANUFACTURER_KEY, p.manufacturer);

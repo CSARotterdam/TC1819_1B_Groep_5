@@ -69,7 +69,7 @@ public class Authentication {
             .put("requestData", new JSONObject()
                 .put("username", username)
                 .put("password", hash)
-            );
+        );
 
         Connection.Send(request);
     }

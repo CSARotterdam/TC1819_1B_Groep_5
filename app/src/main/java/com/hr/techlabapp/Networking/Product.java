@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public final class Product {
-    public String productID;
+    public String ID;
     private String productIDCopy;
     public String manufacturer;
     public String categoryID;
@@ -29,21 +29,21 @@ public final class Product {
     public Bitmap image;
     public String imageId;
 
-    public Product(String productID, String manufacturer, HashMap<String, String> name){
-        this(productID, manufacturer, "uncategorized", name, null);
+    public Product(String ID, String manufacturer, HashMap<String, String> name){
+        this(ID, manufacturer, "uncategorized", name, null);
     }
 
-    public Product(String productID, String manufacturer, String categoryID, HashMap<String, String> name){
-        this(productID, manufacturer, categoryID, name, null);
+    public Product(String ID, String manufacturer, String categoryID, HashMap<String, String> name){
+        this(ID, manufacturer, categoryID, name, null);
     }
 
-    public Product(String productID, String manufacturer, String categoryID, HashMap<String, String> name, String imageId){
-        this(productID, manufacturer, categoryID, name, null, imageId);
+    public Product(String ID, String manufacturer, String categoryID, HashMap<String, String> name, String imageId){
+        this(ID, manufacturer, categoryID, name, null, imageId);
     }
 
-    public Product(String productID, String manufacturer, String categoryID, HashMap<String, String> name, Bitmap image, String imageId) {
-        this.productID = productID;
-        this.productIDCopy = productID;
+    public Product(String ID, String manufacturer, String categoryID, HashMap<String, String> name, Bitmap image, String imageId) {
+        this.ID = ID;
+        this.productIDCopy = ID;
         this.manufacturer = manufacturer;
         this.categoryID = categoryID;
         this.name = name;
@@ -53,7 +53,7 @@ public final class Product {
 
     protected Map<String, Object> getValues() {
         Map<String, Object> out = new ArrayMap<>();
-        out.put("id", productID);
+        out.put("id", ID);
         out.put("manufacturer", manufacturer);
         out.put("category", categoryID);
         out.put("name", name);
@@ -173,7 +173,7 @@ public final class Product {
             .put("token", loginFragment.currentUser.token)
             .put("requestType", "addProduct")
             .put("requestData", new JSONObject()
-                .put("productID", product.productID)
+                .put("productID", product.ID)
                 .put("categoryID", product.categoryID)
                 .put("manufacturer", product.manufacturer)
                 .put("image", encodedImage)
@@ -183,14 +183,14 @@ public final class Product {
         Connection.Send(request);
     }
 
-    public static void deleteProduct(String productID) throws JSONException{
+    public static void deleteProduct(String ID) throws JSONException{
         //Create request
         JSONObject request = new JSONObject()
             .put("username", loginFragment.currentUser.username)
             .put("token", loginFragment.currentUser.token)
             .put("requestType", "deleteProduct")
             .put("requestData", new JSONObject()
-                .put("productID", productID)
+                .put("productID", ID)
             );
 
         Connection.Send(request);
@@ -214,7 +214,7 @@ public final class Product {
             .put("requestType", "updateProduct")
             .put("requestData", new JSONObject()
                 .put("productID", product.productIDCopy)
-                .put("newProductID", product.productID)
+                .put("newProductID", product.ID)
                 .put("categoryID", product.categoryID)
                 .put("manufacturer", product.manufacturer)
                 .put("image", encodedImage)

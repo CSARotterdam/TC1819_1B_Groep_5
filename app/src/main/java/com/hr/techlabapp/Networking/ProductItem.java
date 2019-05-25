@@ -27,7 +27,7 @@ public final class ProductItem {
      *
      * @param productIds An array of product id's whose items to return.
      * @return A map containing a list of items per specified product.
-     * @throws JSONException
+     * @throws JSONException Shouldn't ever happen but whatever.
      */
     public static HashMap<String, List<ProductItem>> getProductItems(String... productIds)
         throws JSONException {

@@ -77,7 +77,7 @@ public class ProductInfoFragment extends Fragment {
 		name = getView().findViewById(R.id.product_name);
 		name.setText(product.getName());
 		id = getView().findViewById(R.id.product_id);
-		id.setText(product.productID);
+		id.setText(product.ID);
 		man = getView().findViewById(R.id.product_man);
 		man.setText(product.manufacturer);
 		cat = getView().findViewById(R.id.product_cat);
@@ -99,11 +99,11 @@ public class ProductInfoFragment extends Fragment {
 				DeleteItemDialog dialog = new DeleteItemDialog();
 				// makes the args
 				Bundle args = new Bundle();
-				args.putCharSequence("ID",product.productID);
+				args.putCharSequence("ID",product.ID);
 				// sets the args
 				dialog.setArguments(args);
 				// shows the dialog
-				dialog.show(getFragmentManager(),String.format("delete item %s",product.productID));
+				dialog.show(getFragmentManager(),String.format("delete item %s",product.ID));
 			}
 		});
 	}

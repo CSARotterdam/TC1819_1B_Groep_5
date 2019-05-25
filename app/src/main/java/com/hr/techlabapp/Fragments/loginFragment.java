@@ -22,11 +22,13 @@ import com.hr.techlabapp.Networking.Authentication;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.ProductCategory;
+import com.hr.techlabapp.Networking.Statistics;
 import com.hr.techlabapp.Networking.User;
 import com.hr.techlabapp.R;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -40,6 +42,7 @@ public class loginFragment extends Fragment {
 
 	Button LoginButton;
 	Button RegisterButton;
+	Button TestButton;
 
 	public loginFragment() {
 		// Required empty public constructor
@@ -81,6 +84,34 @@ public class loginFragment extends Fragment {
 				new  RegisterActivity().execute(username, password);
 			}
 		});
+		TestButton = getView().findViewById(R.id.testButton);
+		TestButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.i(TAG, "click");
+				new TestActivity().execute();
+			}
+		});
+	}
+
+	public class TestActivity extends AsyncTask<Void, Void, HashMap<String, HashMap<String, Integer>>>{
+		@SafeVarargs
+		protected final HashMap<String, HashMap<String, Integer>> doInBackground(Void... voids) {
+			Log.i(TAG, "exec");
+			HashMap map = new HashMap();
+			try {
+				Authentication.LoginUser("test", "password");
+				Log.i(TAG, "authed");
+				ArrayList<String> list = new ArrayList<>();
+				list.add("lizard");
+				map = Statistics.getProductAvailability(list);
+				Log.i(TAG, map.toString());
+				return map;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return map;
+		}
 	}
 
 	public class LoginActivity extends AsyncTask<String, Void, Boolean> {

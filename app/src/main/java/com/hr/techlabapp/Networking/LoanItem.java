@@ -1,7 +1,5 @@
 package com.hr.techlabapp.Networking;
 
-import android.util.JsonReader;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,8 +25,8 @@ public class LoanItem {
      * @return The LoanItem that was created.
      * @throws JSONException
      */
-    public static void addLoan(Product product, LocalDate start, LocalDate end) throws JSONException{
-        addLoan(product.productID, start, end);
+    public static LoanItem addLoan(Product product, LocalDate start, LocalDate end) throws JSONException{
+        return addLoan(product.ID, start, end);
     }
 
     /**

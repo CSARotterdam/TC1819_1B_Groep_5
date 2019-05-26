@@ -1,6 +1,7 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import com.hr.techlabapp.R;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_CATEGORY_KEY;
@@ -67,37 +69,47 @@ public class ProductListFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		Products = getView().findViewById(R.id.products);
-
-		// adds random products
-		try {
-			for (Product p : Product.getProducts(null,null))
-				Products.AddProduct(p);
-		}
-		catch (JSONException ex)
-		{
-			Log.e("JSON", ex.getMessage(),ex.getCause());
-		}
-		// sets the itemClicked
-		// TODO: Fix this
-		Products.setItemClicked(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Product p = v instanceof GridItem? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
-				Bundle b = new Bundle();
-				b.putString(PRODUCT_CATEGORY_KEY, p.categoryID);
-				b.putString(PRODUCT_ID_KEY, p.ID);
-				b.putString(PRODUCT_MANUFACTURER_KEY, p.manufacturer);
-				b.putString(PRODUCT_IMAGE_ID_KEY, p.imageId);
-				b.putSerializable(PRODUCT_NAME_KEY, p.name);
-				b.putParcelable(PRODUCT_IMAGE_KEY, p.image);
-				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_productInfoFragment,b);
-			}
-		});
-
+		(new FillProducts()).execute();
 		addProduct = getView().findViewById(R.id.add_product);
 		addProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_addProductFragment));
 
 		statistics = getView().findViewById(R.id.statistics);
 		statistics.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_statisticsFragment));
+	}
+
+	class FillProducts extends AsyncTask<Void, Void, List<Product>>{
+
+		@Override
+		protected List<Product> doInBackground(Void... voids) {
+			try{
+				return  Product.getProducts(null,null);
+			}
+			catch (JSONException ex){
+				return  null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(List<Product> products) {
+			super.onPostExecute(products);
+			if(products == null)
+				return;
+			for (Product p : products)
+				Products.AddProduct(p);
+			Products.setItemClicked(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Product p = v instanceof GridItem? ((GridItem) v).getProduct(): ((ListItem)v).getProduct();
+					Bundle b = new Bundle();
+					b.putString(PRODUCT_CATEGORY_KEY, p.categoryID);
+					b.putString(PRODUCT_ID_KEY, p.ID);
+					b.putString(PRODUCT_MANUFACTURER_KEY, p.manufacturer);
+					b.putString(PRODUCT_IMAGE_ID_KEY, p.imageId);
+					b.putSerializable(PRODUCT_NAME_KEY, p.name);
+					b.putParcelable(PRODUCT_IMAGE_KEY, p.image);
+					Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_productInfoFragment,b);
+				}
+			});
+		}
 	}
 }

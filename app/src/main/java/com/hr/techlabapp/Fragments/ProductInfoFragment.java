@@ -21,6 +21,7 @@ import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
 
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -29,6 +30,7 @@ import java.util.Locale;
 public class ProductInfoFragment extends Fragment {
 	public static final String PRODUCT_NAME_KEY = "ProductName";
 	public static final String PRODUCT_IMAGE_KEY = "ProductImage";
+	public static final String PRODUCT_IMAGE_ID_KEY = "ProductImageID";
 	public static final String PRODUCT_ID_KEY = "ProductId";
 	public static final String PRODUCT_MANUFACTURER_KEY = "ProductManufacturer";
 	public static final String PRODUCT_CATEGORY_KEY = "ProductCategory";
@@ -61,16 +63,14 @@ public class ProductInfoFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
-/*		product = new Product(
-		// TODO Fix
 		product = new Product(
-				getArguments().getString(PRODUCT_ID_KEY),
+				getArguments().getString(PRODUCT_ID_KEY), 
 				getArguments().getString(PRODUCT_MANUFACTURER_KEY),
 				getArguments().getString(PRODUCT_CATEGORY_KEY),
-				getArguments().getString(PRODUCT_NAME_KEY),
-				getArguments().getString(PRODUCT_IMAGE_KEY)
-			);*/
+				(HashMap<String, String>) getArguments().getSerializable(PRODUCT_NAME_KEY),
+				(Bitmap) getArguments().getParcelable(PRODUCT_IMAGE_KEY),
+				getArguments().getString(PRODUCT_IMAGE_ID_KEY));
+
 		image = getView().findViewById(R.id.image);
 		image.setImageBitmap(product.image);
 		// sets the string values

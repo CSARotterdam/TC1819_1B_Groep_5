@@ -24,9 +24,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.hr.techlabapp.Networking.Product;
+import com.hr.techlabapp.Networking.Statistics;
 import com.hr.techlabapp.R;
 
+import org.json.JSONException;
+
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
@@ -37,10 +41,6 @@ public class ListItem extends ConstraintLayout {
 	private Product product;
 	private boolean ImageLoaded = false;
 
-	@DrawableRes
-	private final static int[] images = new int[] { R.drawable.arduino, R.drawable.cuteaf };
-
-	private final static Random r = new Random();
 	private ImageView image;
 	private TextView name;
 	private TextView availability;
@@ -145,11 +145,18 @@ public class ListItem extends ConstraintLayout {
 		setConstraintSet(CSS);
 	}
 
+
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.name.get(Locale.getDefault().getDisplayLanguage()));
-		// TODO: Get availability from API
-		this.availability.setText(getResources().getString(R.string.availability, 4, 5));
+		this.name.setText(product.getName());
+		// TODO: get availability from API
+		try {
+			HashMap<String, Integer> Av = Statistics.getProductAvailability(product.ID).get(product.ID);
+			this.availability.setText(getResources().getString(R.string.availability, Av.get("inStock"), Av.get("total")));
+		}
+		catch (JSONException ex){
+			this.availability.setText(getResources().getString(R.string.availability,0,0));
+		}
 	}
 
 	@Override

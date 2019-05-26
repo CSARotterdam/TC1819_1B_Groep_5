@@ -109,6 +109,7 @@
 		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/or" />
 
+	<!--TODO: Make it work-->
 	<Button
 		android:id="@+id/testButton"
 		android:layout_width="wrap_content"

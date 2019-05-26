@@ -33,6 +33,7 @@ import java.util.Locale;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_CATEGORY_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_ID_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_IMAGE_KEY;
+import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_IMAGE_ID_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_MANUFACTURER_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_NAME_KEY;
 
@@ -85,9 +86,10 @@ public class ProductListFragment extends Fragment {
 				Bundle b = new Bundle();
 				b.putString(PRODUCT_CATEGORY_KEY, p.categoryID);
 				b.putString(PRODUCT_ID_KEY, p.ID);
-				b.putString(PRODUCT_IMAGE_KEY, null);
-				b.putString(PRODUCT_NAME_KEY, p.getName());
 				b.putString(PRODUCT_MANUFACTURER_KEY, p.manufacturer);
+				b.putString(PRODUCT_IMAGE_ID_KEY, p.imageId);
+				b.putSerializable(PRODUCT_NAME_KEY, p.name);
+				b.putParcelable(PRODUCT_IMAGE_KEY, p.image);
 				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_productInfoFragment,b);
 			}
 		});

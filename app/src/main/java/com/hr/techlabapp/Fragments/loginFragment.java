@@ -138,14 +138,6 @@ public class loginFragment extends Fragment {
 		}
 	}
 
-	public void registerButton(View view){
-		EditText usernameField = (EditText)getView().findViewById(R.id.username);
-		String username = usernameField.getText().toString();
-		EditText passwordField = (EditText)getView().findViewById((R.id.password));
-		String password = passwordField.getText().toString();
-		new  RegisterActivity().execute(username, password);
-	}
-
 	public class RegisterActivity extends AsyncTask<String, Void, Integer> {
 		private ProgressDialog dialog;
 

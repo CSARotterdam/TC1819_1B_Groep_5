@@ -32,7 +32,7 @@ class Connection {
 
         try {
             //Connect to server
-            URL url = new URL("http://" + address + "/");
+            URL url = new URL(new StringBuilder().append("http://").append(address).append("/").toString());
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestMethod("POST");
@@ -51,6 +51,7 @@ class Connection {
             BufferedReader d = new BufferedReader(new InputStreamReader(inStream));
             StringBuilder sb = new StringBuilder();
             String s;
+            //noinspection ConstantOnRightSideOfComparison
             while ((s = d.readLine()) != null) {
                 sb.append(s);
             }

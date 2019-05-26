@@ -40,6 +40,7 @@ import java.util.logging.LogRecord;
 public class ListItem extends ConstraintLayout {
 	private Product product;
 	private boolean ImageLoaded = false;
+	private boolean isAvailablitySet = false;
 
 	private ImageView image;
 	private TextView name;
@@ -149,13 +150,36 @@ public class ListItem extends ConstraintLayout {
 	private void setValues() {
 		// sets the values
 		this.name.setText(product.getName());
-		// TODO: get availability from API
-		try {
-			HashMap<String, Integer> Av = Statistics.getProductAvailability(product.ID).get(product.ID);
-			this.availability.setText(getResources().getString(R.string.availability, Av.get("inStock"), Av.get("total")));
+		if(!isAvailablitySet) {
+			isAvailablitySet = true;
+			new setAvailability().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		}
-		catch (JSONException ex){
-			this.availability.setText(getResources().getString(R.string.availability,0,0));
+	}
+
+	class setAvailability extends AsyncTask<Void,Void,HashMap<String,Integer>>{
+
+		@Override
+		protected HashMap<String, Integer> doInBackground(Void... voids) {
+			try{
+				return Statistics.getProductAvailability(product.ID).get(product.ID);
+			}
+			catch (JSONException ex){
+				HashMap<String,Integer> HM = new HashMap<>();
+				HM.put("total",0);
+				HM.put("reservations",0);
+				HM.put("loanedOut",0);
+				HM.put("inStock",0);
+				return HM;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(HashMap<String, Integer> stringIntegerHashMap) {
+			super.onPostExecute(stringIntegerHashMap);
+			availability.setText(getResources().getString(R.string.availability,
+					stringIntegerHashMap.get("inStock"),
+					stringIntegerHashMap.get("total")));
+
 		}
 	}
 

@@ -166,7 +166,7 @@ public class GridItem extends ConstraintLayout {
 				if (isVisibleToUser()) {
 					// checks if the image isn't already loaded and visible to the user
 					// gets a random image
-					Bitmap im = product.image;
+					Bitmap im = product.image != null? product.image: BitmapFactory.decodeResource(getResources(),R.drawable.cuteaf);
 					int imh = im.getHeight();
 					int imw = im.getWidth();
 					int aspectRatio = imw / imh;
@@ -195,12 +195,33 @@ public class GridItem extends ConstraintLayout {
 		// sets the values
 		this.name.setText(product.getName());
 		// TODO: get availability from API
-		try {
-			HashMap<String, Integer> Av = Statistics.getProductAvailability(product.ID).get(product.ID);
-			this.availability.setText(getResources().getString(R.string.availability, Av.get("inStock"), Av.get("total")));
+		new setAvailability().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	}
+
+	class setAvailability extends AsyncTask<Void,Void,HashMap<String,Integer>>{
+
+		@Override
+		protected HashMap<String, Integer> doInBackground(Void... voids) {
+			try{
+				return Statistics.getProductAvailability(product.ID).get(product.ID);
+			}
+			catch (JSONException ex){
+				HashMap<String,Integer> HM = new HashMap<>();
+				HM.put("total",0);
+				HM.put("reservations",0);
+				HM.put("loanedOut",0);
+				HM.put("inStock",0);
+				return HM;
+			}
 		}
-		catch (JSONException ex){
-			this.availability.setText(getResources().getString(R.string.availability,0,0));
+
+		@Override
+		protected void onPostExecute(HashMap<String, Integer> stringIntegerHashMap) {
+			super.onPostExecute(stringIntegerHashMap);
+			availability.setText(getResources().getString(R.string.availability,
+					stringIntegerHashMap.get("inStock"),
+					stringIntegerHashMap.get("total")));
+
 		}
 	}
 

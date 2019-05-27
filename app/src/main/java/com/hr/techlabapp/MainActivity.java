@@ -77,16 +77,16 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.settings) {
             startActivity(new Intent(MainActivity.this, Main2Activity.class));
-        } else if (id == R.id.My_Items) {
+        }else if (id == R.id.Help) {
+            startActivity(new Intent(MainActivity.this, Help.class));
 
         } else if (id == R.id.Notifications) {
-
-        } else if (id == R.id.Help) {
-            startActivity(new Intent(MainActivity.this, Help.class));
 
         } else if (id == R.id.Log_out) {
 
         } else if (id == R.id.Products) {
+
+        }  else if (id == R.id.My_Items) {
 
         }
 

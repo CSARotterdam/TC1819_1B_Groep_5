@@ -3,30 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@+id/settings">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"/>
         <item
-            android:id="@+id/Products"
-            android:title="Products" />
+            android:id="@+id/English"
+            android:title="English" />
         <item
-            android:id="@+id/My_Items"
-            android:title="My Items" />
+            android:id="@+id/Dutch"
+            android:title="Dutch" />
         <item
-            android:id="@+id/Notifications"
-            android:title="Notifications" />
-        <item
-            android:id="@+id/Help"
-            android:title="Help" />
-    </group>
+            android:id="@+id/Arabic"
+            android:title="العربية" />
 
-    <item android:title="">
-        <menu>
-            <item
-                android:id="@+id/settings"
-                android:title="Settings" />
-            <item
-                android:id="@+id/Log_out"
-                android:title="Log out" />
-
-        </menu>
-    </item>
 </menu>

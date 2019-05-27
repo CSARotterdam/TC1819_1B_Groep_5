@@ -59,7 +59,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.language) {
+            return true;
+        }
+        else if (id == R.id.Help) {
             return true;
         }
 
@@ -79,6 +82,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.Notifications) {
 
         } else if (id == R.id.Help) {
+            startActivity(new Intent(MainActivity.this, Help.class));
 
         } else if (id == R.id.Log_out) {
 

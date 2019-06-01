@@ -10,6 +10,14 @@
 	<string name="or">of</string>
 	<string name="borrow">Lenen</string>
 	<string name="product_name">Product Naam:</string>
+	<string name="product_name_value">Product Name:%36s</string>
+	<string name="product_id">Product ID:</string>
+	<string name="product_id_value">Product ID:%38s</string>
+	<string name="product_cat">Product Categorie:</string>
+	<string name="product_cat_value">Product Categorie:%30s</string>
+	<string name="product_des">Product Beschrijving:</string>
+	<string name="product_des_value">Product Beschrijving:%n%s</string>
+	<string name="available_value">Producten Beschickbaar:%25d</string>
 	<string name="date_of_request">Aanvraag verzonden op: %td-%tm-%tY</string>
 	<string name="user_history">Gebruiker Geschiedenis</string>
 	<string name="user_history_dialog_title">Gebruiker geschiedenis van %07d</string>

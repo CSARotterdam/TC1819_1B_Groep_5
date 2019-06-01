@@ -11,12 +11,20 @@
 	<string name="or">or</string>
 	<string name="borrow">Borrow</string>
 	<string name="product_name">Product Name:</string>
+	<string name="product_name_value">Product Name:%36s</string>
+	<string name="product_id">Product ID:</string>
+	<string name="product_id_value">Product ID:%38s</string>
+	<string name="product_cat">Product Category:</string>
+	<string name="product_cat_value">Product Category:%31s</string>
+	<string name="product_des">Product Description:</string>
+	<string name="product_des_value">Product Description:%n%s</string>
+	<string name="available_value">Products Available:%29d</string>
 	<string name="username_id" translatable="false">%s %s (%07d)</string>
 	<string name="date_of_request">Sent request on: %td-%tm-%tY</string>
 	<string name="user_history">User history</string>
 	<string name="user_history_dialog_title">User history of %07d</string>
-	<string name="amount_value">Amount: %d</string>
 	<string name="amount">Amount:</string>
+	<string name="amount_value">Amount: %d</string>
 	<string name="decline">Decline</string>
 	<string name="accept">Accept</string>
 	<string name="image_description">An image of the product</string>

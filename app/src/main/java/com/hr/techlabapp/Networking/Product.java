@@ -1,6 +1,7 @@
 package com.hr.techlabapp.Networking;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.util.ArrayMap;
 import android.util.Base64;
 import android.util.Log;
@@ -13,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -49,6 +51,47 @@ public final class Product {
         this.name = name;
         this.image = image;
         this.imageId = imageId;
+    }
+
+    /**
+     * Retrieves this product's image from the server. This image is also automatically stored
+     * in the product's image property.
+     * @return The image, as bitmap
+     * @throws JSONException
+     */
+    public Bitmap getImage() throws JSONException{
+        ArrayList<String> IDs = new ArrayList<>();
+        IDs.add(imageId);
+        image = getImages(IDs).get(imageId);
+        return image;
+    }
+
+    public static HashMap<String, Bitmap> getImages(ArrayList<String> IDs) throws JSONException{
+        JSONArray images = new JSONArray(IDs);
+        JSONArray columns = new JSONArray();
+        columns.put("data");
+        JSONObject request = new JSONObject()
+                .put("username", loginFragment.currentUser.username)
+                .put("token", loginFragment.currentUser.token)
+                .put("requestType", "getImages")
+                .put("requestData", new JSONObject()
+                        .put("images", images)
+                        .put("columns", columns)
+                );
+
+        HashMap<String, Bitmap> result = new HashMap<>();
+        JSONObject responseData = (JSONObject) Connection.Send(request);
+        Iterator<String> itr = responseData.keys();
+        while (itr.hasNext()) {
+            String key = itr.next();
+            JSONObject imageData = responseData.getJSONObject(key);
+            String encodedImage = (String) imageData.get("data");
+            byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap image = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            result.put(key, image);
+        }
+
+        return result;
     }
 
     protected Map<String, Object> getValues() {

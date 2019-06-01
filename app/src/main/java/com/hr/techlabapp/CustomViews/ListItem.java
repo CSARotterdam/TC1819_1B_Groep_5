@@ -20,6 +20,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -41,9 +42,12 @@ public class ListItem extends ConstraintLayout {
 	private Product product;
 	private boolean ImageLoaded = false;
 
+	public static HashMap<String,HashMap<String, Integer>> Availability;
+
 	private ImageView image;
 	private TextView name;
 	private TextView availability;
+	private ProgressBar progress;
 
 	public ListItem(Context context) {
 		super(context);
@@ -74,7 +78,11 @@ public class ListItem extends ConstraintLayout {
 	private void Init23(Context context) {
 		image = new ImageView(context);
 		image.setId(R.id.image);
+		image.setVisibility(View.INVISIBLE);
 		// makes the name
+		// makes the progress bar you see when there is no image
+		progress = new ProgressBar(context);
+		progress.setId(R.id.progress);
 		name = new TextView(context);
 		name.setId(R.id.name);
 		name.setTextAlignment(TEXT_ALIGNMENT_CENTER);
@@ -89,6 +97,7 @@ public class ListItem extends ConstraintLayout {
 		availability.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		// adds the views
+		addView(progress);
 		addView(image);
 		addView(availability);
 		addView(name);
@@ -100,6 +109,9 @@ public class ListItem extends ConstraintLayout {
 	private void Init17(Context context) {
 		image = new ImageView(context);
 		image.setId(R.id.image);
+		image.setVisibility(View.INVISIBLE);
+		progress = new ProgressBar(context);
+		progress.setId(R.id.progress);
 		name = new TextView(context);
 		name.setId(R.id.name);
 		name.setTextAlignment(TEXT_ALIGNMENT_CENTER);
@@ -112,6 +124,7 @@ public class ListItem extends ConstraintLayout {
 		availability.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
 		availability.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+		addView(progress);
 		addView(image);
 		addView(availability);
 		addView(name);
@@ -122,6 +135,9 @@ public class ListItem extends ConstraintLayout {
 	private void Init15(Context context) {
 		image = new ImageView(context);
 		image.setId(R.id.image);
+		image.setVisibility(View.INVISIBLE);
+		progress = new ProgressBar(context);
+		progress.setId(R.id.progress);
 		name = new TextView(context);
 		name.setId(R.id.name);
 		name.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
@@ -132,6 +148,7 @@ public class ListItem extends ConstraintLayout {
 		availability.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
 		availability.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+		addView(progress);
 		addView(image);
 		addView(availability);
 		addView(name);
@@ -146,17 +163,13 @@ public class ListItem extends ConstraintLayout {
 	}
 
 
+
 	private void setValues() {
 		// sets the values
 		this.name.setText(product.getName());
-		// TODO: get availability from API
-		try {
-			HashMap<String, Integer> Av = Statistics.getProductAvailability(product.ID).get(product.ID);
-			this.availability.setText(getResources().getString(R.string.availability, Av.get("inStock"), Av.get("total")));
-		}
-		catch (JSONException ex){
-			this.availability.setText(getResources().getString(R.string.availability,0,0));
-		}
+		this.availability.setText(getResources().getString(R.string.availability,
+				Availability.get(product.ID).get("inStock"),
+				Availability.get(product.ID).get("total")));
 	}
 
 	@Override

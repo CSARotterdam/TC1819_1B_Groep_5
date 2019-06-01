@@ -3,6 +3,7 @@ package com.hr.techlabapp.Fragments;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,7 +19,10 @@ import androidx.navigation.Navigation;
 
 import com.hr.techlabapp.CustomViews.DeleteItemDialog;
 import com.hr.techlabapp.Networking.Product;
+import com.hr.techlabapp.Networking.Statistics;
 import com.hr.techlabapp.R;
+
+import org.json.JSONException;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -83,8 +87,7 @@ public class ProductInfoFragment extends Fragment {
 		cat = getView().findViewById(R.id.product_cat);
 		cat.setText(product.categoryID);
 		stock = getView().findViewById(R.id.product_stock);
-		// TODO: Get availability from the api
-		stock.setText(String.valueOf(4));
+		new setStock().execute();
 
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
@@ -106,5 +109,29 @@ public class ProductInfoFragment extends Fragment {
 				dialog.show(getFragmentManager(),String.format("delete item %s",product.ID));
 			}
 		});
+	}
+
+	class setStock extends AsyncTask<Void,Void,HashMap<String,Integer>>{
+
+		@Override
+		protected HashMap<String, Integer> doInBackground(Void... voids) {
+			try{
+				return Statistics.getProductAvailability(product.ID).get(product.ID);
+			}
+			catch (JSONException ex){
+				HashMap<String,Integer> HM = new HashMap<>();
+				HM.put("total",0);
+				HM.put("reservations",0);
+				HM.put("loanedOut",0);
+				HM.put("inStock",0);
+				return HM;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(HashMap<String, Integer> stringIntegerHashMap) {
+			super.onPostExecute(stringIntegerHashMap);
+			stock.setText(String.valueOf(stringIntegerHashMap.get("inStock")));
+		}
 	}
 }

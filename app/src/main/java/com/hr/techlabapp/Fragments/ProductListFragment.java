@@ -1,6 +1,7 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.app.LauncherActivity;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Bundle;
@@ -24,11 +25,14 @@ import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.CustomViews.GridItem;
 import com.hr.techlabapp.CustomViews.ListItem;
 import com.hr.techlabapp.CustomViews.cGrid;
+import com.hr.techlabapp.Networking.ProductItem;
+import com.hr.techlabapp.Networking.Statistics;
 import com.hr.techlabapp.R;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -69,7 +73,7 @@ public class ProductListFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		Products = getView().findViewById(R.id.products);
-		(new FillProducts()).execute();
+		(new FillProducts()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		addProduct = getView().findViewById(R.id.add_product);
 		addProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_addProductFragment));
 
@@ -82,7 +86,12 @@ public class ProductListFragment extends Fragment {
 		@Override
 		protected List<Product> doInBackground(Void... voids) {
 			try{
-				return  Product.getProducts(null,null);
+				List<Product> Products = Product.getProducts(null,null);
+				ArrayList<String> productIds = new ArrayList<>();
+				for(Product p: Products)
+					productIds.add(p.ID);
+				GridItem.Availability = ListItem.Availability = Statistics.getProductAvailability(productIds);
+				return Products;
 			}
 			catch (JSONException ex){
 				return  null;

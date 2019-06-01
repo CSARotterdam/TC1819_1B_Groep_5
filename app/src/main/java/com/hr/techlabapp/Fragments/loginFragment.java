@@ -3,6 +3,7 @@ package com.hr.techlabapp.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -88,7 +89,6 @@ public class loginFragment extends Fragment {
 		TestButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.i(TAG, "click");
 				new TestActivity().execute();
 			}
 		});
@@ -102,11 +102,12 @@ public class loginFragment extends Fragment {
 			try {
 				Authentication.LoginUser("test", "password");
 				Log.i(TAG, "authed");
-				ArrayList<String> list = new ArrayList<>();
-				list.add("lizard");
-				map = Statistics.getProductAvailability(list);
-				Log.i(TAG, map.toString());
-				return map;
+
+				ArrayList<String> IDs = new ArrayList<>();
+				IDs.add("lizard_image");
+				HashMap<String, Bitmap> res = Product.getImages(IDs);
+				Log.i(TAG, Boolean.toString(res.containsKey("lizard_image")));
+
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

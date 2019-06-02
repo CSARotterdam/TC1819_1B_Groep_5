@@ -149,7 +149,6 @@ public class loginFragment extends Fragment {
 		}
 		protected Integer doInBackground(String... params){
 			try {
-				Log.i(TAG, "register");
 				try {
 					Authentication.registerUser(params[0], params[1]);
 					return 0;

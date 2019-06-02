@@ -33,7 +33,7 @@
 		android:layout_marginLeft="@dimen/usual_margin"
 		android:layout_marginRight="@dimen/usual_margin"
 		android:layout_height="wrap_content"
-		android:text="@string/product_name"/>
+		android:text="@string/product_id"/>
 	<EditText
 		android:id="@+id/product_id"
 		android:layout_width="match_parent"
@@ -50,7 +50,7 @@
 		android:layout_marginLeft="@dimen/usual_margin"
 		android:layout_marginRight="@dimen/usual_margin"
 		android:layout_height="wrap_content"
-		android:text="@string/product_name"/>
+		android:text="@string/product_cat"/>
 	<EditText
 		android:id="@+id/product_cat"
 		android:layout_width="match_parent"
@@ -67,7 +67,7 @@
 		android:layout_marginLeft="@dimen/usual_margin"
 		android:layout_marginRight="@dimen/usual_margin"
 		android:layout_height="wrap_content"
-		android:text="@string/product_name"/>
+		android:text="@string/product_des"/>
 
 	<EditText
 		android:id="@+id/product_des"

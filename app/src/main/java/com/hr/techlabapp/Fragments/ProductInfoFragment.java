@@ -1,6 +1,7 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -38,7 +39,7 @@ public class ProductInfoFragment extends Fragment {
 	public static final String PRODUCT_ID_KEY = "ProductId";
 	public static final String PRODUCT_MANUFACTURER_KEY = "ProductManufacturer";
 	public static final String PRODUCT_CATEGORY_KEY = "ProductCategory";
-
+	public static final String PRODUCT_AVAILABILITY_KEY = "ProductAvailability";
 	private Product product;
 	
 	private ImageView image;
@@ -78,17 +79,18 @@ public class ProductInfoFragment extends Fragment {
 		image = getView().findViewById(R.id.image);
 		image.setImageBitmap(product.image);
 		// sets the string values
-		name = getView().findViewById(R.id.product_name);
-		name.setText(product.getName());
+		name = getView().findViewById(R.id.name);
+		name.setText(getResources().getString(R.string.product_name_value,product.getName()));
 		id = getView().findViewById(R.id.product_id);
-		id.setText(product.ID);
-		man = getView().findViewById(R.id.product_man);
-		man.setText(product.manufacturer);
-		cat = getView().findViewById(R.id.product_cat);
-		cat.setText(product.categoryID);
-		stock = getView().findViewById(R.id.product_stock);
-		new setStock().execute();
-
+		id.setText(getResources().getString(R.string.product_id_value, product.ID));
+		// TODO: add this
+//		man = getView().findViewById(R.id.product_man);
+//		man.setText(product.manufacturer);
+		cat = getView().findViewById(R.id.category);
+		cat.setText(getResources().getString(R.string.product_cat_value, product.categoryID));
+		stock = getView().findViewById(R.id.availability);
+		stock.setText(getResources().getString(R.string.available_value,
+				((HashMap<String,Integer>) getArguments().getSerializable(PRODUCT_AVAILABILITY_KEY)).get("inStock")));
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
 		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_checkLendRequestFragment,getArguments()));
@@ -109,29 +111,5 @@ public class ProductInfoFragment extends Fragment {
 				dialog.show(getFragmentManager(),String.format("delete item %s",product.ID));
 			}
 		});
-	}
-
-	class setStock extends AsyncTask<Void,Void,HashMap<String,Integer>>{
-
-		@Override
-		protected HashMap<String, Integer> doInBackground(Void... voids) {
-			try{
-				return Statistics.getProductAvailability(product.ID).get(product.ID);
-			}
-			catch (JSONException ex){
-				HashMap<String,Integer> HM = new HashMap<>();
-				HM.put("total",0);
-				HM.put("reservations",0);
-				HM.put("loanedOut",0);
-				HM.put("inStock",0);
-				return HM;
-			}
-		}
-
-		@Override
-		protected void onPostExecute(HashMap<String, Integer> stringIntegerHashMap) {
-			super.onPostExecute(stringIntegerHashMap);
-			stock.setText(String.valueOf(stringIntegerHashMap.get("inStock")));
-		}
 	}
 }

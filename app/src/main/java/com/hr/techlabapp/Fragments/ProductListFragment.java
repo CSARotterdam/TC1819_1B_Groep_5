@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_AVAILABILITY_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_CATEGORY_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_ID_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_IMAGE_KEY;
@@ -73,6 +74,7 @@ public class ProductListFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		Products = getView().findViewById(R.id.products);
+		Products.setList(true);
 		(new FillProducts()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		addProduct = getView().findViewById(R.id.add_product);
 		addProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_addProductFragment));
@@ -115,6 +117,7 @@ public class ProductListFragment extends Fragment {
 					b.putString(PRODUCT_MANUFACTURER_KEY, p.manufacturer);
 					b.putString(PRODUCT_IMAGE_ID_KEY, p.imageId);
 					b.putSerializable(PRODUCT_NAME_KEY, p.name);
+					b.putSerializable(PRODUCT_AVAILABILITY_KEY, GridItem.Availability.get(p.ID));
 					b.putParcelable(PRODUCT_IMAGE_KEY, p.image);
 					Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_productInfoFragment,b);
 				}

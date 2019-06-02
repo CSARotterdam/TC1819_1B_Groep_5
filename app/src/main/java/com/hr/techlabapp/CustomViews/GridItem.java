@@ -22,6 +22,8 @@ import android.widget.TextView;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
 
+import org.json.JSONException;
+
 import java.util.HashMap;
 
 public class GridItem extends ConstraintLayout {
@@ -170,14 +172,20 @@ public class GridItem extends ConstraintLayout {
 				if (isVisibleToUser()) {
 					// checks if the image isn't already loaded and visible to the user
 					// gets a random image
-					Bitmap im = product.image != null? product.image: BitmapFactory.decodeResource(getResources(),R.drawable.cuteaf);
+					Bitmap im;
+					try{
+						im = product.getImage();
+					}
+					catch (JSONException ex){
+						im = BitmapFactory.decodeResource(getResources(),R.drawable.cuteaf);
+					}
 					int imh = im.getHeight();
 					int imw = im.getWidth();
-					int aspectRatio = imw / imh;
+					float aspectRatio = (float)imw / imh;
 					// sets the new img width and height depending of the aspect ratio of the image
 					// TODO: should use attributes
-					int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
-					int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
+					int nimw = imh > imw ? (int)(dptopx(100) * aspectRatio) : dptopx(125);
+					int nimh = imw > imh ? (int)(dptopx(125) * aspectRatio) : dptopx(100);
 					// Scales the bitmap
 					ImageLoaded = true;
 					return Bitmap.createScaledBitmap(im, nimw, nimh, false);
@@ -192,6 +200,7 @@ public class GridItem extends ConstraintLayout {
 				return;
 			image.setImageBitmap(aVoid);
 			image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+			progress.setVisibility(INVISIBLE);
 		}
 	}
 
@@ -228,5 +237,12 @@ public class GridItem extends ConstraintLayout {
 	private int dptopx(int dp) {
 		// changes a value from dp to px
 		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		super.finalize();
+		product.image.recycle();
+		product.image = null;
 	}
 }

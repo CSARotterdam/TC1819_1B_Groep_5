@@ -89,7 +89,8 @@ public class ProductInfoFragment extends Fragment {
 		cat = getView().findViewById(R.id.category);
 		cat.setText(getResources().getString(R.string.product_cat_value, product.categoryID));
 		stock = getView().findViewById(R.id.availability);
-
+		stock.setText(getResources().getString(R.string.available_value,
+				((HashMap<String,Integer>) getArguments().getSerializable(PRODUCT_AVAILABILITY_KEY)).get("inStock")));
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
 		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_checkLendRequestFragment,getArguments()));

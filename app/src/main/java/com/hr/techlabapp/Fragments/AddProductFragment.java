@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.hr.techlabapp.R;
 
 import org.json.JSONException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -54,8 +56,7 @@ public class AddProductFragment extends Fragment {
 
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_add_product, container, false);
 	}
@@ -64,11 +65,65 @@ public class AddProductFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		cat = getView().findViewById(R.id.product_cat);
+
+		new SpinnerActivity().execute();
+
+		context = getView().getContext();
+
+		addProduct = getView().findViewById(R.id.add_product);
+		addProduct.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			Log.i("TAG", "click");
+			EditText productIDField = (EditText) getView().findViewById(R.id.product_id);
+			String productID = productIDField.getText().toString();
+			if (productID.length() == 0) {
+				Toast toast = Toast.makeText(context, "Product ID is required!", Toast.LENGTH_SHORT);
+				toast.show();
+				return;
+			}
+
+			EditText productNameField = (EditText) getView().findViewById(R.id.product_name);
+			String productName = productNameField.getText().toString();
+			if (productName.length() == 0) {
+				Toast toast = Toast.makeText(context, "Product name is required!", Toast.LENGTH_SHORT);
+				toast.show();
+				return;
+			}
+
+			EditText manufacturerField = (EditText) getView().findViewById(R.id.product_man);
+			String manufacturer = manufacturerField.getText().toString();
+			if (manufacturer.length() == 0) {
+				manufacturer = "Unknown.";
+			}
+
+			Spinner categoryField = (Spinner) getView().findViewById(R.id.product_cat);
+			String category = categoryField.getSelectedItem().toString();
+			if (category.length() == 0) {
+				category = null;
+			}
+
+			EditText descriptionField = getView().findViewById(R.id.product_des);
+			String description = descriptionField.getText().toString();
+			if (description.length() == 0) {
+				description = null;
+			}
+
+			HashMap<String, String> name = new HashMap<>();
+			name.put("en", productName);
+			HashMap<String, String> desc = new HashMap<>();
+			desc.put("en", description);
+
+			Product product = new Product(productID, manufacturer, category, name, desc);
+			new AddProductActivity().execute(product);
+			}
+		});
 	}
 
-	class getProductCategories extends AsyncTask<Void,Void, List<ProductCategory>>{
+	public class SpinnerActivity extends AsyncTask<Void, Void, List<ProductCategory>>{
 		@Override
 		protected List<ProductCategory> doInBackground(Void... voids) {
+			List<ProductCategory> contents;
 			try{
 				return ProductCategory.getProductCategories(new String[]{"en"});
 			}
@@ -76,57 +131,17 @@ public class AddProductFragment extends Fragment {
 				return new ArrayList<ProductCategory>();
 			}
 		}
-		@Override
-		protected void onPostExecute(List<ProductCategory> productCategories) {
-			context = getView().getContext();
 
-			addProduct = getView().findViewById(R.id.add_product);
-			addProduct.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					EditText productIDField = (EditText) getView().findViewById(R.id.product_id);
-					String productID = productIDField.getText().toString();
-					if (productID.length() == 0) {
-						Toast toast = Toast.makeText(context, "Product ID is required!", Toast.LENGTH_SHORT);
-						toast.show();
-						return;
-					}
+		protected void onPostExecute(List<ProductCategory> contents){
+			List<String> categories = new ArrayList<>();
+			for(ProductCategory cat : contents){
+				categories.add(cat.name.get("en"));
+			}
 
-					EditText productNameField = (EditText) getView().findViewById(R.id.product_name);
-					String productName = productNameField.getText().toString();
-					if (productName.length() == 0) {
-						Toast toast = Toast.makeText(context, "Product name is required!", Toast.LENGTH_SHORT);
-						toast.show();
-						return;
-					}
-
-					EditText manufacturerField = (EditText) getView().findViewById(R.id.product_man);
-					String manufacturer = manufacturerField.getText().toString();
-					if (manufacturer.length() == 0) {
-						manufacturer = "Unknown.";
-					}
-
-					Spinner categoryField = (Spinner) getView().findViewById(R.id.product_cat);
-					String category = manufacturerField.getText().toString();
-					if (category.length() == 0) {
-						category = null;
-					}
-
-					EditText descriptionField = getView().findViewById(R.id.product_des);
-					String description = descriptionField.getText().toString();
-					if (description.length() == 0) {
-						description = null;
-					}
-
-					HashMap<String, String> name = new HashMap<>();
-					name.put("en", productName);
-					HashMap<String, String> desc = new HashMap<>();
-					desc.put("en", description);
-
-					Product product = new Product(productID, manufacturer, category, name, desc);
-					new AddProductActivity().execute(product);
-				}
-			});
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, categories);
+			Spinner dropdown = (Spinner) getView().findViewById(R.id.product_cat);
+			dropdown.setAdapter(adapter);
+			return;
 		}
 	}
 
@@ -134,7 +149,7 @@ public class AddProductFragment extends Fragment {
 		private ProgressDialog dialog;
 
 		protected void onPreExecute(){
-			dialog = new ProgressDialog(getContext());
+			dialog = new ProgressDialog(context);
 			dialog.setMessage("Working...");
 			dialog.show();
 		}

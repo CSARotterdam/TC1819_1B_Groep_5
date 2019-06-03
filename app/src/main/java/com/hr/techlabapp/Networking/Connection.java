@@ -61,11 +61,13 @@ class Connection {
 
             switch (reason) {
                 case "ExpiredToken":
+                    Log.i(TAG, "Token expired; fetching new token...");
                     if(auth(loginFragment.currentUser.username, loginFragment.currentUser.hash)){
-                        Log.i(TAG, "Token expired; fetching new token...");
+                        Log.i(TAG, "Reauthenticated.");
                         request.put("token", loginFragment.currentUser.token);
                         return Send(request);
                     } else {
+                        Log.i(TAG, "Failed to authenticate.");
                         loginFragment.currentUser = null;
                         throw new Exceptions.TokenRenewalException();
                     }

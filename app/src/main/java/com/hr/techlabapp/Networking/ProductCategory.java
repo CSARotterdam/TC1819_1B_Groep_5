@@ -80,7 +80,7 @@ public final class ProductCategory {
                 requestCriteria.put(entry.getKey(), entry.getValue());
         }
         JSONObject request = new JSONObject()
-                .put("requestType", "getProducts")
+                .put("requestType", "getProductCategories")
                 .put("username", loginFragment.currentUser.username)
                 .put("token", loginFragment.currentUser.token)
                 .put("requestData", new JSONObject()

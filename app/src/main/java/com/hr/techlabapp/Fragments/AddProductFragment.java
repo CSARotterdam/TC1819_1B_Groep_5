@@ -1,9 +1,5 @@
 package com.hr.techlabapp.Fragments;
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,14 +12,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-<<<<<<< Updated upstream
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.ProductCategory;
-=======
->>>>>>> Stashed changes
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -36,15 +29,12 @@ import com.hr.techlabapp.R;
 
 import org.json.JSONException;
 
-<<<<<<< Updated upstream
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
-=======
->>>>>>> Stashed changes
 import java.util.HashMap;
 
 /**
@@ -53,10 +43,8 @@ import java.util.HashMap;
 public class AddProductFragment extends Fragment {
 	public Context context;
 
-<<<<<<< Updated upstream
 	private Spinner cat;
-=======
->>>>>>> Stashed changes
+
 	Button addProduct;
 	Button addImage;
 
@@ -75,7 +63,6 @@ public class AddProductFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-<<<<<<< Updated upstream
 		cat = getView().findViewById(R.id.product_cat);
 	}
 
@@ -141,57 +128,6 @@ public class AddProductFragment extends Fragment {
 				}
 			});
 		}
-=======
-		this.context = getView().getContext();
-
-		addProduct = getView().findViewById(R.id.add_product);
-		addProduct.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				EditText productIDField = (EditText)getView().findViewById(R.id.product_id);
-				String productID = productIDField.getText().toString();
-				if(productID.length() == 0){
-					Toast toast = Toast.makeText(context, "Product ID is required!", Toast.LENGTH_SHORT);
-					toast.show();
-					return;
-				}
-
-				EditText productNameField = (EditText)getView().findViewById(R.id.product_name);
-				String productName = productNameField.getText().toString();
-				if(productName.length() == 0){
-					Toast toast = Toast.makeText(context, "Product name is required!", Toast.LENGTH_SHORT);
-					toast.show();
-					return;
-				}
-
-				EditText manufacturerField = (EditText)getView().findViewById(R.id.product_man);
-				String manufacturer = manufacturerField.getText().toString();
-				if(manufacturer.length() == 0){
-					manufacturer = "Unknown.";
-				}
-
-				EditText categoryField = (EditText)getView().findViewById(R.id.product_cat);
-				String category = manufacturerField.getText().toString();
-				if(category.length() == 0){
-					category = null;
-				}
-
-				EditText descriptionField = (EditText)getView().findViewById(R.id.product_des);
-				String description = categoryField.getText().toString();
-				if(description.length() == 0){
-					description = null;
-				}
-
-				HashMap<String, String> name = new HashMap<>();
-				name.put("en", productName);
-				HashMap<String, String> desc = new HashMap<>();
-				desc.put("en", description);
-
-				Product product = new Product(productID, manufacturer, category, name, desc);
-				new AddProductActivity().execute(product);
-			}
-		});
->>>>>>> Stashed changes
 	}
 
 	public class AddProductActivity extends AsyncTask<Product, Void, Integer>{

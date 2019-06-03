@@ -249,10 +249,12 @@ public final class Product {
                 .put("productID", product.ID)
                 .put("categoryID", product.categoryID)
                 .put("manufacturer", product.manufacturer)
-                .put("image", encodedImage)
+                .put("image", new JSONObject()
+                    .put("data", encodedImage)
+                    .put("extension", ".bmp")
+                )
                 .put("name", new JSONObject(product.name))
             );
-
         Connection.Send(request);
     }
 

@@ -3,8 +3,13 @@ package com.hr.techlabapp.Fragments;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,11 +35,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AddProductFragment extends Fragment {
+	private static final int PICK_PHOTO = 1;
+	private static final int TAKE_PICTURE = 1;
 	public Context context;
+	private Bitmap image = null;
 
 	private ArrayList<ProductCategory> ProductCategories = new ArrayList<>();
 
@@ -65,6 +75,7 @@ public class AddProductFragment extends Fragment {
 		addProduct.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+			//Get product ID. Cancel if not set.
 			EditText productIDField = (EditText) getView().findViewById(R.id.product_id);
 			String productID = productIDField.getText().toString();
 			if (productID.length() == 0) {
@@ -73,6 +84,7 @@ public class AddProductFragment extends Fragment {
 				return;
 			}
 
+			//Get product name. Cancel if not set.
 			EditText productNameField = (EditText) getView().findViewById(R.id.product_name);
 			String productName = productNameField.getText().toString();
 			if (productName.length() == 0) {
@@ -81,12 +93,14 @@ public class AddProductFragment extends Fragment {
 				return;
 			}
 
+			//Get manufacterer. If none was set, default to Unknown
 			EditText manufacturerField = (EditText) getView().findViewById(R.id.product_man);
 			String manufacturer = manufacturerField.getText().toString();
 			if (manufacturer.length() == 0) {
 				manufacturer = "Unknown";
 			}
 
+			//Get category. If none was set (which shouldn't be possible), default to uncategorized.
 			Spinner categoryField = (Spinner) getView().findViewById(R.id.product_cat);
 			String selectedCategory = categoryField.getSelectedItem().toString();
 			String categoryID = "uncategorized";
@@ -97,23 +111,75 @@ public class AddProductFragment extends Fragment {
 				}
 			}
 
-			if(categoryID.equals("uncategorized")) return;
-
+			//Get description. If none was set, default to null.
 			EditText descriptionField = getView().findViewById(R.id.product_des);
 			String description = descriptionField.getText().toString();
 			if (description.length() == 0) {
 				description = null;
 			}
 
+			//Create language + description items
+			//TODO Add language support
 			HashMap<String, String> name = new HashMap<>();
 			name.put("en", productName);
 			HashMap<String, String> desc = new HashMap<>();
 			desc.put("en", description);
 
-			Product product = new Product(productID, manufacturer, categoryID, name, desc);
+			//Create a product. Different constructor depending on whether an image was selected or not.
+			Product product;
+			if(image == null){
+				product = new Product(productID, manufacturer, categoryID, name, desc);
+			} else {
+				product = new Product(productID, manufacturer, categoryID, name, desc, productID+"_image", image);
+			}
 			new AddProductActivity().execute(product);
 			}
 		});
+
+		addImage = getView().findViewById(R.id.add_image);
+		addImage.setOnClickListener(new View.OnClickListener() {
+			public AlertDialog alert;
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setMessage("Select an image from where?") //TODO Find better text. Also language support.
+						.setCancelable(true)
+						.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								alert.hide();
+								Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+								if (takePicture.resolveActivity(context.getPackageManager()) != null) {
+									startActivityForResult(takePicture, TAKE_PICTURE);
+								}
+
+							}
+						})
+						.setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								alert.hide();
+								Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+								pickPhoto.setType("*image/*");
+								String[] formats = {"image/jpeg", "image/png", "image/jpg", "image/gif", "image/bmp", "image/webp", "image/heif"};
+								pickPhoto.putExtra("EXTRA_MIME_TYPES", formats);
+								startActivityForResult(Intent.createChooser(pickPhoto, "Select Picture"), PICK_PHOTO);
+							}
+						})
+						.setNeutralButton("Cancel", null);
+				alert = builder.create();
+				alert.show();
+			}
+		});
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data){
+		if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK) {
+			Bundle extras = data.getExtras();
+			image = (Bitmap) extras.get("data");
+		}
+
 	}
 
 	public class SpinnerActivity extends AsyncTask<Void, Void, List<ProductCategory>>{

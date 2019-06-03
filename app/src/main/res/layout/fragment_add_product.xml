@@ -51,13 +51,11 @@
 		android:layout_marginRight="@dimen/usual_margin"
 		android:layout_height="wrap_content"
 		android:text="@string/product_cat"/>
-	<EditText
+	<Spinner
+		app:layout_constraintTop_toBottomOf="@id/product_cat_text"
 		android:id="@+id/product_cat"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		app:layout_constraintLeft_toLeftOf="parent"
-		android:layout_margin="@dimen/usual_margin"
-		app:layout_constraintTop_toBottomOf="@id/product_cat_text"/>
+		android:layout_height="wrap_content"/>
 	<TextView
 		android:id="@+id/product_man_text"
 		android:layout_width="match_parent"

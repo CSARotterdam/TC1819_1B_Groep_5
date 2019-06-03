@@ -55,9 +55,7 @@ public final class Product {
         this.categoryID = categoryID;
         this.name = name;
         this.image = image;
-        if(image != null){
-            this.imageId = ID+"_image";
-        }
+        this.imageId = imageID;
         this.description = description;
     }
 
@@ -70,8 +68,18 @@ public final class Product {
     public Bitmap getImage() throws JSONException{
         ArrayList<String> IDs = new ArrayList<>();
         IDs.add(imageId);
-        image = getImages(IDs).get(imageId);
+        Bitmap img = getImages(imageId);
+        if(img == null){
+            img = getImages("default");
+        }
+        image = img;
         return image;
+    }
+
+    public static Bitmap getImages(String ID) throws JSONException{
+        ArrayList IDs = new ArrayList();
+        IDs.add(ID);
+        return (Bitmap)getImages(IDs).get(ID);
     }
 
     public static HashMap<String, Bitmap> getImages(ArrayList<String> IDs) throws JSONException{
@@ -199,7 +207,7 @@ public final class Product {
                 Iterator<String> itr = ((JSONObject)product.get("description")).keys();
                 while (itr.hasNext()) {
                     String key = itr.next();
-                    name.put(key, ((JSONObject)product.get("description")).getString(key));
+                    description.put(key, ((JSONObject)product.get("description")).getString(key));
                 }
             } else if (product.has("description"))
                 description.put("id", product.getString("description"));

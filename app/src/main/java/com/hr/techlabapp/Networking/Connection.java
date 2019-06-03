@@ -28,7 +28,7 @@ class Connection {
     static Object Send(JSONObject request){
         HttpURLConnection connection;
         Object responseData;
-        String address = "145.137.50.248"; //TODO: How will we even get the right address without hardcoding it?
+        String address = "145.137.58.43"; //TODO: How will we even get the right address without hardcoding it?
 
         try {
             //Connect to server

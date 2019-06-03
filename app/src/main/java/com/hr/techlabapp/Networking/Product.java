@@ -28,29 +28,37 @@ public final class Product {
     public String manufacturer;
     public String categoryID;
     public HashMap<String, String> name;
+    public HashMap<String, String> description;
     public Bitmap image;
     public String imageId;
 
-    public Product(String ID, String manufacturer, HashMap<String, String> name){
-        this(ID, manufacturer, "uncategorized", name, null);
+    public Product(String ID, String manufacturer, String categoryID){
+        this(ID, manufacturer, categoryID, null, null, null);
     }
 
     public Product(String ID, String manufacturer, String categoryID, HashMap<String, String> name){
-        this(ID, manufacturer, categoryID, name, null);
+        this(ID, manufacturer, categoryID, name, null, null);
     }
 
-    public Product(String ID, String manufacturer, String categoryID, HashMap<String, String> name, String imageId){
-        this(ID, manufacturer, categoryID, name, null, imageId);
+    public Product(String ID, String manufacturer, String categoryID, HashMap<String, String> name, HashMap<String, String> description){
+        this(ID, manufacturer, categoryID, name, description, null);
     }
 
-    public Product(String ID, String manufacturer, String categoryID, HashMap<String, String> name, Bitmap image, String imageId) {
+    public Product(String ID, String manufacturer, String categoryID, HashMap<String, String> name, HashMap<String, String> description, String imageID){
+        this(ID, manufacturer, categoryID, name, description, imageID, null);
+    }
+
+    public Product(String ID, String manufacturer, String categoryID, HashMap<String, String> name, HashMap<String, String> description, String imageID, Bitmap image) {
         this.ID = ID;
         this.productIDCopy = ID;
         this.manufacturer = manufacturer;
         this.categoryID = categoryID;
         this.name = name;
         this.image = image;
-        this.imageId = imageId;
+        if(image != null){
+            this.imageId = ID+"_image";
+        }
+        this.description = description;
     }
 
     /**
@@ -174,6 +182,8 @@ public final class Product {
         for (int i = 0; i < responseData.length(); i++) {
             JSONObject product = (JSONObject) responseData.get(i);
             HashMap<String, String> name = new HashMap<>();
+            // do thing with naem
+            // like gett stuff and do shit with hasmap if it is one or just yeet the id back
             if (product.has("name") && languages != null) {
                 Iterator<String> itr = ((JSONObject)product.get("name")).keys();
                 while (itr.hasNext()) {
@@ -182,11 +192,23 @@ public final class Product {
                 }
             } else if (product.has("name"))
                 name.put("id", product.getString("name"));
+
+            // ssame but wif descruptiz
+            HashMap<String, String> description = new HashMap<>();
+            if (product.has("description") && languages != null) {
+                Iterator<String> itr = ((JSONObject)product.get("description")).keys();
+                while (itr.hasNext()) {
+                    String key = itr.next();
+                    name.put(key, ((JSONObject)product.get("description")).getString(key));
+                }
+            } else if (product.has("description"))
+                description.put("id", product.getString("description"));
             out.add(new Product(
                     (String) product.opt("id"),
                     (String) product.opt("manufacturer"),
                     (String) product.opt("category"),
                     name,
+                    description,
                     (String) product.opt("image")
             ));
         }

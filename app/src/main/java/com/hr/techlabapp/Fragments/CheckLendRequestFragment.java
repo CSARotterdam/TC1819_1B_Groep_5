@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_CATEGORY_KEY;
+import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_DESCRIPTION_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_ID_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_IMAGE_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_IMAGE_ID_KEY;
@@ -71,8 +72,9 @@ public class CheckLendRequestFragment extends Fragment {
 				getArguments().getString(PRODUCT_MANUFACTURER_KEY),
 				getArguments().getString(PRODUCT_CATEGORY_KEY),
 				(HashMap<String, String>) getArguments().getSerializable(PRODUCT_NAME_KEY),
-				(Bitmap) getArguments().getParcelable(PRODUCT_IMAGE_KEY),
-				getArguments().getString(PRODUCT_IMAGE_ID_KEY));
+				(HashMap<String, String>) getArguments().getSerializable(PRODUCT_DESCRIPTION_KEY),
+				getArguments().getString(PRODUCT_IMAGE_ID_KEY),
+				(Bitmap) getArguments().getParcelable(PRODUCT_IMAGE_KEY));
 
 		image = getView().findViewById(R.id.image);
 		image.setImageBitmap(product.image);

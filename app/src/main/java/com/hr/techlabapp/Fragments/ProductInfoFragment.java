@@ -34,6 +34,7 @@ import java.util.Locale;
  */
 public class ProductInfoFragment extends Fragment {
 	public static final String PRODUCT_NAME_KEY = "ProductName";
+	public static final String PRODUCT_DESCRIPTION_KEY = "ProductDescription";
 	public static final String PRODUCT_IMAGE_KEY = "ProductImage";
 	public static final String PRODUCT_IMAGE_ID_KEY = "ProductImageID";
 	public static final String PRODUCT_ID_KEY = "ProductId";
@@ -73,8 +74,9 @@ public class ProductInfoFragment extends Fragment {
 				getArguments().getString(PRODUCT_MANUFACTURER_KEY),
 				getArguments().getString(PRODUCT_CATEGORY_KEY),
 				(HashMap<String, String>) getArguments().getSerializable(PRODUCT_NAME_KEY),
-				(Bitmap) getArguments().getParcelable(PRODUCT_IMAGE_KEY),
-				getArguments().getString(PRODUCT_IMAGE_ID_KEY));
+				(HashMap<String, String>) getArguments().getSerializable(PRODUCT_DESCRIPTION_KEY),
+				getArguments().getString(PRODUCT_IMAGE_ID_KEY),
+				(Bitmap) getArguments().getParcelable(PRODUCT_IMAGE_KEY));
 		image = getView().findViewById(R.id.image);
 		if(product.image != null)
 			image.setImageBitmap(product.image);

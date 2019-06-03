@@ -78,7 +78,6 @@ public class Statistics {
             entry.put("loanedOut", entryObject.getInt("loanedOut"));
             entry.put("inStock", entryObject.getInt("inStock"));
             result.put(key, entry);
-            Log.i("tag", "hello");
         }
         return result;
     }

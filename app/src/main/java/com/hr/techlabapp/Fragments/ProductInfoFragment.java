@@ -86,8 +86,8 @@ public class ProductInfoFragment extends Fragment {
 		id = getView().findViewById(R.id.product_id);
 		id.setText(getResources().getString(R.string.product_id_value, product.ID));
 		// TODO: add this
-//		man = getView().findViewById(R.id.product_man);
-//		man.setText(product.manufacturer);
+		man = getView().findViewById(R.id.product_man);
+		man.setText(getResources().getString(R.string.product_man_value, product.manufacturer));
 		cat = getView().findViewById(R.id.category);
 		cat.setText(getResources().getString(R.string.product_cat_value, product.categoryID));
 		stock = getView().findViewById(R.id.availability);
@@ -122,7 +122,7 @@ public class ProductInfoFragment extends Fragment {
 			try{
 					return product.getImage();
 			}
-			catch (JSONException _){
+			catch (JSONException ex){
 				return BitmapFactory.decodeResource(getResources(),R.drawable.cuteaf);
 			}
 		}

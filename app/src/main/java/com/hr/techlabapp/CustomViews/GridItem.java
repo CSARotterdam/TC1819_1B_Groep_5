@@ -210,9 +210,23 @@ public class GridItem extends ConstraintLayout {
 	private void setValues() {
 		// sets the values
 		this.name.setText(product.getName("en"));
-		this.availability.setText(getResources().getString(R.string.availability,
+		new setAvailability().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		/*		this.availability.setText(getResources().getString(R.string.availability,
 				Availability.get(product.ID).get("inStock"),
-				Availability.get(product.ID).get("total")));
+				Availability.get(product.ID).get("total")));*/
+	}
+
+	class setAvailability extends AsyncTask<Void,Void, HashMap<String,Integer>>{
+		@Override
+		protected HashMap<String, Integer> doInBackground(Void... voids) {
+			while(Availability == null){}
+			return Availability.get(product.ID);
+		}
+
+		@Override
+		protected void onPostExecute(HashMap<String, Integer> av) {
+			availability.setText(getResources().getString(R.string.availability, av.get("inStock"), av.get("total")));
+		}
 	}
 
 	public Product getProduct() {

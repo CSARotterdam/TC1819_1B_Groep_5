@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="@+id/settings">
-
-    <group android:checkableBehavior="single"/>
-        <item
-            android:id="@+id/English"
-            android:title="English" />
-        <item
-            android:id="@+id/Dutch"
-            android:title="Dutch" />
-        <item
-            android:id="@+id/Arabic"
-            android:title="العربية" />
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/language"
+        android:orderInCategory="3"
+        android:title="Settings"
+        app:showAsAction="never" />
 </menu>

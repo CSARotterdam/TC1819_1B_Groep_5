@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Main2Activity"
-            android:label="Settings">
-
-        </activity>
+        <activity android:name=".Settings"
+            android:label="Settings"/>
+        <activity android:name=".Help"
+            android:label="Help"/>
+        <activity android:name=".Language"
+            android:label="language"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"

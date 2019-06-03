@@ -31,6 +31,7 @@ import com.hr.techlabapp.R;
 
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ import static android.app.Activity.RESULT_OK;
  * A simple {@link Fragment} subclass.
  */
 public class AddProductFragment extends Fragment {
-	private static final int PICK_PHOTO = 1;
+	private static final int PICK_PHOTO = 2;
 	private static final int TAKE_PICTURE = 1;
 	public Context context;
 	private Bitmap image = null;
@@ -160,7 +161,7 @@ public class AddProductFragment extends Fragment {
 							public void onClick(DialogInterface dialog, int which) {
 								alert.hide();
 								Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-								pickPhoto.setType("*image/*");
+								pickPhoto.setType("image/*");
 								String[] formats = {"image/jpeg", "image/png", "image/jpg", "image/gif", "image/bmp", "image/webp", "image/heif"};
 								pickPhoto.putExtra("EXTRA_MIME_TYPES", formats);
 								startActivityForResult(Intent.createChooser(pickPhoto, "Select Picture"), PICK_PHOTO);
@@ -175,11 +176,23 @@ public class AddProductFragment extends Fragment {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data){
-		if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK) {
-			Bundle extras = data.getExtras();
-			image = (Bitmap) extras.get("data");
+		switch(requestCode){
+			case TAKE_PICTURE:
+				if(resultCode == RESULT_OK){
+					Bundle extras = data.getExtras();
+					image = (Bitmap) extras.get("data");
+				}
+				break;
+			case PICK_PHOTO:
+				if(resultCode == RESULT_OK){
+					Uri imageUri = data.getData();
+					try {
+						image = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 		}
-
 	}
 
 	public class SpinnerActivity extends AsyncTask<Void, Void, List<ProductCategory>>{

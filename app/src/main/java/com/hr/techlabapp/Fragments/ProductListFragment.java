@@ -2,6 +2,7 @@ package com.hr.techlabapp.Fragments;
 
 
 import android.app.LauncherActivity;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Bundle;
@@ -89,10 +90,7 @@ public class ProductListFragment extends Fragment {
 		protected List<Product> doInBackground(Void... voids) {
 			try{
 				List<Product> Products = Product.getProducts(null,new String[]{"en"});
-				ArrayList<String> productIds = new ArrayList<>();
-				for(Product p: Products)
-					productIds.add(p.ID);
-				GridItem.Availability = ListItem.Availability = Statistics.getProductAvailability(productIds);
+				new setNames().executeOnExecutor(THREAD_POOL_EXECUTOR,Products);
 				return Products;
 			}
 			catch (JSONException ex){
@@ -122,6 +120,22 @@ public class ProductListFragment extends Fragment {
 					Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_productInfoFragment,b);
 				}
 			});
+		}
+	}
+
+	class setNames extends AsyncTask<List<Product>, Void, Void>{
+		@Override
+		protected Void doInBackground(List<Product>... lists) {
+			ArrayList<String> productIds = new ArrayList<>();
+			for(Product p: lists[0])
+				productIds.add(p.ID);
+			try{
+				GridItem.Availability = ListItem.Availability = Statistics.getProductAvailability(productIds);
+			}
+			catch (JSONException ex){
+				GridItem.Availability = ListItem.Availability = new HashMap<String, HashMap<String, Integer>>();
+			}
+			return null;
 		}
 	}
 }

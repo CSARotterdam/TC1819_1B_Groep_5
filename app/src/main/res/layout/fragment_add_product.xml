@@ -8,25 +8,8 @@
 	tools:context=".Fragments.AddProductFragment">
 
 	<TextView
-		android:id="@+id/product_name_text"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		android:layout_width="wrap_content"
-		android:layout_marginTop="@dimen/fab_margin"
-		android:layout_marginLeft="@dimen/usual_margin"
-		android:layout_marginRight="@dimen/usual_margin"
-		android:layout_height="wrap_content"
-		android:text="@string/product_name"/>
-	<EditText
-		android:id="@+id/product_name"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		app:layout_constraintLeft_toLeftOf="parent"
-		android:layout_margin="@dimen/usual_margin"
-		app:layout_constraintTop_toBottomOf="@id/product_name_text"/>
-	<TextView
 		android:id="@+id/product_id_text"
-		app:layout_constraintTop_toBottomOf="@id/product_name"
+		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintLeft_toLeftOf="parent"
 		android:layout_width="wrap_content"
 		android:layout_marginTop="@dimen/fab_margin"
@@ -42,8 +25,25 @@
 		android:layout_margin="@dimen/usual_margin"
 		app:layout_constraintTop_toBottomOf="@id/product_id_text"/>
 	<TextView
-		android:id="@+id/product_cat_text"
+		android:id="@+id/product_name_text"
 		app:layout_constraintTop_toBottomOf="@id/product_id"
+		app:layout_constraintLeft_toLeftOf="parent"
+		android:layout_width="wrap_content"
+		android:layout_marginTop="@dimen/fab_margin"
+		android:layout_marginLeft="@dimen/usual_margin"
+		android:layout_marginRight="@dimen/usual_margin"
+		android:layout_height="wrap_content"
+		android:text="@string/product_name"/>
+	<EditText
+		android:id="@+id/product_name"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:layout_margin="@dimen/usual_margin"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/product_name_text"/>
+	<TextView
+		android:id="@+id/product_cat_text"
+		app:layout_constraintTop_toBottomOf="@id/product_name"
 		app:layout_constraintLeft_toLeftOf="parent"
 		android:layout_width="wrap_content"
 		android:layout_marginTop="@dimen/fab_margin"
@@ -59,8 +59,25 @@
 		android:layout_margin="@dimen/usual_margin"
 		app:layout_constraintTop_toBottomOf="@id/product_cat_text"/>
 	<TextView
+		android:id="@+id/product_man_text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintLeft_toLeftOf="parent"
+		android:layout_marginTop="@dimen/fab_margin"
+		android:layout_marginLeft="@dimen/usual_margin"
+		android:layout_marginRight="@dimen/usual_margin"
+		android:text="@string/product_man"
+		app:layout_constraintTop_toBottomOf="@id/product_cat"/>
+	<EditText
+		android:id="@+id/product_man"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintLeft_toLeftOf="parent"
+		android:layout_margin="@dimen/usual_margin"
+		app:layout_constraintTop_toBottomOf="@id/product_man_text"/>
+	<TextView
 		android:id="@+id/product_des_text"
-		app:layout_constraintTop_toBottomOf="@id/product_cat"
+		app:layout_constraintTop_toBottomOf="@id/product_man"
 		app:layout_constraintLeft_toLeftOf="parent"
 		android:layout_width="wrap_content"
 		android:layout_marginTop="@dimen/fab_margin"

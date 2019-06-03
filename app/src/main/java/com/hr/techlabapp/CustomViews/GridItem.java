@@ -32,6 +32,7 @@ public class GridItem extends ConstraintLayout {
 	private boolean ImageLoaded = false;
 
 	public static HashMap<String,HashMap<String, Integer>> Availability;
+	public static HashMap<String, Bitmap> Images = new HashMap<>();
 
 	private ImageView image;
 	private TextView name;
@@ -179,6 +180,7 @@ public class GridItem extends ConstraintLayout {
 					catch (JSONException ex){
 						im = BitmapFactory.decodeResource(getResources(),R.drawable.cuteaf);
 					}
+					Images.put(product.imageId,im);
 					int imh = im.getHeight();
 					int imw = im.getWidth();
 					float aspectRatio = (float)imw / imh;
@@ -243,7 +245,5 @@ public class GridItem extends ConstraintLayout {
 	@Override
 	protected void finalize() throws Throwable {
 		super.finalize();
-		product.image.recycle();
-		product.image = null;
 	}
 }

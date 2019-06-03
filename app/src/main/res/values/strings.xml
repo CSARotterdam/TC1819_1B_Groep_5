@@ -18,6 +18,8 @@
 	<string name="product_cat_value">Product Category:%31s</string>
 	<string name="product_des">Product Description:</string>
 	<string name="product_des_value">Product Description:%n%s</string>
+	<string name="product_man">Product Manufacturer:</string>
+	<string name="product_man_value">Product Manufacturer:%27s</string>
 	<string name="available_value">Products Available:%29d</string>
 	<string name="username_id" translatable="false">%s %s (%07d)</string>
 	<string name="date_of_request">Sent request on: %td-%tm-%tY</string>

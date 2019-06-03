@@ -75,12 +75,14 @@ public class ProductInfoFragment extends Fragment {
 				(HashMap<String, String>) getArguments().getSerializable(PRODUCT_NAME_KEY),
 				(Bitmap) getArguments().getParcelable(PRODUCT_IMAGE_KEY),
 				getArguments().getString(PRODUCT_IMAGE_ID_KEY));
-
 		image = getView().findViewById(R.id.image);
-		image.setImageBitmap(product.image);
+		if(product.image != null)
+			image.setImageBitmap(product.image);
+		else
+			new loadImage().execute();
 		// sets the string values
 		name = getView().findViewById(R.id.name);
-		name.setText(getResources().getString(R.string.product_name_value,product.getName()));
+		name.setText(getResources().getString(R.string.product_name_value,product.getName("en")));
 		id = getView().findViewById(R.id.product_id);
 		id.setText(getResources().getString(R.string.product_id_value, product.ID));
 		// TODO: add this
@@ -111,5 +113,23 @@ public class ProductInfoFragment extends Fragment {
 				dialog.show(getFragmentManager(),String.format("delete item %s",product.ID));
 			}
 		});
+	}
+
+	class loadImage extends AsyncTask <Void,Void,Bitmap>{
+
+		@Override
+		protected Bitmap doInBackground(Void... voids) {
+			try{
+					return product.getImage();
+			}
+			catch (JSONException _){
+				return BitmapFactory.decodeResource(getResources(),R.drawable.cuteaf);
+			}
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap bitmap) {
+			image.setImageBitmap(bitmap);
+		}
 	}
 }

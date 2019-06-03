@@ -200,13 +200,14 @@ public class GridItem extends ConstraintLayout {
 				return;
 			image.setImageBitmap(aVoid);
 			image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			progress.setVisibility(INVISIBLE);
+			// bcz progress.setVisibility(INVISIBLE) doesn't work
+			removeView(progress);
 		}
 	}
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.getName());
+		this.name.setText(product.getName("en"));
 		this.availability.setText(getResources().getString(R.string.availability,
 				Availability.get(product.ID).get("inStock"),
 				Availability.get(product.ID).get("total")));

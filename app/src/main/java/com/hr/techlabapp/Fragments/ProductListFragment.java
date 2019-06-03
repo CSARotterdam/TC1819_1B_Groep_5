@@ -74,7 +74,7 @@ public class ProductListFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		Products = getView().findViewById(R.id.products);
-		Products.setList(true);
+		Products.setList(false);
 		(new FillProducts()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		addProduct = getView().findViewById(R.id.add_product);
 		addProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_addProductFragment));
@@ -88,7 +88,7 @@ public class ProductListFragment extends Fragment {
 		@Override
 		protected List<Product> doInBackground(Void... voids) {
 			try{
-				List<Product> Products = Product.getProducts(null,null);
+				List<Product> Products = Product.getProducts(null,new String[]{"en"});
 				ArrayList<String> productIds = new ArrayList<>();
 				for(Product p: Products)
 					productIds.add(p.ID);

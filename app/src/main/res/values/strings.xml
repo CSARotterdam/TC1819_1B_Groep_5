@@ -1,64 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">TechLab App</string>
-	<string name="action_settings">Settings</string>
-	<string name="availability" translatable="false">%d/%d</string>
-	<string name="title_activity_login">LoginActivity</string>
-	<string name="username_input">Username</string>
-	<string name="password_input">Password</string>
-	<string name="login">Login</string>
-	<string name="register">Register</string>
-	<string name="or">or</string>
-	<string name="borrow">Borrow</string>
-	<string name="product_name">Product Name:</string>
-	<string name="product_name_value">Product Name:%36s</string>
-	<string name="product_id">Product ID:</string>
-	<string name="product_id_value">Product ID:%38s</string>
-	<string name="product_cat">Product Category:</string>
-	<string name="product_cat_value">Product Category:%31s</string>
-	<string name="product_des">Product Description:</string>
-	<string name="product_des_value">Product Description:%n%s</string>
-	<string name="product_man">Product Manufacturer:</string>
-	<string name="product_man_value">Product Manufacturer:%27s</string>
-	<string name="available_value">Products Available:%29d</string>
-	<string name="username_id" translatable="false">%s %s (%07d)</string>
-	<string name="date_of_request">Sent request on: %td-%tm-%tY</string>
-	<string name="user_history">User history</string>
-	<string name="user_history_dialog_title">User history of %07d</string>
-	<string name="amount">Amount:</string>
-	<string name="amount_value">Amount: %d</string>
-	<string name="decline">Decline</string>
-	<string name="accept">Accept</string>
-	<string name="image_description">An image of the product</string>
-	<string name="delete_item_title">Delete "%s"</string>
-	<string name="delete_everything">Delete everything</string>
-	<string name="add_product">Add product</string>
-	<string name="add_image">Add image</string>
-	<string name="product_statistics">Product statistics</string>
-	<string name="hour_min">%02d hr %02d min</string>
-	<string name="this_week">This week</string>
-	<string name="user_statistics">User statistics</string>
-	<string name="statistics">Statistics</string>
-	<!--TODO: give them values-->
-	<string name="pref_title_system_sync_settings" translatable="false"/>
-	<string name="pref_title_sync_frequency" translatable="false"/>
-	<string name="nav_header_desc" translatable="false"/>
-	<string name="nav_header_title" translatable="false"/>
-	<string name="nav_header_subtitle" translatable="false"/>
-	<string name="pref_description_social_recommendations" translatable="false"/>
-	<string name="pref_title_social_recommendations" translatable="false"/>
-	<string name="pref_default_display_name" translatable="false"/>
-	<string name="pref_title_display_name" translatable="false"/>
-	<string name="pref_title_add_friends_to_messages" translatable="false"/>
-	<string name="pref_header_general" translatable="false"/>
-	<string name="pref_header_notifications" translatable="false"/>
-	<string name="pref_header_data_sync" translatable="false"/>
-	<string name="pref_title_new_message_notifications" translatable="false"/>
-	<string name="pref_title_ringtone" translatable="false"/>
-	<string name="pref_title_vibrate" translatable="false"/>
-	<string name="pref_ringtone_silent" translatable="false"/>
-	<string-array name="pref_sync_frequency_values"/>
-	<string-array name="pref_sync_frequency_titles"/>
-	<string-array name="pref_example_list_titles"/>
-	<string-array name="pref_example_list_values"/>
+    <string name="app_name">TechLab App</string>
+    <string name="action_settings">Settings</string>
+    <string name="availability" translatable="false">%d/%d</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="username_input">Username</string>
+    <string name="password_input">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="or">or</string>
+    <string name="borrow">Borrow</string>
+    <string name="product_name">Product Name:</string>
+    <string name="product_name_value">Product Name:%36s</string>
+    <string name="product_id">Product ID:</string>
+    <string name="product_id_value">Product ID:%38s</string>
+    <string name="product_cat">Product Category:</string>
+    <string name="product_cat_value">Product Category:%31s</string>
+    <string name="product_des">Product Description:</string>
+    <string name="product_des_value">Product Description:%n%s</string>
+    <string name="product_man">Product Manufacturer:</string>
+    <string name="product_man_value">Product Manufacturer:%27s</string>
+    <string name="available_value">Products Available:%29d</string>
+    <string name="username_id" translatable="false">%s %s (%07d)</string>
+    <string name="date_of_request">Sent request on: %td-%tm-%tY</string>
+    <string name="user_history">User history</string>
+    <string name="user_history_dialog_title">User history of %07d</string>
+    <string name="amount">Amount:</string>
+    <string name="amount_value">Amount: %d</string>
+    <string name="decline">Decline</string>
+    <string name="accept">Accept</string>
+    <string name="image_description">An image of the product</string>
+    <string name="delete_item_title">Delete "%s"</string>
+    <string name="delete_everything">Delete everything</string>
+    <string name="add_product">Add product</string>
+    <string name="add_image">Add image</string>
+    <string name="product_statistics">Product statistics</string>
+    <string name="hour_min">%02d hr %02d min</string>
+    <string name="this_week">This week</string>
+    <string name="user_statistics">User statistics</string>
+    <string name="statistics">Statistics</string>
+    <!--TODO: give them values-->
+    <string name="pref_title_system_sync_settings" translatable="false" />
+    <string name="pref_title_sync_frequency" translatable="false" />
+    <string name="nav_header_desc" translatable="false" />
+    <string name="nav_header_title" translatable="false" />
+    <string name="nav_header_subtitle" translatable="false" />
+    <string name="pref_description_social_recommendations" translatable="false" />
+    <string name="pref_title_social_recommendations" translatable="false" />
+    <string name="pref_default_display_name" translatable="false" />
+    <string name="pref_title_display_name" translatable="false" />
+    <string name="pref_title_add_friends_to_messages" translatable="false" />
+    <string name="pref_header_general" translatable="false" />
+    <string name="pref_header_notifications" translatable="false" />
+    <string name="pref_header_data_sync" translatable="false" />
+    <string name="pref_title_new_message_notifications" translatable="false" />
+    <string name="pref_title_ringtone" translatable="false" />
+    <string name="pref_title_vibrate" translatable="false" />
+    <string name="pref_ringtone_silent" translatable="false" />
+    <string-array name="pref_sync_frequency_values" />
+    <string-array name="pref_sync_frequency_titles" />
+    <string-array name="pref_example_list_titles" />
+    <string-array name="pref_example_list_values" />
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

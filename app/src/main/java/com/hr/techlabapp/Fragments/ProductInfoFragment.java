@@ -95,7 +95,7 @@ public class ProductInfoFragment extends Fragment {
 				((HashMap<String,Integer>) getArguments().getSerializable(PRODUCT_AVAILABILITY_KEY)).get("inStock")));
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
-		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_checkLendRequestFragment,getArguments()));
+		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_createLoanFragment,getArguments()));
 
 		// sets the onClickListener
 		delete = getView().findViewById(R.id.delete);
@@ -113,7 +113,7 @@ public class ProductInfoFragment extends Fragment {
 				dialog.show(getFragmentManager(),String.format("delete item %s",product.ID));
 			}
 		});
-	}
+	}	
 
 	class loadImage extends AsyncTask <Void,Void,Bitmap>{
 

@@ -52,6 +52,9 @@
 		<action
 			android:id="@+id/action_productInfoFragment_to_loginFragment"
 			app:destination="@id/loginFragment" />
+		<action
+			android:id="@+id/action_productInfoFragment_to_createLoanFragment"
+			app:destination="@id/createLoanFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/addProductFragment"
@@ -99,4 +102,9 @@
 			android:id="@+id/action_Camera_to_loginFragment"
 			app:destination="@id/loginFragment" />
 	</fragment>
+	<fragment
+		android:id="@+id/createLoanFragment"
+		android:name="com.hr.techlabapp.Fragments.CreateLoanFragment"
+		android:label="fragment_create_loan2"
+		tools:layout="@layout/fragment_create_loan2" />
 </navigation>

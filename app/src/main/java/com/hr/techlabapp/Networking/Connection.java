@@ -28,11 +28,13 @@ class Connection {
     static Object Send(JSONObject request){
         HttpURLConnection connection;
         Object responseData;
-        String address = "145.137.58.43"; //TODO: How will we even get the right address without hardcoding it?
+        //TODO: How will we even get the right address without hardcoding it?
+        //String address = "192.168.178.9";
+        String address = "145.137.56.25";
 
         try {
             //Connect to server
-            URL url = new URL(new StringBuilder().append("http://").append(address).append("/").toString());
+            URL url = new URL("http://" + address + "/");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestMethod("POST");

@@ -14,7 +14,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -63,7 +62,7 @@ public final class Product {
      * Retrieves this product's image from the server. This image is also automatically stored
      * in the product's image property.
      * @return The image, as bitmap
-     * @throws JSONException
+     * @throws JSONException Shouldn't happen.
      */
     public Bitmap getImage() throws JSONException{
         ArrayList<String> IDs = new ArrayList<>();
@@ -157,7 +156,7 @@ public final class Product {
      * @param start The amount of potential results to skip before returning anything.
      * @param amount The amount of results to return.
      * @return A list of results. Length may be lower than 'amount'.
-     * @throws JSONException
+     * @throws JSONException Shouldn't happen.
      */
     public static List<Product> getProducts(@Nullable String[] fields,
                                             @Nullable HashMap<String, String> criteria,
@@ -249,10 +248,12 @@ public final class Product {
                 .put("productID", product.ID)
                 .put("categoryID", product.categoryID)
                 .put("manufacturer", product.manufacturer)
-                .put("image", encodedImage)
+                .put("image", new JSONObject()
+                    .put("data", encodedImage)
+                    .put("extension", ".bmp")
+                )
                 .put("name", new JSONObject(product.name))
             );
-
         Connection.Send(request);
     }
 

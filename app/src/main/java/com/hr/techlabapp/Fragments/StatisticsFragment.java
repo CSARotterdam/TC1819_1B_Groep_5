@@ -36,6 +36,7 @@ public class StatisticsFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		// fills in the data
+		//noinspection ConstantConditions
 		thisWeek = getView().findViewById(R.id.this_week);
 		thisWeek.setText(getResources().getString(R.string.hour_min,10,18));
 

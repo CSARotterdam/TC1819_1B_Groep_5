@@ -13,6 +13,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 
 import static com.hr.techlabapp.Networking.Authentication.auth;
@@ -35,6 +36,8 @@ class Connection {
             //Connect to server
             URL url = new URL("http://" + address + "/");
             connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
@@ -63,7 +66,7 @@ class Connection {
             switch (reason) {
                 case "ExpiredToken":
                     Log.i(TAG, "Token expired; fetching new token...");
-                    if(auth(loginFragment.currentUser.username, loginFragment.currentUser.hash)){
+                    if (auth(loginFragment.currentUser.username, loginFragment.currentUser.hash)) {
                         Log.i(TAG, "Reauthenticated.");
                         request.put("token", loginFragment.currentUser.token);
                         return Send(request);
@@ -72,25 +75,41 @@ class Connection {
                         loginFragment.currentUser = null;
                         throw new Exceptions.TokenRenewalException();
                     }
-                case "AccessDenied": throw new Exceptions.AccessDenied(message);
-                case "InvalidLogin": throw new Exceptions.InvalidLogin(message);
-                case "InvalidRequestType": throw new Exceptions.InvalidRequestType(message);
-                case "NoSuchProduct": throw new Exceptions.NoSuchProduct(message);
-                case "NoSuchProductItem": throw new Exceptions.NoSuchProductItem(message);
-                case "NoSuchProductCategory": throw new Exceptions.NoSuchProductCategory(message);
-                case "NoSuchUser": throw new Exceptions.AlreadyExists(message);
-                case "AlreadyExists": throw new Exceptions.AlreadyExists(message);
-                case "MissingArguments": throw new Exceptions.MissingArgument(message);
-                case "ServerError": throw new Exceptions.ServerError(message);
-                case "InvalidArguments": throw new Exceptions.InvalidArguments(message);
-                case "Exception": throw new Exceptions.NetworkingException(message);
-                case "": throw new Exceptions.UnexpectedServerResponse();
+                case "AccessDenied":
+                    throw new Exceptions.AccessDenied(message);
+                case "InvalidLogin":
+                    throw new Exceptions.InvalidLogin(message);
+                case "InvalidRequestType":
+                    throw new Exceptions.InvalidRequestType(message);
+                case "NoSuchProduct":
+                    throw new Exceptions.NoSuchProduct(message);
+                case "NoSuchProductItem":
+                    throw new Exceptions.NoSuchProductItem(message);
+                case "NoSuchProductCategory":
+                    throw new Exceptions.NoSuchProductCategory(message);
+                case "NoSuchUser":
+                    throw new Exceptions.AlreadyExists(message);
+                case "AlreadyExists":
+                    throw new Exceptions.AlreadyExists(message);
+                case "MissingArguments":
+                    throw new Exceptions.MissingArgument(message);
+                case "ServerError":
+                    throw new Exceptions.ServerError(message);
+                case "InvalidArguments":
+                    throw new Exceptions.InvalidArguments(message);
+                case "Exception":
+                    throw new Exceptions.NetworkingException(message);
+                case "":
+                    throw new Exceptions.UnexpectedServerResponse();
             }
             responseData = response.opt("responseData");
+        } catch (SocketTimeoutException e){
+            Log.e("Connection.Send()", e.getMessage(), e);
+            throw new Exceptions.ServerConnectionFailed(e);
         } catch (IOException e){
             Log.e("Connection.Send()", e.getMessage(), e);
             throw new Exceptions.NetworkingException(e);
-        } catch (JSONException e){
+        } catch (JSONException e) {
             Log.e("Connection.Send()", e.getMessage(), e);
             throw new Exceptions.NetworkingException(e);
         }

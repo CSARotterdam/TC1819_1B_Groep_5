@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,7 +73,22 @@ public class ProductListFragment extends Fragment {
 		addProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_addProductFragment));
 
 		statistics = getView().findViewById(R.id.statistics);
-		statistics.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_statisticsFragment));
+		statistics.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Bundle b = new Bundle();
+				ArrayList<Product> products = new ArrayList<>();
+				if(Products.isList())
+					for(ConstraintLayout cl: Products.getItems())
+						products.add(((ListItem)cl).getProduct());
+				else
+					for(ConstraintLayout cl: Products.getItems())
+						products.add(((GridItem)cl).getProduct());
+				b.putSerializable("products", products);
+				b.putSerializable("availabilty",GridItem.Availability);
+				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment,b);
+			}
+		});
 	}
 
 			class FillProducts extends AsyncTask<Void, Void, List<Product>>{
@@ -81,7 +97,7 @@ public class ProductListFragment extends Fragment {
 				protected List<Product> doInBackground(Void... voids) {
 					try{
 						List<Product> Products = Product.getProducts(null,new String[]{"en"});
-						new setNames().executeOnExecutor(THREAD_POOL_EXECUTOR,Products);
+						new setAvailability().executeOnExecutor(THREAD_POOL_EXECUTOR, Products);
 						return Products;
 					}
 					catch (JSONException ex){
@@ -114,12 +130,12 @@ public class ProductListFragment extends Fragment {
 		}
 	}
 
-	class setNames extends AsyncTask<List<Product>, Void, Void>{
+	class setAvailability extends AsyncTask<List<Product>, Void, Void>{
 		@Override
-		protected Void doInBackground(List<Product>... lists) {
+		protected Void doInBackground(List<Product>... products) {
 			ArrayList<String> productIds = new ArrayList<>();
 
-			for(Product p: lists[0])
+			for(Product p: products[0])
 				productIds.add(p.ID);
 			try{
 				GridItem.Availability = ListItem.Availability = Statistics.getProductAvailability(productIds);

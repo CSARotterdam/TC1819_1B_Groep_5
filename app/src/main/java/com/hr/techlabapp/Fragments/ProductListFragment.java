@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,7 +73,22 @@ public class ProductListFragment extends Fragment {
 		addProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_addProductFragment));
 
 		statistics = getView().findViewById(R.id.statistics);
-		statistics.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_statisticsFragment));
+		statistics.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Bundle b = new Bundle();
+				ArrayList<Product> products = new ArrayList<>();
+				if(Products.isList())
+					for(ConstraintLayout cl: Products.getItems())
+						products.add(((ListItem)cl).getProduct());
+				else
+					for(ConstraintLayout cl: Products.getItems())
+						products.add(((GridItem)cl).getProduct());
+				b.putSerializable("products", products);
+				b.putSerializable("availabilty",GridItem.Availability);
+				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment,b);
+			}
+		});
 	}
 
 			class FillProducts extends AsyncTask<Void, Void, List<Product>>{

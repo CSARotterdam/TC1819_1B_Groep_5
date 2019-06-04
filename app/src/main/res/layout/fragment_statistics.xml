@@ -97,5 +97,36 @@
 			android:textColor="@color/textColor"
 			android:background="@color/colorPrimary"/>
 	</android.support.constraint.ConstraintLayout>-->
-
+	<TextView
+		android:id="@+id/product_statistics_text"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		android:text="@string/product_statistics"
+		android:textAlignment="center"/>
+	<com.github.mikephil.charting.charts.BarChart
+		android:id="@+id/product_chart"
+		android:layout_height="250dp"
+		android:layout_width="match_parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/product_statistics_text"/>
+	<TextView
+		android:id="@+id/user_statistics_text"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/product_chart"
+		android:text="@string/user_statistics"
+		android:textAlignment="center"/>
+	<com.github.mikephil.charting.charts.BarChart
+		android:id="@+id/user_chart"
+		android:layout_height="250dp"
+		android:layout_width="match_parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/user_statistics_text"/>
 </android.support.constraint.ConstraintLayout>

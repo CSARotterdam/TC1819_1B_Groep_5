@@ -10,16 +10,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.hr.techlabapp.Networking.Product;
+import com.hr.techlabapp.Networking.User;
 import com.hr.techlabapp.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class StatisticsFragment extends Fragment {
 
-	private TextView thisWeek;
-	private TextView topbarStats;
-	
+	private BarChart ProductChart;
+	private BarChart UserChart;
+
 	public StatisticsFragment() {
 		// Required empty public constructor
 	}
@@ -37,10 +48,21 @@ public class StatisticsFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		// fills in the data
 		//noinspection ConstantConditions
-		thisWeek = getView().findViewById(R.id.this_week);
-		thisWeek.setText(getResources().getString(R.string.hour_min,10,18));
+		ProductChart = getView().findViewById(R.id.product_chart);
+		UserChart = getView().findViewById(R.id.user_chart);
+		List<BarEntry> entries = new ArrayList<>();
+		HashMap<String,HashMap<String,Integer>> ava = (HashMap<String, HashMap<String, Integer>>) getArguments().getSerializable("availabilty");
+		int i = 0;
+		for(Product p: (ArrayList<Product>)getArguments().getSerializable("products")){
+			entries.add(new BarEntry(i,new float[] { ava.get(p.ID).get("inStock"), ava.get(p.ID).get("total") }));
+			i++;
+		}
 
-		topbarStats = getView().findViewById(R.id.topbar_stats);
-		topbarStats.setText(getResources().getString(R.string.hour_min,5,18));
+		BarDataSet set = new BarDataSet(entries,"Products");
+		BarData data = new BarData(set);
+		data.setBarWidth(0.9f);
+		ProductChart.setData(data);
+		ProductChart.setFitBars(false);
+		ProductChart.invalidate();
 	}
 }

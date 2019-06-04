@@ -1,5 +1,6 @@
 package com.hr.techlabapp.Fragments;
 
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,8 +14,13 @@ import android.widget.Button;
 import com.hr.techlabapp.Networking.LoanItem;
 
 import com.hr.techlabapp.R;
+import com.savvi.rangedatepicker.CalendarPickerView;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +41,19 @@ public class CreateLoanFragment extends Fragment {
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+		Calendar pastYear = Calendar.getInstance();
+		Calendar nextYear = Calendar.getInstance();
+		nextYear.add(Calendar.YEAR,2);
+
+		CalendarPickerView calendar = (CalendarPickerView) getView().findViewById(R.id.calendar_view);
+
+		calendar.init(pastYear.getTime(), nextYear.getTime())
+				.inMode(CalendarPickerView.SelectionMode.RANGE)
+				.withSelectedDate(new Date());
+
+		calendar.;
+		calendar.setTypeface(Typeface.SANS_SERIF);
+
 		Button btn = getView().findViewById(R.id.stertLen);
 		btn.setOnClickListener(new View.OnClickListener() {
 			@Override

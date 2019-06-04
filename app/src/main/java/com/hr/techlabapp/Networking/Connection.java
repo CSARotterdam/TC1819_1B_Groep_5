@@ -29,8 +29,7 @@ class Connection {
         HttpURLConnection connection;
         Object responseData;
         //TODO: How will we even get the right address without hardcoding it?
-        //String address = "192.168.178.9";
-        String address = "145.137.56.25";
+        String address = "145.137.52.171"; // Kner hr ip
 
         try {
             //Connect to server

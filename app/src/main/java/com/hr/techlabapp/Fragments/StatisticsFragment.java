@@ -32,7 +32,7 @@ public class StatisticsFragment extends Fragment {
 		return inflater.inflate(R.layout.fragment_statistics, container, false);
 	}
 
-	@Override
+/*	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		// fills in the data
@@ -42,5 +42,5 @@ public class StatisticsFragment extends Fragment {
 
 		topbarStats = getView().findViewById(R.id.topbar_stats);
 		topbarStats.setText(getResources().getString(R.string.hour_min,5,18));
-	}
+	}*/
 }

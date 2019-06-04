@@ -1,11 +1,13 @@
 package com.hr.techlabapp.Fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,7 +15,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +43,7 @@ import java.util.List;
 import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.CAMERA_SERVICE;
 import static android.os.AsyncTask.THREAD_POOL_EXECUTOR;
 
 /**
@@ -46,6 +52,7 @@ import static android.os.AsyncTask.THREAD_POOL_EXECUTOR;
 public class AddProductFragment extends Fragment {
 	private static final int PICK_PHOTO = 2;
 	private static final int TAKE_PICTURE = 1;
+	private static final int CAMERA_PERMISSION = 3;
 	public Context context;
 	private Bitmap image = null;
 
@@ -153,18 +160,19 @@ public class AddProductFragment extends Fragment {
 						.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								alert.hide();
+								alert.dismiss();
 								Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-								if (takePicture.resolveActivity(context.getPackageManager()) != null) {
+								if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+									requestPermissions(new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION);
+								} else if (takePicture.resolveActivity(context.getPackageManager()) != null) {
 									startActivityForResult(takePicture, TAKE_PICTURE);
 								}
-
 							}
 						})
 						.setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								alert.hide();
+								alert.dismiss();
 								Intent pickPhoto = new Intent(Intent.ACTION_PICK);
 								pickPhoto.setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 								String[] formats = {"image/jpeg", "image/png", "image/jpg", "image/gif", "image/bmp", "image/webp", "image/heif"};
@@ -177,6 +185,17 @@ public class AddProductFragment extends Fragment {
 				alert.show();
 			}
 		});
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+		Log.i("tag", "hello world");
+		if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+			Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			if (takePicture.resolveActivity(context.getPackageManager()) != null) {
+				startActivityForResult(takePicture, TAKE_PICTURE);
+			}
+		}
 	}
 
 	@Override
@@ -235,7 +254,7 @@ public class AddProductFragment extends Fragment {
 			@SuppressWarnings("ConstantConditions")
 			Spinner dropdown = getView().findViewById(R.id.product_cat);
 			dropdown.setAdapter(adapter);
-			dialog.hide();
+			dialog.dismiss();
 		}
 	}
 

@@ -51,7 +51,7 @@ public class CreateLoanFragment extends Fragment {
 				.inMode(CalendarPickerView.SelectionMode.RANGE)
 				.withSelectedDate(new Date());
 
-		calendar.;
+		//calendar.;
 		calendar.setTypeface(Typeface.SANS_SERIF);
 
 		Button btn = getView().findViewById(R.id.stertLen);

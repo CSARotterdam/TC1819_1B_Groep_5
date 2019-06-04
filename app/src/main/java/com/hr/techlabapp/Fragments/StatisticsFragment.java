@@ -38,7 +38,7 @@ public class StatisticsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_statistics, container, false);
 	}
@@ -58,17 +58,8 @@ public class StatisticsFragment extends Fragment {
 			i++;
 		}
 
-<<<<<<< HEAD
 		topbarStats = getView().findViewById(R.id.topbar_stats);
 		topbarStats.setText(getResources().getString(R.string.hour_min,5,18));
 	}*/
-=======
-		BarDataSet set = new BarDataSet(entries,"Products");
-		BarData data = new BarData(set);
-		data.setBarWidth(0.9f);
-		ProductChart.setData(data);
-		ProductChart.setFitBars(false);
-		ProductChart.invalidate();
-	}
->>>>>>> 04637c0638500a3b604444e052bb296aa808955b
+
 }

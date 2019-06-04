@@ -1,7 +1,7 @@
 package com.hr.techlabapp.Fragments;
 
 
-import android.content.res.Resources;
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -20,14 +20,12 @@ import androidx.navigation.Navigation;
 
 import com.hr.techlabapp.CustomViews.DeleteItemDialog;
 import com.hr.techlabapp.Networking.Product;
-import com.hr.techlabapp.Networking.Statistics;
 import com.hr.techlabapp.R;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 
-import java.nio.charset.Charset;
 import java.util.HashMap;
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,7 +58,7 @@ public class ProductInfoFragment extends Fragment {
 
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_product_info, container, false);
@@ -112,11 +110,13 @@ public class ProductInfoFragment extends Fragment {
 				// sets the args
 				dialog.setArguments(args);
 				// shows the dialog
+				assert getFragmentManager() != null;
 				dialog.show(getFragmentManager(),String.format("delete item %s",product.ID));
 			}
 		});
 	}	
 
+	@SuppressLint("StaticFieldLeak")
 	class loadImage extends AsyncTask <Void,Void,Bitmap>{
 
 		@Override

@@ -137,6 +137,19 @@ public class Exceptions {
     }
 
     /**
+     * Thrown when the client attempts to use an invalid username.
+     * Username restrictions are set and enforced by the server.
+     */
+    public static class InvalidUsername extends NetworkingException{
+        public InvalidUsername(){
+            super();
+        }
+        public InvalidUsername(String message) {
+            super(message);
+        }
+    }
+
+    /**
      * Thrown when the client sends an incomplete request to the server.
      * Only gets thrown due to client bugs.
      * NOTE: This will get thrown if you try to add a value to a request JObject by using `.put("whatever", null)`, because this function apparently just doesn't do anything.

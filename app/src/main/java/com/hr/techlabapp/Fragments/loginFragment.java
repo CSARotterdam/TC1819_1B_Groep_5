@@ -154,8 +154,10 @@ public class loginFragment extends Fragment {
 					return 0;
 				}catch (Exceptions.AlreadyExists e){
 					return 1;
-				}catch (Exceptions.InvalidPassword e){
+				}catch (Exceptions.InvalidPassword e) {
 					return 2;
+				} catch (Exceptions.InvalidUsername e){
+					return 3;
 				} catch (Exceptions.NetworkingException e){
 					return -1;
 				}
@@ -171,8 +173,10 @@ public class loginFragment extends Fragment {
 				Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_productListFragment);
 			} else if(result.equals(1)){
 				msgToast = Toast.makeText(context, "A user already exists with this name.", Toast.LENGTH_SHORT);
-			} else if(result.equals(2)){
+			} else if(result.equals(2)) {
 				msgToast = Toast.makeText(context, "That password is not valid!", Toast.LENGTH_SHORT);
+			} else if(result.equals(3)){
+				msgToast = Toast.makeText(context, "Please use your student number or staff code as username!", Toast.LENGTH_LONG);
 			} else {
 				msgToast = Toast.makeText(context, "An unexpected error occured. Please try again later.", Toast.LENGTH_LONG);
 			}

@@ -30,7 +30,8 @@ class Connection {
         HttpURLConnection connection;
         Object responseData;
         //TODO: How will we even get the right address without hardcoding it?
-        String address = "145.137.52.171"; // Kner hr ip
+        String address = "192.168.178.9";
+        //String address = "145.137.52.171"; // Kner hr ip
 
         try {
             //Connect to server
@@ -99,6 +100,8 @@ class Connection {
                     throw new Exceptions.InvalidArguments(message);
                 case "Exception":
                     throw new Exceptions.NetworkingException(message);
+                case "InvalidUsername":
+                    throw new Exceptions.InvalidUsername(message);
                 case "":
                     throw new Exceptions.UnexpectedServerResponse();
             }

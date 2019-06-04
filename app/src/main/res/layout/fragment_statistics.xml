@@ -5,7 +5,7 @@
 	android:id="@+id/frameLayout5"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".Fragments.StatisticsFragment">
+	tools:context=".Fragments.StatisticsFragment"><!--
 	<android.support.constraint.ConstraintLayout
 		android:id="@+id/product_statistics"
 		app:layout_constraintTop_toTopOf="parent"
@@ -49,7 +49,7 @@
 			android:textColor="@color/ListTextColor"
 			app:layout_constraintTop_toBottomOf="@id/name"
 			app:layout_constraintBottom_toBottomOf="@id/this_week_text"/>
-		<!--TODO: make custom shape (not me)-->
+		&lt;!&ndash;TODO: make custom shape (not me)&ndash;&gt;
 		<View
 			android:id="@+id/topbar"
 			app:layout_constraintTop_toTopOf="@id/topbar_stats"
@@ -96,6 +96,6 @@
 			android:textAllCaps="true"
 			android:textColor="@color/textColor"
 			android:background="@color/colorPrimary"/>
-	</android.support.constraint.ConstraintLayout>
+	</android.support.constraint.ConstraintLayout>-->
 
 </android.support.constraint.ConstraintLayout>

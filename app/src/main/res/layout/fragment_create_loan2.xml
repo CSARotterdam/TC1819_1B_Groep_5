@@ -13,10 +13,22 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/Product_Naem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="51dp" />
+
+        <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="airprt torminol"
+            android:text="wen u wantsiees it"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
         <EditText
@@ -30,7 +42,7 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="shrwwwwhrshwwwwwwwshsrwwwwshrwshrwwwwshrwwhsrwshrwwwwshrwwwwshsrwhsrwswwwrshwtshtwhsrwhsrrwwwwwwshrwww"
+            android:text="when u dropsees it"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
         <EditText
@@ -44,7 +56,22 @@
             android:id="@+id/stertLen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="stabsees it" />
+
+        <com.savvi.rangedatepicker.CalendarPickerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:clipToPadding="false"
+            app:tsquare_dividerColor="@color/calendar_bg"
+            app:tsquare_headerTextColor="@color/calendar_selected_day_bg"
+            />
     </LinearLayout>
 
 </FrameLayout>

@@ -188,14 +188,19 @@ public class ListItem extends ConstraintLayout {
 		protected Bitmap doInBackground(Void... voids) {
 			while (!ImageLoaded)
 				if (isVisibleToUser()) {
-					Bitmap im;
-					try{
-						im = product.getImage();
-					}
-					catch (JSONException ex){
-						im = BitmapFactory.decodeResource(getResources(),R.drawable.cuteaf);
-					}
-					Images.put(product.imageId,im);
+					Bitmap im = null;
+					if(Images.get(product.imageId) != null)
+						im = Images.get(product.imageId);
+					else
+						try{
+							im = product.getImage();
+						}
+						catch (JSONException ex){
+							im = BitmapFactory.decodeResource(getResources(),R.drawable.cuteaf);
+						}
+						finally {
+							Images.put(product.imageId,im);
+						}
 					int imh = im.getHeight();
 					int imw = im.getWidth();
 					float aspectRatio = (float)imw / imh;

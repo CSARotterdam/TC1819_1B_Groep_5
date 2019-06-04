@@ -97,7 +97,7 @@ public class ProductListFragment extends Fragment {
 				protected List<Product> doInBackground(Void... voids) {
 					try{
 						List<Product> Products = Product.getProducts(null,new String[]{"en"});
-						new setNames().executeOnExecutor(THREAD_POOL_EXECUTOR,Products);
+						new setAvailability().executeOnExecutor(THREAD_POOL_EXECUTOR, Products);
 						return Products;
 					}
 					catch (JSONException ex){
@@ -130,12 +130,12 @@ public class ProductListFragment extends Fragment {
 		}
 	}
 
-	class setNames extends AsyncTask<List<Product>, Void, Void>{
+	class setAvailability extends AsyncTask<List<Product>, Void, Void>{
 		@Override
-		protected Void doInBackground(List<Product>... lists) {
+		protected Void doInBackground(List<Product>... products) {
 			ArrayList<String> productIds = new ArrayList<>();
 
-			for(Product p: lists[0])
+			for(Product p: products[0])
 				productIds.add(p.ID);
 			try{
 				GridItem.Availability = ListItem.Availability = Statistics.getProductAvailability(productIds);

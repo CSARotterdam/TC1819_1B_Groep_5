@@ -30,7 +30,7 @@ class Connection {
     static Object Send(JSONObject request){
         HttpURLConnection connection;
         Object responseData;
-        String address = AppConfig.serverAddresses.get("Conor HR");
+        String address = AppConfig.serverAddress;
 
         try {
             //Connect to server

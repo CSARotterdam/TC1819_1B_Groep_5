@@ -179,8 +179,7 @@ public final class Product {
         for (int i = 0; i < responseData.length(); i++) {
             JSONObject product = (JSONObject) responseData.get(i);
             HashMap<String, String> name = new HashMap<>();
-            // do thing with naem
-            // like gett stuff and do shit with hasmap if it is one or just yeet the id back
+            // Create a dictionary and fill it with the proper language data for name
             if (product.has("name") && languages != null) {
                 Iterator<String> itr = ((JSONObject)product.get("name")).keys();
                 while (itr.hasNext()) {
@@ -190,7 +189,7 @@ public final class Product {
             } else if (product.has("name"))
                 name.put("id", product.getString("name"));
 
-            // ssame but wif descruptiz
+            // Same but for description
             HashMap<String, String> description = new HashMap<>();
             if (product.has("description") && languages != null) {
                 Iterator<String> itr = ((JSONObject)product.get("description")).keys();
@@ -226,7 +225,7 @@ public final class Product {
         }
 
         if(!product.name.containsKey("en")){
-            throw new Exceptions.MissingArguments("Product name requires at minimum an English translation.");
+            throw new Exceptions.MissingArguments("Product name requires at least an English translation.");
         }
 
         //Create request
@@ -240,9 +239,10 @@ public final class Product {
                 .put("manufacturer", product.manufacturer)
                 .put("image", new JSONObject()
                     .put("data", encodedImage)
-                    .put("extension", ".bmp")
+                    .put("extension", ".png")
                 )
                 .put("name", new JSONObject(product.name))
+                .put("description", product.description)
             );
         Connection.Send(request);
     }

@@ -2,7 +2,7 @@ package com.hr.techlabapp.Networking;
 
 import android.util.Log;
 
-import com.hr.techlabapp.Fragments.loginFragment;
+import com.hr.techlabapp.AppConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,8 +29,7 @@ class Connection {
     static Object Send(JSONObject request){
         HttpURLConnection connection;
         Object responseData;
-        //TODO: How will we even get the right address without hardcoding it?
-        String address = "145.137.52.171"; // Kner hr ip
+        String address = AppConfig.serverAddresses.get("Conor HR");
 
         try {
             //Connect to server
@@ -66,41 +65,31 @@ class Connection {
             switch (reason) {
                 case "ExpiredToken":
                     Log.i(TAG, "Token expired; fetching new token...");
-                    if (auth(loginFragment.currentUser.username, loginFragment.currentUser.hash)) {
-                        Log.i(TAG, "Reauthenticated.");
-                        request.put("token", loginFragment.currentUser.token);
+                    if (auth(AppConfig.currentUser.username, AppConfig.currentUser.hash)) {
+                        Log.i(TAG, "Reauthorized.");
+                        request.put("token", AppConfig.currentUser.token);
                         return Send(request);
                     } else {
                         Log.i(TAG, "Failed to authenticate.");
-                        loginFragment.currentUser = null;
+                        AppConfig.currentUser = null;
                         throw new Exceptions.TokenRenewalException();
                     }
-                case "AccessDenied":
-                    throw new Exceptions.AccessDenied(message);
-                case "InvalidLogin":
-                    throw new Exceptions.InvalidLogin(message);
-                case "InvalidRequestType":
-                    throw new Exceptions.InvalidRequestType(message);
-                case "NoSuchProduct":
-                    throw new Exceptions.NoSuchProduct(message);
-                case "NoSuchProductItem":
-                    throw new Exceptions.NoSuchProductItem(message);
-                case "NoSuchProductCategory":
-                    throw new Exceptions.NoSuchProductCategory(message);
-                case "NoSuchUser":
-                    throw new Exceptions.AlreadyExists(message);
-                case "AlreadyExists":
-                    throw new Exceptions.AlreadyExists(message);
-                case "MissingArguments":
-                    throw new Exceptions.MissingArgument(message);
-                case "ServerError":
-                    throw new Exceptions.ServerError(message);
-                case "InvalidArguments":
-                    throw new Exceptions.InvalidArguments(message);
                 case "Exception":
                     throw new Exceptions.NetworkingException(message);
-                case "":
-                    throw new Exceptions.UnexpectedServerResponse();
+                default: // This one uses reflection
+                    if (reason.equals("null")) break;
+                    try {
+                        // Get all custom exception classes and find one that matches the response reason
+                        Class<?>[] classes = Exceptions.class.getClasses();
+                        for (Class<?> c : classes) {
+                            if (c.getSimpleName().equals(reason)) {
+                                throw (Exceptions.NetworkingException)
+                                c.getConstructor(String.class).newInstance(message);
+                            }
+                        }
+                    } catch (Exception ignored){ }
+                    // Fallback to unexpected response
+                    throw new Exceptions.UnexpectedServerResponse(message);
             }
             responseData = response.opt("responseData");
         } catch (SocketTimeoutException e){

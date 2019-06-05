@@ -227,6 +227,18 @@ public final class Product {
         if(!product.name.containsKey("en")){
             throw new Exceptions.MissingArguments("Product name requires at least an English translation.");
         }
+        if(!product.description.containsKey("en")){
+            throw new Exceptions.MissingArguments("Product description requires at least an English translation.");
+        }
+
+        // Determine whether the description has been set and should be included in the request
+        boolean includeDesc = false;
+        for (Map.Entry<String, String> entry : product.description.entrySet()){
+            if (entry.getValue() != null) {
+                includeDesc = true;
+                break;
+            }
+        }
 
         //Create request
         JSONObject request = new JSONObject()
@@ -237,12 +249,14 @@ public final class Product {
                 .put("productID", product.ID)
                 .put("categoryID", product.categoryID)
                 .put("manufacturer", product.manufacturer)
-                .put("image", new JSONObject()
-                    .put("data", encodedImage)
-                    .put("extension", ".png")
+                .put("image", product.image != null // only add image if not null
+                    ? new JSONObject()
+                        .put("data", encodedImage)
+                        .put("extension", ".png")
+                    : null
                 )
                 .put("name", new JSONObject(product.name))
-                .put("description", new JSONObject(product.description))
+                .put("description", includeDesc ? new JSONObject(product.description) : null)
             );
         Connection.Send(request);
     }

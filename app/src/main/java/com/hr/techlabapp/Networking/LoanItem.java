@@ -1,5 +1,7 @@
 package com.hr.techlabapp.Networking;
 
+import com.hr.techlabapp.AppConfig;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,6 +44,8 @@ public class LoanItem {
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
+//                .put("username", AppConfig.currentUser.username)
+//                .put("token", AppConfig.currentUser.token)
                 .put("requestType", "addLoan")
                 .put("requestData", new JSONObject()
                         .put("productID", productID)

@@ -1,5 +1,6 @@
 package com.hr.techlabapp.Networking;
 
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.json.JSONException;
@@ -41,7 +42,7 @@ public class Authentication {
            );
 
             JSONObject responseData = (JSONObject) Connection.Send(request);
-            loginFragment.currentUser = new User(username, hash, responseData.getLong("token"), responseData.getInt("permissionLevel"));
+            AppConfig.currentUser = new User(username, hash, responseData.getLong("token"), responseData.getInt("permissionLevel"));
         } catch (Exceptions.InvalidLogin e){
             return false;
         } catch (JSONException e){
@@ -83,8 +84,8 @@ public class Authentication {
         JSONObject request = new JSONObject()
             .put("requestType", "logout")
             .put("requestData", new JSONObject()
-                .put("username", loginFragment.currentUser.username)
-                .put("token", loginFragment.currentUser.token)
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
             );
 
         Connection.Send(request);

@@ -1,5 +1,6 @@
 package com.hr.techlabapp.Networking;
 
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.jetbrains.annotations.Nullable;
@@ -34,8 +35,8 @@ public final class ProductItem {
         //Create JSON object
         JSONObject request = new JSONObject()
                 .put("requestType", "getProductItems")
-                .put("username", loginFragment.currentUser.username)
-                .put("token", loginFragment.currentUser.token)
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
                 .put("requestData", new JSONObject()
                         .put("products", new JSONArray(Arrays.asList(productIds)))
                 );

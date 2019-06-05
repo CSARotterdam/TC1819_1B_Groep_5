@@ -44,17 +44,17 @@ public class LoanItem {
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
-//                .put("username", AppConfig.currentUser.username)
-//                .put("token", AppConfig.currentUser.token)
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
                 .put("requestType", "addLoan")
                 .put("requestData", new JSONObject()
-                        .put("productID", productID)
+                        .put("productId", productID)
                         .put("start", start.toString())
                         .put("end", end.toString())
                 );
 
         JSONObject response = (JSONObject)Connection.Send(request);
-        return new LoanItem(response.getInt("ID"), response.getInt("product_item"), start, end);
+        return new LoanItem(response.getInt("loanId"), response.getInt("productItem"), start, end);
     }
 
     /**

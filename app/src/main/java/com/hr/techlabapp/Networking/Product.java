@@ -6,6 +6,7 @@ import android.support.v4.util.ArrayMap;
 import android.util.Base64;
 import android.util.Log;
 
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.jetbrains.annotations.Nullable;
@@ -86,8 +87,8 @@ public final class Product {
         JSONArray columns = new JSONArray();
         columns.put("data");
         JSONObject request = new JSONObject()
-                .put("username", loginFragment.currentUser.username)
-                .put("token", loginFragment.currentUser.token)
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
                 .put("requestType", "getImages")
                 .put("requestData", new JSONObject()
                         .put("images", images)
@@ -109,23 +110,12 @@ public final class Product {
         return result;
     }
 
-    protected Map<String, Object> getValues() {
-        Map<String, Object> out = new ArrayMap<>();
-        out.put("id", ID);
-        out.put("manufacturer", manufacturer);
-        out.put("category", categoryID);
-        out.put("name", name);
-        out.put("image", image);
-        return out;
-    }
-
     public String getName() {
-        return getName(null);
+        return getName(AppConfig.language);
     }
     public String getName(@Nullable String language) {
-        // TODO retrieve language from settings
-        if (language == null) language = "en"; // Primary fallback is english
         if (name.containsKey(language)) return name.get(language);
+        else if (name.containsKey("en")) return name.get("en"); // Primary fallback is english
         else if (name.containsKey("id")) return name.get("id"); // Secondary fallback is to id. (if present)
         return ""; // Final fallback is blank
     }
@@ -173,8 +163,8 @@ public final class Product {
         }
         JSONObject request = new JSONObject()
                 .put("requestType", "getProducts")
-                .put("username", loginFragment.currentUser.username)
-                .put("token", loginFragment.currentUser.token)
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
                 .put("requestData", new JSONObject()
                         .put("columns", fields)
                         .put("criteria", requestCriteria)
@@ -236,13 +226,13 @@ public final class Product {
         }
 
         if(!product.name.containsKey("en")){
-            throw new Exceptions.MissingArgument("Product name requires at minimum an English translation.");
+            throw new Exceptions.MissingArguments("Product name requires at minimum an English translation.");
         }
 
         //Create request
         JSONObject request = new JSONObject()
-            .put("username", loginFragment.currentUser.username)
-            .put("token", loginFragment.currentUser.token)
+            .put("username", AppConfig.currentUser.username)
+            .put("token", AppConfig.currentUser.token)
             .put("requestType", "addProduct")
             .put("requestData", new JSONObject()
                 .put("productID", product.ID)
@@ -260,8 +250,8 @@ public final class Product {
     public static void deleteProduct(String ID) throws JSONException{
         //Create request
         JSONObject request = new JSONObject()
-            .put("username", loginFragment.currentUser.username)
-            .put("token", loginFragment.currentUser.token)
+            .put("username", AppConfig.currentUser.username)
+            .put("token", AppConfig.currentUser.token)
             .put("requestType", "deleteProduct")
             .put("requestData", new JSONObject()
                 .put("productID", ID)
@@ -283,8 +273,8 @@ public final class Product {
 
         //Create request
         JSONObject request = new JSONObject()
-            .put("username", loginFragment.currentUser.username)
-            .put("token", loginFragment.currentUser.token)
+            .put("username", AppConfig.currentUser.username)
+            .put("token", AppConfig.currentUser.token)
             .put("requestType", "updateProduct")
             .put("requestData", new JSONObject()
                 .put("productID", product.productIDCopy)

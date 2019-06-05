@@ -5,6 +5,7 @@ import android.support.v4.util.ArrayMap;
 import android.util.Base64;
 import android.util.Log;
 
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Fragments.AddProductFragment;
 import com.hr.techlabapp.Fragments.loginFragment;
 
@@ -34,11 +35,24 @@ public final class ProductCategory {
         this.name = name;
     }
 
-    protected Map<String, Object> getValues() {
-        Map<String, Object> out = new ArrayMap<>();
-        out.put("categoryID", categoryID);
-        out.put("name", name);
-        return out;
+    /**
+     * Returns the name of this product using the language specified in AppConfig
+     */
+    public String getName() {
+        return getName(AppConfig.language);
+    }
+
+    /**
+     * Returns the name of this product in the desired language.
+     *
+     * Fallback order is 'param > English > name_id > empty string'
+     * @param language The desired translation to get.
+     */
+    public String getName(@Nullable String language) {
+        if (name.containsKey(language)) return name.get(language);
+        else if (name.containsKey("en")) return name.get("en"); // Primary fallback is english
+        else if (name.containsKey("id")) return name.get("id"); // Secondary fallback is to id. (if present)
+        return ""; // Final fallback is blank
     }
 
     /**
@@ -81,8 +95,8 @@ public final class ProductCategory {
         }
         JSONObject request = new JSONObject()
                 .put("requestType", "getProductCategories")
-                .put("username", loginFragment.currentUser.username)
-                .put("token", loginFragment.currentUser.token)
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
                 .put("requestData", new JSONObject()
                         .put("columns", fields)
                         .put("criteria", requestCriteria)
@@ -114,15 +128,15 @@ public final class ProductCategory {
         return out;
     }
 
-    public static void addProductCategory(ProductCategory category)  throws JSONException, Exceptions.MissingArgument {
+    public static void addProductCategory(ProductCategory category)  throws JSONException {
         if (!category.name.containsKey("en")) {
-            throw new Exceptions.MissingArgument("Product name requires at minimum an English translation.");
+            throw new Exceptions.MissingArguments("Product name requires at minimum an English translation.");
         }
 
         //Create request
         JSONObject request = new JSONObject()
-                .put("username", loginFragment.currentUser.username)
-                .put("token", loginFragment.currentUser.token)
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
                 .put("requestType", "addProductCategory")
                 .put("requestData", new JSONObject()
                         .put("categoryID", category.categoryID)
@@ -134,8 +148,8 @@ public final class ProductCategory {
     public static void deleteProductCategory(String categoryID) throws JSONException {
         //Create request
         JSONObject request = new JSONObject()
-                .put("username", loginFragment.currentUser.username)
-                .put("token", loginFragment.currentUser.token)
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
                 .put("requestType", "deleteProductCategory")
                 .put("requestData", new JSONObject()
                         .put("categoryID", categoryID)
@@ -147,8 +161,8 @@ public final class ProductCategory {
     public static void updateProductCategory(ProductCategory category) throws JSONException{
         //Create request
         JSONObject request = new JSONObject()
-                .put("username", loginFragment.currentUser.username)
-                .put("token", loginFragment.currentUser.token)
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
                 .put("requestType", "updateProductCategory")
                 .put("requestData", new JSONObject()
                         .put("categoryID", category.categoryID)

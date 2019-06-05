@@ -137,15 +137,39 @@ public class Exceptions {
     }
 
     /**
+     * Thrown when the client attempts to use an invalid username.
+     */
+    public static class InvalidUsername extends NetworkingException{
+        public InvalidUsername(){
+            super();
+        }
+        public InvalidUsername(String message) {
+            super(message);
+        }
+    }
+
+    /**
+     * Thrown when a delete request cannot be finished because of false prerequisites.
+     */
+    public static class CannotDelete extends NetworkingException {
+        public CannotDelete(){
+            super();
+        }
+        public CannotDelete(String message) {
+            super(message);
+        }
+    }
+
+    /**
      * Thrown when the client sends an incomplete request to the server.
      * Only gets thrown due to client bugs.
      * NOTE: This will get thrown if you try to add a value to a request JObject by using `.put("whatever", null)`, because this function apparently just doesn't do anything.
      */
-    public static class MissingArgument extends NetworkingException {
-        public MissingArgument(){
+    public static class MissingArguments extends NetworkingException {
+        public MissingArguments(){
             super();
         }
-        public MissingArgument(String message) {
+        public MissingArguments(String message) {
             super(message);
         }
     }
@@ -186,6 +210,68 @@ public class Exceptions {
          public UnexpectedServerResponse(String message) {
             super(message);
         }
+    }
 
+    /**
+     * Thrown when the client requests to create a new loan, but the specified product
+     * has no products available for the given time span.
+     */
+    public static class NoItemsForProduct extends NetworkingException {
+        public NoItemsForProduct(){
+            super();
+        }
+        public NoItemsForProduct(String message) {
+            super(message);
+        }
+    }
+
+    /**
+     * Thrown when the client requests to create a new loan, but it failed.
+     */
+    public static class ReservationFailed extends NetworkingException {
+        public ReservationFailed(){
+            super();
+        }
+        public ReservationFailed(String message) {
+            super(message);
+        }
+    }
+
+    /**
+     * Thrown when the client requests to resize a loan, but the handler encountered an issue.
+     *
+     * This is an arbitrary function, whose cause will be specified in its message.
+     */
+    public static class LoanResizeFailed extends NetworkingException {
+        public LoanResizeFailed(){
+            super();
+        }
+        public LoanResizeFailed(String message) {
+            super(message);
+        }
+    }
+
+    /**
+     * Thrown when the client requests to resize a loan, but it as already ended.
+     */
+    public static class LoanExpired extends NetworkingException {
+        public LoanExpired(){
+            super();
+        }
+        public LoanExpired(String message) {
+            super(message);
+        }
+    }
+
+    /**
+     * Thrown when the client requests to delete a loan, but it has already started.
+     */
+    public static class LoanAlreadyStarted extends NetworkingException {
+        public LoanAlreadyStarted(){
+            super();
+        }
+        public LoanAlreadyStarted(String message) {
+            super(message);
+        }
     }
 }

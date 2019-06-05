@@ -242,7 +242,7 @@ public final class Product {
                     .put("extension", ".png")
                 )
                 .put("name", new JSONObject(product.name))
-                .put("description", product.description)
+                .put("description", new JSONObject(product.description))
             );
         Connection.Send(request);
     }

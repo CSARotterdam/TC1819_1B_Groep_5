@@ -83,7 +83,6 @@ class Connection {
                         // Get all custom exception classes and find one that matches the response reason
                         Class<?>[] classes = Exceptions.class.getClasses();
                         for (Class<?> c : classes) {
-                            Log.e("yeet", c.getSimpleName() + " == " + reason);
                             if (c.getSimpleName().equals(reason)) {
                                 throw (Exceptions.NetworkingException)
                                 c.getConstructor(String.class).newInstance(message);

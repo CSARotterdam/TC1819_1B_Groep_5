@@ -3,14 +3,15 @@ package com.hr.techlabapp.Networking;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class LoanItem {
     public int productItemID;
-    public LocalDate start;
-    public LocalDate end;
+    public Date start;
+    public Date end;
     public int ID;
-    public LoanItem(int ID, int productItemID, LocalDate start, LocalDate end){
+
+    public LoanItem(int ID, int productItemID, Date start, Date end){
         this.ID = ID;
         this.productItemID = productItemID;
         this.start = start;
@@ -25,7 +26,7 @@ public class LoanItem {
      * @return The LoanItem that was created.
      * @throws JSONException
      */
-    public static LoanItem addLoan(Product product, LocalDate start, LocalDate end) throws JSONException{
+    public static LoanItem addLoan(Product product, Date start, Date end) throws JSONException{
         return addLoan(product.ID, start, end);
     }
 
@@ -37,7 +38,7 @@ public class LoanItem {
      * @return The LoanItem that was created.
      * @throws JSONException
      */
-    public static LoanItem addLoan(String productID, LocalDate start, LocalDate end) throws JSONException {
+    public static LoanItem addLoan(String productID, Date start, Date end) throws JSONException {
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
@@ -59,7 +60,7 @@ public class LoanItem {
      * @param end The new end date.
      * @return True if successful, otherwise false.
      */
-    public static boolean extendLoan(LoanItem loan, LocalDate start, LocalDate end) throws JSONException {
+    public static boolean extendLoan(LoanItem loan, Date start, Date end) throws JSONException {
         return extendLoan(loan.ID, start, end);
     }
 
@@ -70,7 +71,7 @@ public class LoanItem {
      * @param end The new end date.
      * @return True if successful, otherwise false.
      */
-    public static boolean extendLoan(int loanItemID, LocalDate start, LocalDate end) throws JSONException {
+    public static boolean extendLoan(int loanItemID, Date start, Date end) throws JSONException {
         //Create JSON object
         JSONObject request;
         request = new JSONObject()

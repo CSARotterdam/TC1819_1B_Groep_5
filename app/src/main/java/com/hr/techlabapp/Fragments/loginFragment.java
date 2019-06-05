@@ -38,7 +38,6 @@ import java.util.HashMap;
  */
 public class loginFragment extends Fragment {
 	private static final String TAG = "TL-Login";
-	public static User currentUser;
 	public Context context;
 
 	Button LoginButton;
@@ -140,6 +139,8 @@ public class loginFragment extends Fragment {
 	}
 
 	public class RegisterActivity extends AsyncTask<String, Void, Integer> {
+		public static final String TAG = "RegisterAction";
+
 		private ProgressDialog dialog;
 
 		protected void onPreExecute(){
@@ -152,14 +153,17 @@ public class loginFragment extends Fragment {
 				try {
 					Authentication.registerUser(params[0], params[1]);
 					return 0;
-				}catch (Exceptions.AlreadyExists e){
+				} catch (Exceptions.AlreadyExists e) {
 					return 1;
-				}catch (Exceptions.InvalidPassword e){
+				} catch (Exceptions.InvalidPassword e) {
 					return 2;
-				} catch (Exceptions.NetworkingException e){
+				} catch (Exceptions.NetworkingException e) {
 					return -1;
 				}
 			} catch (JSONException e){
+				// TODO less retarded exception handling
+				// I mean sure you can keep arguing it cant happen but lets just
+				// handle it properly to avoid stupid problems.
 				throw new RuntimeException(e);
 			}
 		}

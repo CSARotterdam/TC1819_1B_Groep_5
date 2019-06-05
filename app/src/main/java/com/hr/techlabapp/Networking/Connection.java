@@ -12,6 +12,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
@@ -82,12 +83,18 @@ class Connection {
                         // Get all custom exception classes and find one that matches the response reason
                         Class<?>[] classes = Exceptions.class.getClasses();
                         for (Class<?> c : classes) {
+                            Log.e("yeet", c.getSimpleName() + " == " + reason);
                             if (c.getSimpleName().equals(reason)) {
                                 throw (Exceptions.NetworkingException)
                                 c.getConstructor(String.class).newInstance(message);
                             }
                         }
-                    } catch (Exception ignored){ }
+                    }
+                    // Thanks, java reflection
+                    catch (NoSuchMethodException ignored){ }
+                    catch (IllegalAccessException ignored) { }
+                    catch (InstantiationException ignored) { }
+                    catch (InvocationTargetException ignored) { }
                     // Fallback to unexpected response
                     throw new Exceptions.UnexpectedServerResponse(message);
             }

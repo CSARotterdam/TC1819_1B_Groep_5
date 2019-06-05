@@ -5,6 +5,9 @@ import com.hr.techlabapp.AppConfig;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class LoanItem {
@@ -41,6 +44,7 @@ public class LoanItem {
      * @throws JSONException
      */
     public static LoanItem addLoan(String productID, Date start, Date end) throws JSONException {
+        DateFormat format = SimpleDateFormat.getDateInstance();
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
@@ -49,8 +53,8 @@ public class LoanItem {
                 .put("requestType", "addLoan")
                 .put("requestData", new JSONObject()
                         .put("productId", productID)
-                        .put("start", start.toString())
-                        .put("end", end.toString())
+                        .put("start", format.format(start))
+                        .put("end", format.format(end))
                 );
 
         JSONObject response = (JSONObject)Connection.Send(request);

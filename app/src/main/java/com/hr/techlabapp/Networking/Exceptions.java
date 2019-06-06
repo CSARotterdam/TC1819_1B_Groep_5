@@ -201,4 +201,18 @@ public class Exceptions {
         }
 
     }
+
+    /**
+     * Thrown when the client attempts to delete an object, but this couldn't be done
+     * for whatever reason.
+     */
+    public static class CannotDelete extends NetworkingException {
+        public CannotDelete(){
+            super();
+        }
+        public CannotDelete(String message) {
+            super(message);
+        }
+
+    }
 }

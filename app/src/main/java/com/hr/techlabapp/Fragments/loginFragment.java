@@ -22,8 +22,6 @@ import androidx.navigation.Navigation;
 import com.hr.techlabapp.Networking.Authentication;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
-import com.hr.techlabapp.Networking.ProductCategory;
-import com.hr.techlabapp.Networking.Statistics;
 import com.hr.techlabapp.Networking.User;
 import com.hr.techlabapp.R;
 
@@ -120,7 +118,7 @@ public class loginFragment extends Fragment {
 
 		protected void onPreExecute(){
 			dialog = new ProgressDialog(getContext());
-			dialog.setMessage("Logging in...");
+			dialog.setMessage(getResources().getString(R.string.logging_in));
 			dialog.show();
 		}
 		protected Boolean doInBackground(String... params){
@@ -130,10 +128,10 @@ public class loginFragment extends Fragment {
 			dialog.dismiss();
 			Toast msgToast;
 			if(result){
-				msgToast = Toast.makeText(context, "Logged in!", Toast.LENGTH_SHORT);
+				msgToast = Toast.makeText(context, getResources().getString(R.string.login_success), Toast.LENGTH_SHORT);
 				Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_productListFragment);
 			} else {
-				msgToast = Toast.makeText(context, "Login failed!", Toast.LENGTH_SHORT);
+				msgToast = Toast.makeText(context, getResources().getString(R.string.login_failed), Toast.LENGTH_SHORT);
 			}
 			msgToast.show();
 		}
@@ -144,7 +142,7 @@ public class loginFragment extends Fragment {
 
 		protected void onPreExecute(){
 			dialog = new ProgressDialog(getContext());
-			dialog.setMessage("Registering...");
+			dialog.setMessage(getResources().getString(R.string.loading));
 			dialog.show();
 		}
 		protected Integer doInBackground(String... params){
@@ -168,18 +166,20 @@ public class loginFragment extends Fragment {
 		protected void onPostExecute(Integer result){
 			dialog.dismiss();
 			Toast msgToast;
+			String message;
 			if(result.equals(0)){
-				msgToast = Toast.makeText(context, "Registered!", Toast.LENGTH_SHORT);
+				message = getResources().getString(R.string.registered);
 				Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_productListFragment);
 			} else if(result.equals(1)){
-				msgToast = Toast.makeText(context, "A user already exists with this name.", Toast.LENGTH_SHORT);
+				message = getResources().getString(R.string.user_already_exists);
 			} else if(result.equals(2)) {
-				msgToast = Toast.makeText(context, "That password is not valid!", Toast.LENGTH_SHORT);
+				message = getResources().getString(R.string.invalid_password);
 			} else if(result.equals(3)){
-				msgToast = Toast.makeText(context, "Please use your student number or staff code as username!", Toast.LENGTH_LONG);
+				message = getResources().getString(R.string.invalid_username);
 			} else {
-				msgToast = Toast.makeText(context, "An unexpected error occured. Please try again later.", Toast.LENGTH_LONG);
+				 message = getResources().getString(R.string.unexpected_error);
 			}
+			msgToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
 			msgToast.show();
 		}
 	}

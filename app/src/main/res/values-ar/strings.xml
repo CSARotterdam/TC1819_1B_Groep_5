@@ -14,13 +14,12 @@
 	<string name="user_history">User history</string>
 	<string name="user_history_dialog_title">%07d:سجل المستخدم</string>
 	<string name="amount_value">%d:الكمية</string>
-	<string name="amount">الكمية:</string>
+	<string name="Stock">الكمية:</string>
 	<string name="decline">الغاء</string>
 	<string name="accept">موافق</string>
 	<string name="image_description">صورة المنتج</string>
 	<string name="delete_item_title">حذف "%s"</string>
-	<string name="delete_everything">حذف كل شيء</string>
-	<string name="add_product">إضافة منتج</string>
+    <string name="add_product">إضافة منتج</string>
 	<string name="add_image">إضافة صورة</string>
 	<string name="product_statistics">احصائية عن المنتج</string>
 	<string name="hour_min">%02d hr %02d دقيقة</string>

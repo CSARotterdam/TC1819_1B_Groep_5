@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -23,15 +22,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-
-import com.hr.techlabapp.Networking.Product;
-import com.hr.techlabapp.Networking.ProductCategory;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.hr.techlabapp.Networking.Exceptions;
+import com.hr.techlabapp.Networking.Product;
+import com.hr.techlabapp.Networking.ProductCategory;
 import com.hr.techlabapp.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -39,11 +37,10 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.CAMERA_SERVICE;
 import static android.os.AsyncTask.THREAD_POOL_EXECUTOR;
 
 /**
@@ -91,7 +88,7 @@ public class AddProductFragment extends Fragment {
 			EditText productIDField = getView().findViewById(R.id.product_id);
 			String productID = productIDField.getText().toString();
 			if (productID.length() == 0) {
-				Toast toast = Toast.makeText(context, "Product ID is required!", Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(context, getResources().getText(R.string.product_id_required), Toast.LENGTH_SHORT);
 				toast.show();
 				return;
 			}
@@ -100,7 +97,7 @@ public class AddProductFragment extends Fragment {
 			EditText productNameField = getView().findViewById(R.id.product_name);
 			String productName = productNameField.getText().toString();
 			if (productName.length() == 0) {
-				Toast toast = Toast.makeText(context, "Product name is required!", Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(context, getResources().getText(R.string.product_name_required), Toast.LENGTH_SHORT);
 				toast.show();
 				return;
 			}
@@ -188,7 +185,7 @@ public class AddProductFragment extends Fragment {
 	}
 
 	@Override
-	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 		Log.i("tag", "hello world");
 		if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 			Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -227,7 +224,7 @@ public class AddProductFragment extends Fragment {
 		@Override
 		protected  void onPreExecute(){
 			dialog = new ProgressDialog(context);
-			dialog.setMessage("Loading...");
+			dialog.setMessage(getResources().getString(R.string.loading));
 			dialog.setCancelable(false);
 			dialog.show();
 		}
@@ -264,7 +261,7 @@ public class AddProductFragment extends Fragment {
 
 		protected void onPreExecute(){
 			dialog = new ProgressDialog(context);
-			dialog.setMessage("Working...");
+			dialog.setMessage(getResources().getString(R.string.loading));
 			dialog.show();
 		}
 		protected Integer doInBackground(Product... params){
@@ -285,23 +282,23 @@ public class AddProductFragment extends Fragment {
 			String message;
 			switch(result){
 				case 0:
-					message = "Product added successfully.";
+					message = getResources().getString(R.string.product_added_successfully);
 					break;
 				case 1:
-					message = "A product already exists with this ID.";
+					message = getResources().getString(R.string.product_already_exists);
 					break;
 				case 2:
-					message = "The selected category does not exist.";
+					message = getResources().getString(R.string.product_category_doesnt_exist);
 					break;
 				default:
-					message = "An unexpected error occurred.";
+					message = getResources().getString(R.string.unexpected_error);
 					break;
 			}
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			builder.setMessage(message)
 				.setCancelable(false)
-				.setPositiveButton("OK", null);
+				.setPositiveButton(getResources().getString(R.string.OK), null);
 			AlertDialog alert = builder.create();
 			alert.show();
 		}

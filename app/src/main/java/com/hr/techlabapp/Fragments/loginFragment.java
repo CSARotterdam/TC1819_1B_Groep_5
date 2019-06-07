@@ -36,7 +36,6 @@ import java.util.HashMap;
  */
 public class loginFragment extends Fragment {
 	private static final String TAG = "TL-Login";
-	public static User currentUser;
 	public Context context;
 
 	Button LoginButton;

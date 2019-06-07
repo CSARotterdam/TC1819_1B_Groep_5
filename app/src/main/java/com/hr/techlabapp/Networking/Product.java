@@ -276,8 +276,8 @@ public final class Product {
     public static void deleteProductItems(int count) throws JSONException{
         //Create request
         JSONObject request = new JSONObject()
-                .put("username", loginFragment.currentUser.username)
-                .put("token", loginFragment.currentUser.token)
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
                 .put("requestType", "deleteProductItem")
                 .put("requestData", new JSONObject()
                         .put("count", count)

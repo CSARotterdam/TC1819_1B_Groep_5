@@ -1,15 +1,11 @@
 package com.hr.techlabapp.Networking;
 
-import android.util.Log;
-
-import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,7 +22,7 @@ public class Statistics {
      * @return A hashmap of hashmaps, which each contain information about an individual product. The product IDs are used as keys.
      */
     public static HashMap<String, HashMap<String, Integer>> getProductAvailability(String productID) throws JSONException{
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         list.add(productID);
         return getProductAvailability(list);
     }
@@ -41,7 +37,7 @@ public class Statistics {
      * @return A hashmap of hashmaps, which each contain information about an individual product. The product IDs are used as keys.
      */
     public static HashMap<String, HashMap<String, Integer>> getProductAvailability(Product product) throws JSONException{
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         list.add(product.ID);
         return getProductAvailability(list);
     }
@@ -59,8 +55,8 @@ public class Statistics {
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
-            .put("username", AppConfig.currentUser.username)
-            .put("token", AppConfig.currentUser.token)
+            .put("username", loginFragment.currentUser.username)
+            .put("token", loginFragment.currentUser.token)
             .put("requestType", "getProductAvailability")
             .put("requestData", new JSONObject()
                 .put("products", new JSONArray(productIDs)));

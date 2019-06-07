@@ -38,12 +38,12 @@ public class StatisticsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_statistics, container, false);
 	}
 
-	@Override
+/*	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		// fills in the data
@@ -57,11 +57,9 @@ public class StatisticsFragment extends Fragment {
 			entries.add(new BarEntry(i,new float[] { ava.get(p.ID).get("inStock"), ava.get(p.ID).get("total") }));
 			i++;
 		}
-		BarDataSet set = new BarDataSet(entries,"Products");
-		BarData data = new BarData(set);
-		data.setBarWidth(0.9f);
-		ProductChart.setData(data);
-		ProductChart.setFitBars(false);
-		ProductChart.invalidate();
-	}
+
+		topbarStats = getView().findViewById(R.id.topbar_stats);
+		topbarStats.setText(getResources().getString(R.string.hour_min,5,18));
+	}*/
+
 }

@@ -88,7 +88,7 @@
 			android:textSize="30sp"/>
 
 		<TextView
-			android:id="@+id/amount"
+			android:id="@+id/stockAmount"
 			app:layout_constraintLeft_toLeftOf="parent"
 			app:layout_constraintTop_toBottomOf="@id/name"
 			android:layout_margin="@dimen/usual_margin"
@@ -100,7 +100,7 @@
 			android:id="@+id/decline"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			app:layout_constraintTop_toBottomOf="@id/amount"
+			app:layout_constraintTop_toBottomOf="@id/stockAmount"
 			app:layout_constraintLeft_toLeftOf="parent"
 			android:text="@string/decline"
 			android:textAllCaps="false"
@@ -109,7 +109,7 @@
 			android:id="@+id/accept"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			app:layout_constraintTop_toBottomOf="@id/amount"
+			app:layout_constraintTop_toBottomOf="@id/stockAmount"
 			app:layout_constraintLeft_toRightOf="@id/decline"
 			android:text="@string/accept"
 			android:textColor="@color/colorPrimary"

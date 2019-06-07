@@ -25,13 +25,13 @@
     <string name="date_of_request">Sent request on: %td-%tm-%tY</string>
     <string name="user_history">User history</string>
     <string name="user_history_dialog_title">User history of %07d</string>
-    <string name="amount">Amount:</string>
+    <string name="Stock">Stock:</string>
     <string name="amount_value">Amount: %d</string>
     <string name="decline">Decline</string>
     <string name="accept">Accept</string>
     <string name="image_description">An image of the product</string>
     <string name="delete_item_title">Delete "%s"</string>
-    <string name="delete_everything">Delete everything</string>
+    <string name="delete_product">Delete Product</string>
     <string name="add_product">Add product</string>
     <string name="add_image">Add image</string>
     <string name="product_statistics">Product statistics</string>
@@ -64,4 +64,24 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="unexpected_error">An unexpected error occurred. Please try again later.</string>
+    <string name="invalid_username">Please use your student number or staff code as username.</string>
+    <string name="invalid_password">That password is not valid!</string>
+    <string name="user_already_exists">A user already exists with this name.</string>
+    <string name="registered">Registered!</string>
+    <string name="loading">Loading...</string>
+    <string name="OK">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="product_removal_success">Product removed successfully.</string>
+    <string name="stock_lowered">Stock successfully lowered.</string>
+    <string name="product_removal_failed_loaned_out">Couldn\'t delete item. Some products are still loaned out.</string>
+    <string name="user_no_borrowed_items">This user hasn\'t borrowed any items yet.</string>
+    <string name="product_id_required">The Product ID field is required!</string>
+    <string name="product_name_required">The Product Name field is required!</string>
+    <string name="product_added_successfully">Product added successfully.</string>
+    <string name="product_already_exists">A product already exists with this ID.</string>
+    <string name="product_category_doesnt_exist">The selected category does not exist.</string>
+    <string name="logging_in">Logging in...</string>
+    <string name="login_success">Logged in!</string>
+    <string name="login_failed">Login failed.</string>
 </resources>

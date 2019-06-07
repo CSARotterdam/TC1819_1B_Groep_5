@@ -22,8 +22,6 @@ import androidx.navigation.Navigation;
 import com.hr.techlabapp.Networking.Authentication;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
-import com.hr.techlabapp.Networking.ProductCategory;
-import com.hr.techlabapp.Networking.Statistics;
 import com.hr.techlabapp.Networking.User;
 import com.hr.techlabapp.R;
 
@@ -38,6 +36,7 @@ import java.util.HashMap;
  */
 public class loginFragment extends Fragment {
 	private static final String TAG = "TL-Login";
+	public static User currentUser;
 	public Context context;
 
 	Button LoginButton;
@@ -119,7 +118,7 @@ public class loginFragment extends Fragment {
 
 		protected void onPreExecute(){
 			dialog = new ProgressDialog(getContext());
-			dialog.setMessage("Logging in...");
+			dialog.setMessage(getResources().getString(R.string.logging_in));
 			dialog.show();
 		}
 		protected Boolean doInBackground(String... params){
@@ -129,23 +128,21 @@ public class loginFragment extends Fragment {
 			dialog.dismiss();
 			Toast msgToast;
 			if(result){
-				msgToast = Toast.makeText(context, "Logged in!", Toast.LENGTH_SHORT);
+				msgToast = Toast.makeText(context, getResources().getString(R.string.login_success), Toast.LENGTH_SHORT);
 				Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_productListFragment);
 			} else {
-				msgToast = Toast.makeText(context, "Login failed!", Toast.LENGTH_SHORT);
+				msgToast = Toast.makeText(context, getResources().getString(R.string.login_failed), Toast.LENGTH_SHORT);
 			}
 			msgToast.show();
 		}
 	}
 
 	public class RegisterActivity extends AsyncTask<String, Void, Integer> {
-		public static final String TAG = "RegisterAction";
-
 		private ProgressDialog dialog;
 
 		protected void onPreExecute(){
 			dialog = new ProgressDialog(getContext());
-			dialog.setMessage("Registering...");
+			dialog.setMessage(getResources().getString(R.string.loading));
 			dialog.show();
 		}
 		protected Integer doInBackground(String... params){
@@ -153,33 +150,36 @@ public class loginFragment extends Fragment {
 				try {
 					Authentication.registerUser(params[0], params[1]);
 					return 0;
-				} catch (Exceptions.AlreadyExists e) {
+				}catch (Exceptions.AlreadyExists e){
 					return 1;
-				} catch (Exceptions.InvalidPassword e) {
+				}catch (Exceptions.InvalidPassword e) {
 					return 2;
-				} catch (Exceptions.NetworkingException e) {
+				} catch (Exceptions.InvalidUsername e){
+					return 3;
+				} catch (Exceptions.NetworkingException e){
 					return -1;
 				}
 			} catch (JSONException e){
-				// TODO less retarded exception handling
-				// I mean sure you can keep arguing it cant happen but lets just
-				// handle it properly to avoid stupid problems.
 				throw new RuntimeException(e);
 			}
 		}
 		protected void onPostExecute(Integer result){
 			dialog.dismiss();
 			Toast msgToast;
+			String message;
 			if(result.equals(0)){
-				msgToast = Toast.makeText(context, "Registered!", Toast.LENGTH_SHORT);
+				message = getResources().getString(R.string.registered);
 				Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_productListFragment);
 			} else if(result.equals(1)){
-				msgToast = Toast.makeText(context, "A user already exists with this name.", Toast.LENGTH_SHORT);
-			} else if(result.equals(2)){
-				msgToast = Toast.makeText(context, "That password is not valid!", Toast.LENGTH_SHORT);
+				message = getResources().getString(R.string.user_already_exists);
+			} else if(result.equals(2)) {
+				message = getResources().getString(R.string.invalid_password);
+			} else if(result.equals(3)){
+				message = getResources().getString(R.string.invalid_username);
 			} else {
-				msgToast = Toast.makeText(context, "An unexpected error occured. Please try again later.", Toast.LENGTH_LONG);
+				 message = getResources().getString(R.string.unexpected_error);
 			}
+			msgToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
 			msgToast.show();
 		}
 	}

@@ -30,9 +30,9 @@ public class UserHistoryDialog extends DialogFragment {
 		// makes a new builder
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		// sets the title to R.string.user_history_dialog_title with %07d replaced with the id of the user
-		builder.setTitle(getResources().getString(R.string.user_history_dialog_title,userID));
+		builder.setTitle(getResources().getString(R.string.user_history_dialog_title,userID)); //TODO Translate
 		// sets the message
-		builder.setMessage("This user hasn't borrowed any items.");
+		builder.setMessage(getResources().getString(R.string.user_no_borrowed_items));
 		// creates the dialog
 		return builder.create();
 	}

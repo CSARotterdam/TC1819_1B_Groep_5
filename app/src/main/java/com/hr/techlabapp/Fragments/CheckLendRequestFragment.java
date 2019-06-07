@@ -2,7 +2,6 @@ package com.hr.techlabapp.Fragments;
 
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,7 +21,6 @@ import com.hr.techlabapp.R;
 
 import org.json.JSONException;
 
-import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -80,13 +78,13 @@ public class CheckLendRequestFragment extends Fragment {
 		image.setImageBitmap(product.image);
 		//sets the value
 		username = getView().findViewById(R.id.username);
-		username.setText(getResources().getString(R.string.username_id,"Gijs","Puelinckx",95895));
+		username.setText(getResources().getString(R.string.username_id,"Gijs","Puelinckx",95895)); //TODO what
 		requestDate = getView().findViewById(R.id.request_date);
 		Object Date = Build.VERSION.SDK_INT >= 26 ? LocalDate.now(): Calendar.getInstance().getTime();
 		requestDate.setText(getResources().getString(R.string.date_of_request,Date,Date,Date));
 		name = getView().findViewById(R.id.name);
 		name.setText(product.getName());
-		amount = getView().findViewById(R.id.amount);
+		amount = getView().findViewById(R.id.stockAmount);
 		// TODO: get availability from api
 		try {
 			amount.setText(getResources().getString(R.string.amount_value,

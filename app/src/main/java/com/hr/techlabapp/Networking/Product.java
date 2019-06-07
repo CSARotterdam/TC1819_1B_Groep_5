@@ -2,7 +2,6 @@ package com.hr.techlabapp.Networking;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.util.ArrayMap;
 import android.util.Base64;
 import android.util.Log;
 

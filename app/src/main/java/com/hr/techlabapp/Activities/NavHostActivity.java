@@ -1,11 +1,11 @@
 package com.hr.techlabapp.Activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
 import com.hr.techlabapp.R;
 
-public class NavHostActivity extends AppCompatActivity {
+public class NavHostActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

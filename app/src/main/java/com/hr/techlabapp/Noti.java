@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Notification;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationManagerCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;

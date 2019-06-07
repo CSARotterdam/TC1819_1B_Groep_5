@@ -153,7 +153,7 @@ public class CameraFragment extends Fragment {
             });
 
         //bindt de shit hierboven aan de lifecycle:
-        CameraX.bindToLifecycle((LifecycleOwner)this, imgAsys, /*imgCap,*/ pview);
+        CameraX.bindToLifecycle(this, imgAsys, /*imgCap,*/ pview);
     }
 
     public interface CameraInteractionListener {

@@ -154,11 +154,11 @@ public class Exceptions {
      * Only gets thrown due to client bugs.
      * NOTE: This will get thrown if you try to add a value to a request JObject by using `.put("whatever", null)`, because this function apparently just doesn't do anything.
      */
-    public static class MissingArgument extends NetworkingException {
-        public MissingArgument(){
+    public static class MissingArguments extends NetworkingException {
+        public MissingArguments(){
             super();
         }
-        public MissingArgument(String message) {
+        public MissingArguments(String message) {
             super(message);
         }
     }

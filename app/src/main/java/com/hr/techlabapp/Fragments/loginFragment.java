@@ -150,13 +150,13 @@ public class loginFragment extends Fragment {
 				try {
 					Authentication.registerUser(params[0], params[1]);
 					return 0;
-				}catch (Exceptions.AlreadyExists e){
+				} catch (Exceptions.AlreadyExists e) {
 					return 1;
-				}catch (Exceptions.InvalidPassword e) {
+				} catch (Exceptions.InvalidPassword e) {
 					return 2;
 				} catch (Exceptions.InvalidUsername e){
 					return 3;
-				} catch (Exceptions.NetworkingException e){
+				} catch (Exceptions.NetworkingException e) {
 					return -1;
 				}
 			} catch (JSONException e){
@@ -172,7 +172,7 @@ public class loginFragment extends Fragment {
 				Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_productListFragment);
 			} else if(result.equals(1)){
 				message = getResources().getString(R.string.user_already_exists);
-			} else if(result.equals(2)) {
+			} else if(result.equals(2)){
 				message = getResources().getString(R.string.invalid_password);
 			} else if(result.equals(3)){
 				message = getResources().getString(R.string.invalid_username);

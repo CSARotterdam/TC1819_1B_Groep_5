@@ -18,15 +18,11 @@
         android:hint="You have borrowed FIFA-2018"
         />
     <Button
+        android:id="@+id/Channel1Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SEND ON CHANNEL1"
-        android:onClick="sendOnChannel1"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SEND ON CHANNEL2"
-        android:onClick="sendOnChannel2"/>
+        android:text="send"
+        android:textAllCaps="true"/>
 
 </LinearLayout>
 

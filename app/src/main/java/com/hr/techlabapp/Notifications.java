@@ -6,32 +6,21 @@ import android.app.NotificationManager;
 import android.os.Build;
 
 public class Notifications extends Application {
-    public static final String channel_1_ID = "Notification";
-    public static final String channel_2_ID = "Notification2";
+    public static final String CHANNEL_1_ID = "channel1";
+
     @Override
     public void onCreate() {
         super.onCreate();
-        createNotificationsChannels();
-    }
-    private void createNotificationsChannels() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel1 = new NotificationChannel(
-                    channel_1_ID,
-                    "notifications",
+                    CHANNEL_1_ID,
+                    "Channel 1",
                     NotificationManager.IMPORTANCE_HIGH
             );
-            channel1.setDescription("This is channel one");
-            NotificationChannel channel2 = new NotificationChannel(
-                    channel_2_ID,
-                    "notifications2",
-                    NotificationManager.IMPORTANCE_LOW
-            );
-            channel2.setDescription("This is channel two");
+            channel1.setDescription("This is Channel 1");
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel1);
-            manager.createNotificationChannel(channel2);
         }
-
     }
 }
 

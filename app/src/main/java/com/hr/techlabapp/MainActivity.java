@@ -17,8 +17,6 @@ import android.view.View;
 import android.widget.EditText;
 
 
-
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private NotificationManagerCompat notificationManager;
@@ -30,9 +28,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-            notificationManager = NotificationManagerCompat.from(this);
-            editTextTitle = findViewById(R.id.edit_text_title);
-            editTextMessage = findViewById(R.id.edit_text_message);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -45,31 +40,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-    public void sendOnChannel1(View v){
-        String title = editTextTitle.getText().toString();
-        String message = editTextMessage.getText().toString();
-        Notification notification = new NotificationCompat.Builder(this, Notifications.channel_1_ID)
-                .setSmallIcon(R.drawable.ic_one)
-                .setContentTitle(title)
-                .setContentText(message);
-
-
-
-
-    }
-    public void sendOnChannel2(View v){
-        String title = editTextTitle.getText().toString();
-        String message = editTextMessage.getText().toString();
-
-        Notification notification = new NotificationCompat.Builder(this, Notifications.channel_2_ID)
-                .setSmallIcon(R.drawable.ic_two)
-                .setContentTitle(title)
-                .setContentText(message);
-
-
-    }
-
-
 
     @Override
     public void onBackPressed() {
@@ -120,8 +90,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, Help.class));
 
         } else if (id == R.id.Notifications) {
-            startActivity(new Intent(MainActivity.this,Notifications.class));
-
+            startActivity(new Intent(MainActivity.this,Noti.class));
         } else if  (id == R.id.language) {
 
 

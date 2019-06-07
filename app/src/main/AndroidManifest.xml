@@ -16,6 +16,8 @@
             android:label="Help"/>
         <activity android:name=".Language"
             android:label="language"/>
+        <activity android:name=".Noti"
+            android:label="notifiction"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"

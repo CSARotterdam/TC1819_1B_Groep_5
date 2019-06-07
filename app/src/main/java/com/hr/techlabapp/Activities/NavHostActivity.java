@@ -1,11 +1,12 @@
 package com.hr.techlabapp.Activities;
 
-import android.app.Activity;
 import android.os.Bundle;
+
+import androidx.fragment.app.FragmentActivity;
 
 import com.hr.techlabapp.R;
 
-public class NavHostActivity extends Activity {
+public class NavHostActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

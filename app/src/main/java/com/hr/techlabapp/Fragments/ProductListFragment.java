@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.ScrollView;
 
 import androidx.navigation.Navigation;
 
+import com.google.android.material.navigation.NavigationView;
 import com.hr.techlabapp.CustomViews.GridItem;
 import com.hr.techlabapp.CustomViews.ListItem;
 import com.hr.techlabapp.CustomViews.cGrid;
@@ -42,7 +44,8 @@ import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_NAME_KEY;
  */
 // gets rid of the useless/usefull warnings
 @SuppressWarnings("all")
-public class ProductListFragment extends Fragment {
+public class ProductListFragment extends Fragment
+	implements NavigationView.OnNavigationItemSelectedListener{
 
 	private cGrid Products;
 
@@ -91,7 +94,12 @@ public class ProductListFragment extends Fragment {
 		});
 	}
 
-			class FillProducts extends AsyncTask<Void, Void, List<Product>>{
+	@Override
+	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+		return false;
+	}
+
+	class FillProducts extends AsyncTask<Void, Void, List<Product>>{
 
 				@Override
 				protected List<Product> doInBackground(Void... voids) {

@@ -61,7 +61,9 @@
     <string-array name="pref_sync_frequency_titles" />
     <string-array name="pref_example_list_titles" />
     <string-array name="pref_example_list_values" />
-
+    <string name="title_activity_main">My Techlab</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="unexpected_error">An unexpected error occurred. Please try again later.</string>

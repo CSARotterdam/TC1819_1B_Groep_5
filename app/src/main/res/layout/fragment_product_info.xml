@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/frameLayout3"
@@ -72,7 +72,7 @@
 		android:layout_height="0dp"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintBottom_toTopOf="@id/info_lower_space"/>
-	<android.support.constraint.ConstraintLayout
+	<androidx.constraintlayout.widget.ConstraintLayout
 		android:id="@+id/lower-button-holder"
 		app:layout_constraintLeft_toRightOf="@id/leftspacer"
 		app:layout_constraintRight_toLeftOf="@id/rightspacer"
@@ -104,7 +104,7 @@
 			android:textAllCaps="false"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintLeft_toRightOf="@id/middlespacer"/>
-	</android.support.constraint.ConstraintLayout>
+	</androidx.constraintlayout.widget.ConstraintLayout>
 
 	<Space
 		android:id="@+id/rightspacer"
@@ -120,4 +120,4 @@
 		app:layout_constraintLeft_toRightOf="parent"
 		app:layout_constraintBottom_toBottomOf="parent"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

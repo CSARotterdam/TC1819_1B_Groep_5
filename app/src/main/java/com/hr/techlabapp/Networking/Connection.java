@@ -30,7 +30,8 @@ class Connection {
         HttpURLConnection connection;
         Object responseData;
         //TODO: How will we even get the right address without hardcoding it?
-        String address = "192.168.178.9";
+        //String address = "192.168.178.9";
+        String address = "192.168.0.130"; // Gijs home
         //String address = "145.137.52.171"; // Kner hr ip
 
         try {
@@ -93,7 +94,7 @@ class Connection {
                 case "AlreadyExists":
                     throw new Exceptions.AlreadyExists(message);
                 case "MissingArguments":
-                    throw new Exceptions.MissingArgument(message);
+                    throw new Exceptions.MissingArguments(message);
                 case "ServerError":
                     throw new Exceptions.ServerError(message);
                 case "InvalidArguments":

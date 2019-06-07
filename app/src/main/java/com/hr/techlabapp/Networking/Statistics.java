@@ -1,11 +1,15 @@
 package com.hr.techlabapp.Networking;
 
+import android.util.Log;
+
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,8 +59,8 @@ public class Statistics {
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
-            .put("username", loginFragment.currentUser.username)
-            .put("token", loginFragment.currentUser.token)
+            .put("username", AppConfig.currentUser.username)
+            .put("token", AppConfig.currentUser.token)
             .put("requestType", "getProductAvailability")
             .put("requestData", new JSONObject()
                 .put("products", new JSONArray(productIDs)));

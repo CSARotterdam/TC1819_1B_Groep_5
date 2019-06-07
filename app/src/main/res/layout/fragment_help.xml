@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Help"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Techlab:"
+        android:textSize="30dp"
+        android:textColor="@color/colorAccent"
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingTop="60dp"
+        android:paddingRight="20dp"
+        android:text="My Techlab is an application that helps students of Hogeschool Rotterdam to borrow products from the techlab online. You will need to login with you student email to reach the data.When you log in you can borrow and reserve products, you can send feedback and keep on touch with us for any complains or opinions. On the navigation menu you can find many options that will help you manage your tasks, fore example: You can switch the notifications on and off, you can change the language to English, Dutch or Arabic. You can find contact information and a list of all the products we have. All feedbacks are WELCOME! Thanx for using our application (; "
+        android:textSize="22dp" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</FrameLayout>

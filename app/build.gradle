@@ -36,4 +36,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'android.arch.navigation:navigation-fragment:1.0.0'
     implementation 'org.jetbrains:annotations-java5:15.0'
+    implementation 'com.google.zxing:core:3.4.0' //importeert zxing library voor qr dinges
+    def camerax_version = "1.0.0-alpha01"
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
 }

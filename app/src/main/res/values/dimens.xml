@@ -8,9 +8,9 @@
 	<dimen name="info_image_height">150dp</dimen>
 	<dimen name="check_image_height">175dp</dimen>
 	<!--TODO: give values-->
-	<dimen name="nav_header_height"/>
-	<dimen name="activity_horizontal_margin"/>
-	<dimen name="activity_vertical_margin"/>
-	<dimen name="nav_header_vertical_spacing"/>
+	<dimen name="nav_header_height">50dp</dimen>
+	<dimen name="activity_horizontal_margin">5dp</dimen>
+	<dimen name="activity_vertical_margin">5dp</dimen>
+	<dimen name="nav_header_vertical_spacing">5dp</dimen>
 
 </resources>

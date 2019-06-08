@@ -72,7 +72,7 @@ public class ProductListFragment extends Fragment
 		Products = getView().findViewById(R.id.products);
 		Products.setList(false);
 		(new FillProducts()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		addProduct = getView().findViewById(R.id.add_product);
+		/*addProduct = getView().findViewById(R.id.add_product);
 		addProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_addProductFragment));
 
 		statistics = getView().findViewById(R.id.statistics);
@@ -91,7 +91,7 @@ public class ProductListFragment extends Fragment
 				b.putSerializable("availabilty",GridItem.Availability);
 				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment,b);
 			}
-		});
+		});*/
 	}
 
 	@Override

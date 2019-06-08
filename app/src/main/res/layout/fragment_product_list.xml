@@ -8,7 +8,18 @@
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true"
 	tools:openDrawer="start">
+	<com.google.android.material.navigation.NavigationView
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		android:id="@+id/nav_view"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_gravity="start"
+		android:fitsSystemWindows="true"
+		app:headerLayout="@layout/nav_header_main"
+		app:menu="@menu/activity_main_drawer" />
 	<androidx.coordinatorlayout.widget.CoordinatorLayout
+
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
@@ -27,6 +38,17 @@
 				app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 		</com.google.android.material.appbar.AppBarLayout>
+		<ScrollView
+			android:layout_marginTop="?attr/actionBarSize"
+			android:id="@+id/scrollView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<com.hr.techlabapp.CustomViews.cGrid
+				android:id="@+id/products"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"/>
+		</ScrollView>
+		<!--Waarom bestaat dit-->
 		<com.google.android.material.floatingactionbutton.FloatingActionButton
 			android:id="@+id/fab"
 			android:layout_width="wrap_content"
@@ -36,31 +58,4 @@
 			app:srcCompat="@android:drawable/ic_dialog_email" />
 
 	</androidx.coordinatorlayout.widget.CoordinatorLayout>
-	<androidx.constraintlayout.widget.ConstraintLayout
-		android:id="@+id/frameLayout2"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		tools:context=".Fragments.ProductListFragment">
-		<ScrollView
-			android:id="@+id/scrollView"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintLeft_toLeftOf="parent"
-			app:layout_constraintRight_toRightOf="parent"
-			android:layout_width="match_parent"
-			android:layout_height="0dp">
-			<com.hr.techlabapp.CustomViews.cGrid
-				android:id="@+id/products"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"/>
-		</ScrollView>
-	</androidx.constraintlayout.widget.ConstraintLayout>
-	<com.google.android.material.navigation.NavigationView
-		android:id="@+id/nav_view"
-		android:layout_width="wrap_content"
-		android:layout_height="match_parent"
-		android:layout_gravity="start"
-		android:fitsSystemWindows="true"
-		app:headerLayout="@layout/nav_header_main"
-		app:menu="@menu/activity_main_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>

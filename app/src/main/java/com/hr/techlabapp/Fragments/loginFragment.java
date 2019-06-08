@@ -1,6 +1,7 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,13 +23,14 @@ import androidx.navigation.Navigation;
 import com.hr.techlabapp.Networking.Authentication;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
-import com.hr.techlabapp.Networking.User;
 import com.hr.techlabapp.R;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 
 /**
@@ -38,18 +40,14 @@ public class loginFragment extends Fragment {
 	private static final String TAG = "TL-Login";
 	public Context context;
 
-	Button LoginButton;
-	Button RegisterButton;
-	Button TestButton;
-
 	public loginFragment() {
 		// Required empty public constructor
 	}
 
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_login, container, false);
 	}
@@ -57,33 +55,33 @@ public class loginFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		this.context = getView().getContext();
+		this.context = Objects.requireNonNull(getView()).getContext();
 
-		LoginButton = getView().findViewById(R.id.login);
-		LoginButton.setOnClickListener(new View.OnClickListener() {
+		Button loginButton = getView().findViewById(R.id.login);
+		loginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				EditText usernameField = (EditText)getView().findViewById(R.id.username);
+				EditText usernameField = Objects.requireNonNull(getView()).findViewById(R.id.username);
 				String username = usernameField.getText().toString();
-				EditText passwordField = (EditText)getView().findViewById((R.id.password));
+				EditText passwordField = getView().findViewById((R.id.password));
 				String password = passwordField.getText().toString();
 				new  LoginActivity().execute(username, password);
 			}
 		});
 
-		RegisterButton = getView().findViewById(R.id.register);
-		RegisterButton.setOnClickListener(new View.OnClickListener() {
+		Button registerButton = getView().findViewById(R.id.register);
+		registerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				EditText usernameField = (EditText)getView().findViewById(R.id.username);
+				EditText usernameField = Objects.requireNonNull(getView()).findViewById(R.id.username);
 				String username = usernameField.getText().toString();
-				EditText passwordField = (EditText)getView().findViewById((R.id.password));
+				EditText passwordField = getView().findViewById((R.id.password));
 				String password = passwordField.getText().toString();
 				new  RegisterActivity().execute(username, password);
 			}
 		});
-		TestButton = getView().findViewById(R.id.testButton);
-		TestButton.setOnClickListener(new View.OnClickListener() {
+		Button testButton = getView().findViewById(R.id.testButton);
+		testButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				new TestActivity().execute();
@@ -91,11 +89,10 @@ public class loginFragment extends Fragment {
 		});
 	}
 
-	public class TestActivity extends AsyncTask<Void, Void, HashMap<String, HashMap<String, Integer>>>{
-		@SafeVarargs
-		protected final HashMap<String, HashMap<String, Integer>> doInBackground(Void... voids) {
+	@SuppressLint("StaticFieldLeak")
+	public class TestActivity extends AsyncTask<Void, Void, Void> {
+		protected final Void doInBackground(Void... voids) {
 			Log.i(TAG, "exec");
-			HashMap map = new HashMap();
 			try {
 				Authentication.LoginUser("test", "password");
 				Log.i(TAG, "authed");
@@ -108,11 +105,12 @@ public class loginFragment extends Fragment {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			return map;
+			return null;
 		}
 	}
 
-	public class LoginActivity extends AsyncTask<String, Void, Boolean> {
+	@SuppressLint("StaticFieldLeak")
+	public class LoginActivity extends AsyncTask<String, Void, Integer> {
 		private ProgressDialog dialog;
 
 		protected void onPreExecute(){
@@ -120,22 +118,34 @@ public class loginFragment extends Fragment {
 			dialog.setMessage(getResources().getString(R.string.logging_in));
 			dialog.show();
 		}
-		protected Boolean doInBackground(String... params){
-			return Authentication.LoginUser(params[0], params[1]);
-		}
-		protected void onPostExecute(Boolean result){
-			dialog.dismiss();
-			Toast msgToast;
-			if(result){
-				msgToast = Toast.makeText(context, getResources().getString(R.string.login_success), Toast.LENGTH_SHORT);
-				Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_productListFragment);
-			} else {
-				msgToast = Toast.makeText(context, getResources().getString(R.string.login_failed), Toast.LENGTH_SHORT);
+		protected Integer doInBackground(String... params){
+			try{
+				if(Authentication.LoginUser(params[0], params[1])){
+					return 0;
+				} else {
+					return 1;
+				}
+			}catch (Exceptions.ServerConnectionFailed e){
+				return 2;
 			}
+		}
+		protected void onPostExecute(Integer result){
+			dialog.dismiss();
+			String msg = "This won't show lol";
+			if(result.equals(0)){
+				msg = getResources().getString(R.string.login_success);
+				Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_loginFragment_to_productListFragment);
+			} else if(result.equals(1)){
+				msg = getResources().getString(R.string.login_failed);
+			} else if(result.equals(2)) {
+				msg = getResources().getString(R.string.unexpected_error);
+			}
+			Toast msgToast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
 			msgToast.show();
 		}
 	}
 
+	@SuppressLint("StaticFieldLeak")
 	public class RegisterActivity extends AsyncTask<String, Void, Integer> {
 		private ProgressDialog dialog;
 
@@ -168,7 +178,7 @@ public class loginFragment extends Fragment {
 			String message;
 			if(result.equals(0)){
 				message = getResources().getString(R.string.registered);
-				Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_productListFragment);
+				Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_loginFragment_to_productListFragment);
 			} else if(result.equals(1)){
 				message = getResources().getString(R.string.user_already_exists);
 			} else if(result.equals(2)){

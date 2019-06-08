@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class Settings extends AppCompatActivity {
+public class settings extends AppCompatActivity {
     Button language;
 
     @Override

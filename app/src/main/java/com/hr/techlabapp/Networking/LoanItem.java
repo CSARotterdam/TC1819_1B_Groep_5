@@ -1,14 +1,22 @@
 package com.hr.techlabapp.Networking;
 
+import android.util.JsonToken;
+import android.util.Log;
+
 import com.hr.techlabapp.AppConfig;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class LoanItem {
     public int productItemID;
@@ -80,14 +88,17 @@ public class LoanItem {
      * @return True if successful, otherwise false.
      */
     public static boolean extendLoan(int loanItemID, Date start, Date end) throws JSONException {
+        DateFormat format = SimpleDateFormat.getDateInstance();
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
                 .put("requestType", "extendLoan")
                 .put("requestData", new JSONObject()
                         .put("loanItemID", loanItemID)
-                        .put("start", start.toString())
-                        .put("end", end.toString())
+                        .put("start", format.format(start))
+                        .put("end", format.format(end))
                 );
         JSONObject response = (JSONObject) Connection.Send(request);
         return response.getBoolean("success");
@@ -103,6 +114,8 @@ public class LoanItem {
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
                 .put("requestType", "getLoan")
                 .put("requestData", new JSONObject()
                         .put("loanItemID", loanItemID)
@@ -110,5 +123,33 @@ public class LoanItem {
 
         JSONObject response = (JSONObject)Connection.Send(request);
         return new LoanItem(response.getInt("ID"), response.getInt("product_item"), start, end);
+    }
+
+    /**
+     * Gets a list of unavailable dates for loans on a specific product. These dates will be within
+     * the start and end parameters.
+     * @param productId
+     * @param start The start of the date range to scan for unavailable dates.
+     * @param end
+     * @return
+     * @throws JSONException
+     */
+    public static List<Date> getUnavailableDates(String productId, Date start, Date end) throws JSONException {
+        DateFormat format = SimpleDateFormat.getDateInstance();
+        JSONObject request = new JSONObject()
+            .put("username", AppConfig.currentUser.username)
+            .put("token", AppConfig.currentUser.token)
+            .put("requestType", "getUnavailableDates")
+            .put("requestData", new JSONObject()
+                .put("productId", productId)
+                .put("start", format.format(start))
+                .put("end", format.format(end))
+            );
+        JSONArray response = (JSONArray) Connection.Send(request);
+        List<Date> outList = new ArrayList<>();
+        for (int i = 0; i < response.length(); i++) {
+            outList.add(new Date(response.getLong(i)));
+        }
+        return outList;
     }
 }

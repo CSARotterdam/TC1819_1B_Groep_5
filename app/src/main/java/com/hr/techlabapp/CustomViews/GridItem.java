@@ -231,7 +231,7 @@ public class GridItem extends ConstraintLayout {
 
 		@Override
 		protected void onPostExecute(HashMap<String, Integer> av) {
-			availability.setText(getResources().getString(R.string.availability, av.get("inStock"), av.get("total")));
+			availability.setText(getResources().getString(R.string.availability, av.get("available"), av.get("total")));
 		}
 	}
 

@@ -1,5 +1,8 @@
 package com.hr.techlabapp.Fragments;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -28,12 +31,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class CreateLoanFragment extends Fragment {
-	static Product product;
+	private static Product product;
 
 	public CreateLoanFragment() {
 		// Required empty public constructor
@@ -48,6 +52,7 @@ public class CreateLoanFragment extends Fragment {
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+		assert getArguments() != null;
 		product = new Product(
 				getArguments().getString("ProductId"),
 				getArguments().getString("ProductManufacturer"),
@@ -58,7 +63,7 @@ public class CreateLoanFragment extends Fragment {
 				(Bitmap) getArguments().getParcelable("ProductImage"));
 
 		// Setup title text
-		TextView title = getView().findViewById(R.id.FrameTitle);
+		TextView title = Objects.requireNonNull(getView()).findViewById(R.id.FrameTitle);
 		title.setText(product.getName());
 
 		Calendar pastYear = Calendar.getInstance();
@@ -88,11 +93,19 @@ public class CreateLoanFragment extends Fragment {
 		});
 	}
 
-	class AddLoan_Action extends AsyncTask<Object, Void, Void> {
+	@SuppressLint("StaticFieldLeak")
+	class AddLoan_Action extends AsyncTask<Object, Void, String> {
 		static final String TAG = "AddLoan_Action";
+		private ProgressDialog dialog;
+
+		protected void onPreExecute(){
+			dialog = new ProgressDialog(getContext());
+			dialog.setMessage(getResources().getString(R.string.loading));
+			dialog.show();
+		}
 
 		@Override
-		protected Void doInBackground(Object... params) {
+		protected String doInBackground(Object... params) {
 			if (params.length == 0) return null;
 			Log.i(TAG, "Running networking task 'AddLoan'...");
 
@@ -120,12 +133,26 @@ public class CreateLoanFragment extends Fragment {
 
 			try {
 				LoanItem.addLoan(product, minDate, maxDate);
+			} catch (Exceptions.NoItemsForProduct e){
+				return getResources().getString(R.string.no_items_for_product);
 			} catch (Exceptions.NetworkingException e) {
 				Log.e(TAG, "Error while adding loan: " + e.getClass().getSimpleName() + ": " + e.getMessage());
+				return getResources().getString(R.string.unexpected_error);
 			} catch (JSONException e) {
 				Log.e(TAG, "Unexpected error while adding loan: " + e.getClass().getSimpleName() + ": " + e.getMessage());
+				return getResources().getString(R.string.unexpected_error);
 			}
-			return null;
+			return getResources().getString(R.string.loan_added_successfully);
+		}
+
+		protected void onPostExecute(String message){
+			dialog.hide();
+			AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+			builder.setMessage(message)
+					.setCancelable(false)
+					.setPositiveButton(getResources().getString(R.string.OK), null);
+			AlertDialog alert = builder.create();
+			alert.show();
 		}
 	}
 }

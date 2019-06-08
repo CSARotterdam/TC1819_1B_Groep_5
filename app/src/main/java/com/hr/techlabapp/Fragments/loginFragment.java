@@ -110,7 +110,7 @@ public class loginFragment extends Fragment {
 	}
 
 	@SuppressLint("StaticFieldLeak")
-	public class LoginActivity extends AsyncTask<String, Void, Integer> {
+	public class LoginActivity extends AsyncTask<String, Void, String> {
 		private ProgressDialog dialog;
 
 		protected void onPreExecute(){
@@ -118,27 +118,21 @@ public class loginFragment extends Fragment {
 			dialog.setMessage(getResources().getString(R.string.logging_in));
 			dialog.show();
 		}
-		protected Integer doInBackground(String... params){
+		protected String doInBackground(String... params){
 			try{
 				if(Authentication.LoginUser(params[0], params[1])){
-					return 0;
+					return getResources().getString(R.string.login_success);
 				} else {
-					return 1;
+					return getResources().getString(R.string.login_failed);
 				}
 			}catch (Exceptions.ServerConnectionFailed e){
-				return 2;
+				return getResources().getString(R.string.unexpected_error);
 			}
 		}
-		protected void onPostExecute(Integer result){
+		protected void onPostExecute(String msg){
 			dialog.dismiss();
-			String msg = "This won't show lol";
-			if(result.equals(0)){
-				msg = getResources().getString(R.string.login_success);
+			if(msg == getResources().getString(R.string.login_success)){
 				Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_loginFragment_to_productListFragment);
-			} else if(result.equals(1)){
-				msg = getResources().getString(R.string.login_failed);
-			} else if(result.equals(2)) {
-				msg = getResources().getString(R.string.unexpected_error);
 			}
 			Toast msgToast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
 			msgToast.show();
@@ -146,7 +140,7 @@ public class loginFragment extends Fragment {
 	}
 
 	@SuppressLint("StaticFieldLeak")
-	public class RegisterActivity extends AsyncTask<String, Void, Integer> {
+	public class RegisterActivity extends AsyncTask<String, Void, String> {
 		private ProgressDialog dialog;
 
 		protected void onPreExecute(){
@@ -154,41 +148,27 @@ public class loginFragment extends Fragment {
 			dialog.setMessage(getResources().getString(R.string.loading));
 			dialog.show();
 		}
-		protected Integer doInBackground(String... params){
+		protected String doInBackground(String... params){
 			try {
 				try {
 					Authentication.registerUser(params[0], params[1]);
-					return 0;
+					return getResources().getString(R.string.registered);
 				} catch (Exceptions.AlreadyExists e) {
-					return 1;
+					return getResources().getString(R.string.user_already_exists);
 				} catch (Exceptions.InvalidPassword e) {
-					return 2;
+					return getResources().getString(R.string.invalid_password);
 				} catch (Exceptions.InvalidUsername e){
-					return 3;
+					return getResources().getString(R.string.invalid_username);
 				} catch (Exceptions.NetworkingException e) {
-					return -1;
+					return getResources().getString(R.string.unexpected_error);
 				}
 			} catch (JSONException e){
 				throw new RuntimeException(e);
 			}
 		}
-		protected void onPostExecute(Integer result){
+		protected void onPostExecute(String message){
 			dialog.dismiss();
-			Toast msgToast;
-			String message;
-			if(result.equals(0)){
-				message = getResources().getString(R.string.registered);
-				Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_loginFragment_to_productListFragment);
-			} else if(result.equals(1)){
-				message = getResources().getString(R.string.user_already_exists);
-			} else if(result.equals(2)){
-				message = getResources().getString(R.string.invalid_password);
-			} else if(result.equals(3)){
-				message = getResources().getString(R.string.invalid_username);
-			} else {
-				 message = getResources().getString(R.string.unexpected_error);
-			}
-			msgToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+			Toast msgToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
 			msgToast.show();
 		}
 	}

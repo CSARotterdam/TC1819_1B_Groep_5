@@ -257,7 +257,7 @@ public class AddProductFragment extends Fragment {
 	}
 
 	@SuppressLint("StaticFieldLeak")
-	public class AddProductActivity extends AsyncTask<Product, Void, Integer>{
+	public class AddProductActivity extends AsyncTask<Product, Void, String>{
 		private ProgressDialog dialog;
 
 		protected void onPreExecute(){
@@ -265,37 +265,22 @@ public class AddProductFragment extends Fragment {
 			dialog.setMessage(getResources().getString(R.string.loading));
 			dialog.show();
 		}
-		protected Integer doInBackground(Product... params){
+		protected String doInBackground(Product... params){
 			try{
 				Product.addProduct(params[0]);
 			} catch (JSONException e){
-				return -1;
+				return getResources().getString(R.string.unexpected_error);
 			} catch (Exceptions.AlreadyExists e){
-				return  1;
+				return  getResources().getString(R.string.product_already_exists);
 			} catch (Exceptions.NoSuchProductCategory e){
-				return 2;
+				return getResources().getString(R.string.product_category_doesnt_exist);
 			}
 
-			return 0;
+			return getResources().getString(R.string.product_added_successfully);
 		}
-		protected void onPostExecute(Integer result){
-			dialog.hide();
-			String message;
-			switch(result){
-				case 0:
-					message = getResources().getString(R.string.product_added_successfully);
-					break;
-				case 1:
-					message = getResources().getString(R.string.product_already_exists);
-					break;
-				case 2:
-					message = getResources().getString(R.string.product_category_doesnt_exist);
-					break;
-				default:
-					message = getResources().getString(R.string.unexpected_error);
-					break;
-			}
 
+		protected void onPostExecute(String message){
+			dialog.hide();
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			builder.setMessage(message)
 				.setCancelable(false)

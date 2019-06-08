@@ -38,6 +38,9 @@ import java.util.Objects;
  */
 public class CreateLoanFragment extends Fragment {
 	private static Product product;
+	CalendarPickerView calendar;
+	Calendar start;
+	Calendar end;
 
 	public CreateLoanFragment() {
 		// Required empty public constructor
@@ -66,37 +69,76 @@ public class CreateLoanFragment extends Fragment {
 		TextView title = Objects.requireNonNull(getView()).findViewById(R.id.FrameTitle);
 		title.setText(product.getName());
 
-		Calendar pastYear = Calendar.getInstance();
-		Calendar nextYear = Calendar.getInstance();
-		nextYear.add(Calendar.YEAR,2);
+		start = Calendar.getInstance();
+		end = Calendar.getInstance();
+		end.add(Calendar.MONTH,4);
 
-		final CalendarPickerView calendar = getView().findViewById(R.id.calendar_view);
+		this.calendar = getView().findViewById(R.id.calendar_view);
 
-		calendar.init(pastYear.getTime(), nextYear.getTime())
+		calendar.init(start.getTime(), end.getTime())
 				.inMode(CalendarPickerView.SelectionMode.RANGE)
 				.withSelectedDate(new Date());
-
 		calendar.setTypeface(Typeface.SANS_SERIF);
+
 
 		Button btn = getView().findViewById(R.id.createLoanBtn);
 		btn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (calendar.getSelectedDates().size() == 0){
-					// TODO add popup message saying "please select a date on the calendar"
 					Log.i("CreateLoanFragment", "Nothing is selected. Skipping action...");
 					return;
 				}
-				AddLoan_Action action = new AddLoan_Action();
-				action.execute(calendar.getSelectedDates());
+				new AddLoan_Action().execute(calendar.getSelectedDates());
 			}
 		});
+
+		refreshCalendar();
+	}
+
+	private void refreshCalendar() {
+		new GetUnavailableDates_Action().execute();
+	}
+
+	@SuppressLint("StaticFieldLeak")
+	class GetUnavailableDates_Action extends AsyncTask<Void, Void, Void> {
+		static final String TAG = "GetUnavailableDates";
+		private ProgressDialog dialog;
+
+		protected void onPreExecute(){
+			dialog = new ProgressDialog(getContext());
+			dialog.setMessage(getResources().getString(R.string.loading));
+			dialog.show();
+		}
+
+		@Override
+		protected Void doInBackground(Void... voids) {
+			Log.i(TAG, "Getting all unavailable dates for " + product.getName() + "...");
+			try {
+				final List<Date> unavailableDates = LoanItem.getUnavailableDates(
+						product.ID,
+						new Date(start.getTimeInMillis()),
+						new Date(end.getTimeInMillis()));
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						calendar.clearHighlightedDates();
+						calendar.highlightDates(unavailableDates);
+						dialog.hide();
+					}
+				});
+			} catch (JSONException e){
+				Log.e(TAG, "JSONException during getUnavailableDates: " + e.getMessage());
+			}
+			return null;
+		}
 	}
 
 	@SuppressLint("StaticFieldLeak")
 	class AddLoan_Action extends AsyncTask<Object, Void, String> {
 		static final String TAG = "AddLoan_Action";
 		private ProgressDialog dialog;
+		private boolean reloadCalendar = false;
 
 		protected void onPreExecute(){
 			dialog = new ProgressDialog(getContext());
@@ -107,18 +149,15 @@ public class CreateLoanFragment extends Fragment {
 		@Override
 		protected String doInBackground(Object... params) {
 			if (params.length == 0) return null;
-			Log.i(TAG, "Running networking task 'AddLoan'...");
-
-			// Prepare fields
-			List<Date> dates;
+			Log.i(TAG, "Running task...");
 
 			// Prepare values
+			List<Date> dates;
 			try {
 				dates = (List<Date>) params[0];
 			} catch(Exception e){
-				// TODO Add popup error handler
 				Log.e(TAG, "Failed to prepare values: " + e.getMessage());
-				return null;
+				return getResources().getString(R.string.unexpected_error);
 			}
 
 			// Get min and max dates
@@ -126,14 +165,17 @@ public class CreateLoanFragment extends Fragment {
 			Date maxDate = null;
 			for (Date date : dates) {
 				if (minDate == null || minDate.after(date))
-					minDate = date;
+					minDate = new Date(date.getTime());
 				if (maxDate == null || maxDate.before(date))
-					maxDate = date;
+					maxDate = new Date(date.getTime());
 			}
+			// Add one day in milliseconds to create a range of exactly one day.
+			maxDate.setTime(maxDate.getTime() + 86400000);
 
 			try {
 				LoanItem.addLoan(product, minDate, maxDate);
 			} catch (Exceptions.NoItemsForProduct e){
+				Log.w(TAG, e.getClass().getSimpleName() + ": " + e.getMessage());
 				return getResources().getString(R.string.no_items_for_product);
 			} catch (Exceptions.NetworkingException e) {
 				Log.e(TAG, "Error while adding loan: " + e.getClass().getSimpleName() + ": " + e.getMessage());
@@ -142,17 +184,23 @@ public class CreateLoanFragment extends Fragment {
 				Log.e(TAG, "Unexpected error while adding loan: " + e.getClass().getSimpleName() + ": " + e.getMessage());
 				return getResources().getString(R.string.unexpected_error);
 			}
+			reloadCalendar = true;
 			return getResources().getString(R.string.loan_added_successfully);
 		}
 
 		protected void onPostExecute(String message){
 			dialog.hide();
+			if (message == null) return;
 			AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 			builder.setMessage(message)
 					.setCancelable(false)
 					.setPositiveButton(getResources().getString(R.string.OK), null);
 			AlertDialog alert = builder.create();
 			alert.show();
+			if (reloadCalendar) {
+				refreshCalendar();
+				calendar.clearSelectedDates();
+			}
 		}
 	}
 }

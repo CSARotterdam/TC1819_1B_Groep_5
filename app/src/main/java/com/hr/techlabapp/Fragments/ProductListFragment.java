@@ -48,10 +48,6 @@ public class ProductListFragment extends Fragment
 	implements NavigationView.OnNavigationItemSelectedListener{
 
 	private cGrid Products;
-
-	private Button addProduct;
-	private Button statistics;
-
 	private ScrollView scrollView;
 
 	public ProductListFragment() {
@@ -72,10 +68,13 @@ public class ProductListFragment extends Fragment
 		Products = getView().findViewById(R.id.products);
 		Products.setList(false);
 		(new FillProducts()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		addProduct = getView().findViewById(R.id.add_product);
-		addProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_addProductFragment));
+		
+		//TODO FIX THIS SHIT KUTKIND
+		//Button addProduct = getView().findViewById(R.id.add_product);
+		//addProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_addProductFragment));
 
-		statistics = getView().findViewById(R.id.statistics);
+		/*
+		Button statistics = getView().findViewById(R.id.statistics);
 		statistics.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -92,6 +91,7 @@ public class ProductListFragment extends Fragment
 				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment,b);
 			}
 		});
+		*/
 	}
 
 	@Override

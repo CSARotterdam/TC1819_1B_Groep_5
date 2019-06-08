@@ -24,8 +24,8 @@
                 android:id="@+id/statistics"
                 android:title="Statistics" />
             <item
-            android:id="@+id/settings"
-            android:title="Settings" />
+                android:id="@+id/settings"
+                android:title="Settings" />
             <item
                 android:id="@+id/Log_out"
                 android:title="Log out" />

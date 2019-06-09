@@ -1,5 +1,6 @@
 package com.hr.techlabapp.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,10 +9,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.R;
 
 import static android.app.Activity.RESULT_OK;

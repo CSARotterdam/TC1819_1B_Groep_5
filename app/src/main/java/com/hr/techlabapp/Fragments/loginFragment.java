@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.navigation.Navigation;
 
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.Networking.Authentication;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
@@ -46,6 +47,11 @@ public class loginFragment extends Fragment {
 		// Required empty public constructor
 	}
 
+	@Override
+	public void onAttach(@NonNull Context context) {
+		((NavHostActivity)context).currentFragment = this;
+		super.onAttach(context);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

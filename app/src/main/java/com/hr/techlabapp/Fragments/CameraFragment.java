@@ -1,10 +1,12 @@
 package com.hr.techlabapp.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.camera.core.CameraX;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageAnalysisConfig;
@@ -29,6 +31,7 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.QR.qrReader;
 import com.hr.techlabapp.R;
 
@@ -44,6 +47,13 @@ public class CameraFragment extends Fragment {
 
     public CameraFragment() {
         // Required empty public constructor
+    }
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        ((NavHostActivity)context).currentFragment = this;
+        super.onAttach(context);
     }
 
     @Override

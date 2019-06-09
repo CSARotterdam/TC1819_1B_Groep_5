@@ -2,6 +2,7 @@ package com.hr.techlabapp.Fragments;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -137,7 +139,14 @@ public class loginFragment extends Fragment {
 		}
 		protected void onPostExecute(String msg){
 			dialog.dismiss();
-			if(msg == getResources().getString(R.string.login_success)){
+			if(msg.equals(getResources().getString(R.string.login_success))){
+
+				//This hides the keyboard. Yes you need four lines to do it. No I don't like it either.
+				final Activity activity = getActivity();
+				assert activity != null;
+				final InputMethodManager inputManager = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.hideSoftInputFromWindow(Objects.requireNonNull(activity.getCurrentFocus()).getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
 				Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_loginFragment_to_productListFragment);
 			}
 			Toast msgToast = Toast.makeText(context, msg, Toast.LENGTH_LONG);

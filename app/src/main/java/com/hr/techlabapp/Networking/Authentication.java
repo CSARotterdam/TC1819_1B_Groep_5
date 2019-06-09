@@ -82,11 +82,11 @@ public class Authentication {
     public static void logout() throws JSONException {
         //Create JSON object;
         JSONObject request = new JSONObject()
+            .put("username", AppConfig.currentUser.username)
+            .put("token", AppConfig.currentUser.token)
             .put("requestType", "logout")
             .put("requestData", new JSONObject()
-                .put("username", AppConfig.currentUser.username)
-                .put("token", AppConfig.currentUser.token)
-            );
+        );
 
         Connection.Send(request);
     }

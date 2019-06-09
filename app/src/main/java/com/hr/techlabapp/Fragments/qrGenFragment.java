@@ -1,8 +1,11 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.zxing.WriterException;
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.QR.qrGenerator;
 import com.hr.techlabapp.R;
 
@@ -32,6 +36,12 @@ public class qrGenFragment extends Fragment {
 
     public qrGenFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        ((NavHostActivity)context).currentFragment = this;
+        super.onAttach(context);
     }
 
     public static qrGenFragment newInstance() {

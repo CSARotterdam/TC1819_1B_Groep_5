@@ -1,6 +1,7 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.User;
 import com.hr.techlabapp.R;
@@ -35,6 +37,11 @@ public class StatisticsFragment extends Fragment {
 		// Required empty public constructor
 	}
 
+	@Override
+	public void onAttach(@NonNull Context context) {
+		((NavHostActivity)context).currentFragment = this;
+		super.onAttach(context);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

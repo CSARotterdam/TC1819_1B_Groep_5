@@ -1,6 +1,7 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.CustomViews.UserHistoryDialog;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.Statistics;
@@ -54,6 +56,12 @@ public class CheckLendRequestFragment extends Fragment {
 		// Required empty public constructor
 	}
 
+
+	@Override
+	public void onAttach(@NonNull Context context) {
+		((NavHostActivity)context).currentFragment = this;
+		super.onAttach(context);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

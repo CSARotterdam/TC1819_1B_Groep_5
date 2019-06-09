@@ -1,23 +1,34 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ScrollView;
+import androidx.appcompat.widget.Toolbar;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.navigation.NavigationView;
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.CustomViews.GridItem;
 import com.hr.techlabapp.CustomViews.ListItem;
 import com.hr.techlabapp.CustomViews.cGrid;
@@ -45,15 +56,24 @@ import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_NAME_KEY;
 // gets rid of the useless/usefull warnings
 @SuppressWarnings("all")
 public class ProductListFragment extends Fragment
-	implements NavigationView.OnNavigationItemSelectedListener{
+	implements IFragmentLimitationsWorkarounds{
 
 	private cGrid Products;
+
+	private Toolbar toolbar;
+
+	private NavigationView navigationView;
+
+	private Button addProduct;
+	private Button statistics;
+
+	private DrawerLayout drawerLayout;
+
 	private ScrollView scrollView;
 
 	public ProductListFragment() {
 		// Required empty public constructor
 	}
-
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,52 +85,91 @@ public class ProductListFragment extends Fragment
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		((NavHostActivity)getActivity()).currentFragment = this;
 		Products = getView().findViewById(R.id.products);
 		Products.setList(false);
 		(new FillProducts()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		toolbar = getView().findViewById(R.id.toolbar);
+		((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-		//TODO FIX THIS SHIT KUTKIND
-		//Button addProduct = getView().findViewById(R.id.add_product);
-		//addProduct.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_addProductFragment));
-
-		/*
-		Button statistics = getView().findViewById(R.id.statistics);
-		statistics.setOnClickListener(new View.OnClickListener() {
+		drawerLayout = getView().findViewById(R.id.drawer_layout);
+		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout,toolbar,
+				R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+		drawerLayout.addDrawerListener(toggle);
+		toggle.syncState();
+		navigationView = getView().findViewById(R.id.nav_view);
+		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
-			public void onClick(View v) {
-				Bundle b = new Bundle();
-				ArrayList<Product> products = new ArrayList<>();
-				if(Products.isList())
-					for(ConstraintLayout cl: Products.getItems())
-						products.add(((ListItem)cl).getProduct());
-				else
-					for(ConstraintLayout cl: Products.getItems())
-						products.add(((GridItem)cl).getProduct());
-				b.putSerializable("products", products);
-				b.putSerializable("availabilty",GridItem.Availability);
-				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment,b);
+			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+				int id = menuItem.getItemId();
+				if(id == R.id.statistics){
+					Bundle b = new Bundle();
+					ArrayList<Product> products = new ArrayList<>();
+					if(Products.isList())
+						for(ConstraintLayout cl: Products.getItems())
+							products.add(((ListItem)cl).getProduct());
+					else
+						for(ConstraintLayout cl: Products.getItems())
+							products.add(((GridItem)cl).getProduct());
+					b.putSerializable("products", products);
+					b.putSerializable("availabilty",GridItem.Availability);
+					Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment);
+				}
+				return false;
 			}
 		});
-		*/
+	}
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getActivity().getMenuInflater().inflate(R.menu.productlistmenu, menu);
+		return true;
 	}
 
 	@Override
-	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-		return false;
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so lon
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+
+		//noinspection SimplifiableIfStatement
+		if (id == R.id.language)
+			return true;
+		else if (id == R.id.Help)
+			return true;
+		else if (id == R.id.Notifications)
+			return true;
+		else if (id == R.id.add_product){
+			Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_addProductFragment);
+			return true;
+		}
+
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onBackPressed() {
+		if (drawerLayout.isDrawerOpen(GravityCompat.START))
+			drawerLayout.closeDrawer(GravityCompat.START);
+		return true;
 	}
 
 	class FillProducts extends AsyncTask<Void, Void, List<Product>>{
 
-				@Override
-				protected List<Product> doInBackground(Void... voids) {
-					try{
-						List<Product> Products = Product.getProducts(null,new String[]{"en"});
-						new setAvailability().executeOnExecutor(THREAD_POOL_EXECUTOR, Products);
-						return Products;
-					}
-					catch (JSONException ex){
-						return  null;
-					}
+		@Override
+		protected List<Product> doInBackground(Void... voids) {
+			try{
+				List<Product> Products = Product.getProducts(null,new String[]{"en"});
+				new setAvailability().executeOnExecutor(THREAD_POOL_EXECUTOR, Products);
+				return Products;
+			}
+			catch (JSONException ex){
+				return  null;
+			}
 		}
 
 		@Override

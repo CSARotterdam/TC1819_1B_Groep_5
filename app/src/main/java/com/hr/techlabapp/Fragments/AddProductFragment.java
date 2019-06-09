@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.ProductCategory;
@@ -63,6 +64,11 @@ public class AddProductFragment extends Fragment {
 		// Required empty public constructor
 	}
 
+	@Override
+	public void onAttach(@NonNull Context context) {
+		((NavHostActivity)context).currentFragment = this;
+		super.onAttach(context);
+	}
 
 	@Override
 	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

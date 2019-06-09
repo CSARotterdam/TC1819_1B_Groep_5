@@ -2,6 +2,7 @@ package com.hr.techlabapp.Fragments;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.navigation.Navigation;
 
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.CustomViews.DeleteItemDialog;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
@@ -56,6 +58,11 @@ public class ProductInfoFragment extends Fragment {
 		// Required empty public constructor
 	}
 
+	@Override
+	public void onAttach(@NonNull Context context) {
+		((NavHostActivity)context).currentFragment = this;
+		super.onAttach(context);
+	}
 
 	@Override
 	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,

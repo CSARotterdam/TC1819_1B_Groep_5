@@ -3,6 +3,7 @@ package com.hr.techlabapp.Fragments;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.LoanItem;
 import com.hr.techlabapp.Networking.Product;
@@ -44,6 +46,13 @@ public class CreateLoanFragment extends Fragment {
 
 	public CreateLoanFragment() {
 		// Required empty public constructor
+	}
+
+
+	@Override
+	public void onAttach(@NonNull Context context) {
+		((NavHostActivity)context).currentFragment = this;
+		super.onAttach(context);
 	}
 
 	@Override

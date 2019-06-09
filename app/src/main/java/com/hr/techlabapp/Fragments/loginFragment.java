@@ -88,33 +88,6 @@ public class loginFragment extends Fragment {
 				new  RegisterActivity().execute(username, password);
 			}
 		});
-		Button testButton = getView().findViewById(R.id.testButton);
-		testButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				new TestActivity().execute();
-			}
-		});
-	}
-
-	@SuppressLint("StaticFieldLeak")
-	public class TestActivity extends AsyncTask<Void, Void, Void> {
-		protected final Void doInBackground(Void... voids) {
-			Log.i(TAG, "exec");
-			try {
-				Authentication.LoginUser("test", "password");
-				Log.i(TAG, "authed");
-
-				ArrayList<String> IDs = new ArrayList<>();
-				IDs.add("lizard_image");
-				HashMap<String, Bitmap> res = Product.getImages(IDs);
-				Log.i(TAG, Boolean.toString(res.containsKey("lizard_image")));
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
 	}
 
 	@SuppressLint("StaticFieldLeak")

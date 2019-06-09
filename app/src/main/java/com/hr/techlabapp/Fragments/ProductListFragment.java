@@ -148,7 +148,6 @@ public class ProductListFragment extends Fragment
 		int id = item.getItemId();
 
 		//noinspection SimplifiableIfStatement
-		Log.i("tag", id+"");
 		if (id == R.id.language)
 			return true;
 		else if (id == R.id.Help)

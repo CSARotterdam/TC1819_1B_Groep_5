@@ -112,7 +112,7 @@
 	<!--TODO: Make it work-->
 
 	<CheckBox
-		android:id="@+id/RememberLogin"
+		android:id="@+id/remember_login"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="Remember Login"

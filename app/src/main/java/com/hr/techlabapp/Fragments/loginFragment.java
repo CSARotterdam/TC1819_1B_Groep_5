@@ -2,37 +2,33 @@ package com.hr.techlabapp.Fragments;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.Networking.Authentication;
 import com.hr.techlabapp.Networking.Exceptions;
-import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -40,7 +36,6 @@ import java.util.Objects;
  * A simple {@link Fragment} subclass.
  */
 public class loginFragment extends Fragment {
-	private static final String TAG = "TL-Login";
 	public Context context;
 
 	public loginFragment() {
@@ -56,6 +51,7 @@ public class loginFragment extends Fragment {
 	@Override
 	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
+
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_login, container, false);
 	}
@@ -64,6 +60,25 @@ public class loginFragment extends Fragment {
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		this.context = Objects.requireNonNull(getView()).getContext();
+
+		//Get saved username/password, if any;
+		SharedPreferences savedlogin = Objects.requireNonNull(getContext()).getSharedPreferences("savedlogin", 0);
+		String username = savedlogin.getString("username", "");
+		String password = savedlogin.getString("password", "");
+
+		//If we have saved data, automatically check the remember_login checkbox
+		assert password != null;
+		assert username != null;
+		if(!username.equals("") && !password.equals("")){
+			CheckBox rememberlogin = getView().findViewById(R.id.remember_login);
+			rememberlogin.setChecked(true);
+		}
+
+		//Set username/password values to edittext boxes
+		EditText usernameField = getView().findViewById(R.id.username);
+		usernameField.setText(username);
+		EditText passwordField = getView().findViewById(R.id.password);
+		passwordField.setText(password);
 
 		Button loginButton = getView().findViewById(R.id.login);
 		loginButton.setOnClickListener(new View.OnClickListener() {
@@ -114,11 +129,26 @@ public class loginFragment extends Fragment {
 			dialog.dismiss();
 			if(msg.equals(getResources().getString(R.string.login_success))){
 
-				//This hides the keyboard. Yes you need four lines to do it. No I don't like it either.
-				final Activity activity = getActivity();
-				assert activity != null;
-				final InputMethodManager inputManager = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.hideSoftInputFromWindow(Objects.requireNonNull(activity.getCurrentFocus()).getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+				CheckBox rememberlogin = Objects.requireNonNull(getView()).findViewById(R.id.remember_login);
+
+				SharedPreferences savedlogin = Objects.requireNonNull(getContext()).getSharedPreferences("savedlogin", 0);
+				SharedPreferences.Editor editor = savedlogin.edit();
+				if(rememberlogin.isChecked()){
+					EditText usernameField = getView().findViewById(R.id.username);
+					editor.putString("username", usernameField.getText().toString());
+					EditText passwordField = getView().findViewById(R.id.password);
+					editor.putString("password", passwordField.getText().toString());
+				} else {
+					editor.remove("username");
+					editor.remove("password");
+				}
+				editor.apply();
+
+				//Hide keyboard if it is open
+				final InputMethodManager inputManager = (InputMethodManager) Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
+				if(inputManager.isAcceptingText()){
+					inputManager.hideSoftInputFromWindow(Objects.requireNonNull(getActivity().getCurrentFocus()).getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+				}
 
 				Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_loginFragment_to_productListFragment);
 			}

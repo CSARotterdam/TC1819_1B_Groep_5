@@ -20,6 +20,7 @@ import android.widget.TextView;
 import androidx.navigation.Navigation;
 
 import com.hr.techlabapp.Activities.NavHostActivity;
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.CustomViews.DeleteItemDialog;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
@@ -50,6 +51,7 @@ public class ProductInfoFragment extends Fragment {
 	private TextView man;
 	private TextView cat;
 	private TextView stock;
+	private TextView des;
 
 	private Button borrow;
 	private Button delete;
@@ -89,7 +91,7 @@ public class ProductInfoFragment extends Fragment {
 			new loadImage().execute();
 		// sets the string values
 		name = getView().findViewById(R.id.name);
-		name.setText(getResources().getString(R.string.product_name_value,product.getName("en")));
+		name.setText(getResources().getString(R.string.product_name_value,product.getName(AppConfig.language)));
 		id = getView().findViewById(R.id.product_id);
 		id.setText(getResources().getString(R.string.product_id_value, product.ID));
 		// TODO: add this
@@ -100,6 +102,8 @@ public class ProductInfoFragment extends Fragment {
 		stock = getView().findViewById(R.id.availability);
 		stock.setText(getResources().getString(R.string.available_value,
 				((HashMap<String,Integer>) getArguments().getSerializable(PRODUCT_AVAILABILITY_KEY)).get("inStock")));
+		des = getView().findViewById(R.id.description);
+		des.setText(getResources().getString(R.string.product_des_value,product.description.get(AppConfig.language)));
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
 		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_createLoanFragment,getArguments()));

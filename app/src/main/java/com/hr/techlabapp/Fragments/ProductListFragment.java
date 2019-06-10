@@ -1,6 +1,8 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ScrollView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.fragment.app.FragmentActivity;
@@ -32,6 +36,8 @@ import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.CustomViews.GridItem;
 import com.hr.techlabapp.CustomViews.ListItem;
 import com.hr.techlabapp.CustomViews.cGrid;
+import com.hr.techlabapp.Networking.Authentication;
+import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.Statistics;
 import com.hr.techlabapp.R;
@@ -41,6 +47,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_AVAILABILITY_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_CATEGORY_KEY;
@@ -102,18 +109,23 @@ public class ProductListFragment extends Fragment
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 				int id = menuItem.getItemId();
-				if(id == R.id.statistics){
-					Bundle b = new Bundle();
-					ArrayList<Product> products = new ArrayList<>();
-					if(Products.isList())
-						for(ConstraintLayout cl: Products.getItems())
-							products.add(((ListItem)cl).getProduct());
-					else
-						for(ConstraintLayout cl: Products.getItems())
-							products.add(((GridItem)cl).getProduct());
-					b.putSerializable("products", products);
-					b.putSerializable("availabilty",GridItem.Availability);
-					Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment);
+
+				//Statistics
+				switch(id){
+					case R.id.statistics:
+						Bundle b = new Bundle();
+						ArrayList<Product> products = new ArrayList<>();
+						if(Products.isList())
+							for(ConstraintLayout cl: Products.getItems())
+								products.add(((ListItem)cl).getProduct());
+						else
+							for(ConstraintLayout cl: Products.getItems())
+								products.add(((GridItem)cl).getProduct());
+						b.putSerializable("products", products);
+						b.putSerializable("availabilty",GridItem.Availability);
+						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment);
+					case R.id.Log_out:
+						new logoutTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 				}
 				return false;
 			}
@@ -142,13 +154,41 @@ public class ProductListFragment extends Fragment
 			return true;
 		else if (id == R.id.Notifications)
 			return true;
-		else if (id == R.id.add_product){
+		else if (id == R.id.add_product) {
 			Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_addProductFragment);
 			return true;
 		}
 
-
 		return super.onOptionsItemSelected(item);
+	}
+
+	@SuppressLint("StaticFieldLeak")
+	public class logoutTask extends AsyncTask<String, Void, String> {
+		private ProgressDialog dialog;
+
+		protected void onPreExecute(){
+			dialog = new ProgressDialog(getContext());
+			dialog.setMessage(getResources().getString(R.string.loading));
+			dialog.show();
+		}
+		protected String doInBackground(String... params){
+			try{
+				Authentication.logout();
+				return getResources().getString(R.string.logout_success);
+			}catch (Exceptions.ServerConnectionFailed e){
+				return getResources().getString(R.string.unexpected_error);
+			} catch (JSONException e){
+				return getResources().getString(R.string.unexpected_error);
+			}
+		}
+		protected void onPostExecute(String msg){
+			dialog.dismiss();
+			if(msg == getResources().getString(R.string.logout_success)){
+				Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_productListFragment_to_loginFragment);
+			}
+			Toast msgToast = Toast.makeText(getContext(), msg, Toast.LENGTH_LONG);
+			msgToast.show();
+		}
 	}
 
 	@Override

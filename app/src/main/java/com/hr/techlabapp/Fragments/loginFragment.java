@@ -1,47 +1,42 @@
 package com.hr.techlabapp.Fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.Networking.Authentication;
 import com.hr.techlabapp.Networking.Exceptions;
-import com.hr.techlabapp.Networking.Product;
-import com.hr.techlabapp.Networking.User;
 import com.hr.techlabapp.R;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Objects;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class loginFragment extends Fragment {
-	private static final String TAG = "TL-Login";
 	public Context context;
-
-	Button LoginButton;
-	Button RegisterButton;
-	Button TestButton;
 
 	public loginFragment() {
 		// Required empty public constructor
@@ -54,8 +49,9 @@ public class loginFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+	                         Bundle savedInstanceState) {
+
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_login, container, false);
 	}
@@ -63,62 +59,54 @@ public class loginFragment extends Fragment {
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		this.context = getView().getContext();
+		this.context = Objects.requireNonNull(getView()).getContext();
 
-		LoginButton = getView().findViewById(R.id.login);
-		LoginButton.setOnClickListener(new View.OnClickListener() {
+		//Get saved username/password, if any;
+		SharedPreferences savedlogin = Objects.requireNonNull(getContext()).getSharedPreferences("savedlogin", 0);
+		String username = savedlogin.getString("username", "");
+		String password = savedlogin.getString("password", "");
+
+		//If we have saved data, automatically check the remember_login checkbox
+		assert password != null;
+		assert username != null;
+		if(!username.equals("") && !password.equals("")){
+			CheckBox rememberlogin = getView().findViewById(R.id.remember_login);
+			rememberlogin.setChecked(true);
+		}
+
+		//Set username/password values to edittext boxes
+		EditText usernameField = getView().findViewById(R.id.username);
+		usernameField.setText(username);
+		EditText passwordField = getView().findViewById(R.id.password);
+		passwordField.setText(password);
+
+		Button loginButton = getView().findViewById(R.id.login);
+		loginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				EditText usernameField = (EditText)getView().findViewById(R.id.username);
+				EditText usernameField = Objects.requireNonNull(getView()).findViewById(R.id.username);
 				String username = usernameField.getText().toString();
-				EditText passwordField = (EditText)getView().findViewById((R.id.password));
+				EditText passwordField = getView().findViewById((R.id.password));
 				String password = passwordField.getText().toString();
 				new  LoginActivity().execute(username, password);
 			}
 		});
 
-		RegisterButton = getView().findViewById(R.id.register);
-		RegisterButton.setOnClickListener(new View.OnClickListener() {
+		Button registerButton = getView().findViewById(R.id.register);
+		registerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				EditText usernameField = (EditText)getView().findViewById(R.id.username);
+				EditText usernameField = Objects.requireNonNull(getView()).findViewById(R.id.username);
 				String username = usernameField.getText().toString();
-				EditText passwordField = (EditText)getView().findViewById((R.id.password));
+				EditText passwordField = getView().findViewById((R.id.password));
 				String password = passwordField.getText().toString();
 				new  RegisterActivity().execute(username, password);
 			}
 		});
-		TestButton = getView().findViewById(R.id.testButton);
-		TestButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				new TestActivity().execute();
-			}
-		});
 	}
 
-	public class TestActivity extends AsyncTask<Void, Void, HashMap<String, HashMap<String, Integer>>>{
-		@SafeVarargs
-		protected final HashMap<String, HashMap<String, Integer>> doInBackground(Void... voids) {
-			Log.i(TAG, "exec");
-			HashMap map = new HashMap();
-			try {
-				Authentication.LoginUser("test", "password");
-				Log.i(TAG, "authed");
-
-				ArrayList<String> IDs = new ArrayList<>();
-				IDs.add("lizard_image");
-				HashMap<String, Bitmap> res = Product.getImages(IDs);
-				Log.i(TAG, Boolean.toString(res.containsKey("lizard_image")));
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return map;
-		}
-	}
-
-	public class LoginActivity extends AsyncTask<String, Void, Boolean> {
+	@SuppressLint("StaticFieldLeak")
+	public class LoginActivity extends AsyncTask<String, Void, String> {
 		private ProgressDialog dialog;
 
 		protected void onPreExecute(){
@@ -126,23 +114,51 @@ public class loginFragment extends Fragment {
 			dialog.setMessage(getResources().getString(R.string.logging_in));
 			dialog.show();
 		}
-		protected Boolean doInBackground(String... params){
-			return Authentication.LoginUser(params[0], params[1]);
-		}
-		protected void onPostExecute(Boolean result){
-			dialog.dismiss();
-			Toast msgToast;
-			if(result){
-				msgToast = Toast.makeText(context, getResources().getString(R.string.login_success), Toast.LENGTH_SHORT);
-				Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_productListFragment);
-			} else {
-				msgToast = Toast.makeText(context, getResources().getString(R.string.login_failed), Toast.LENGTH_SHORT);
+		protected String doInBackground(String... params){
+			try{
+				if(Authentication.LoginUser(params[0], params[1])){
+					return getResources().getString(R.string.login_success);
+				} else {
+					return getResources().getString(R.string.login_failed);
+				}
+			}catch (Exceptions.ServerConnectionFailed e){
+				return getResources().getString(R.string.unexpected_error);
 			}
+		}
+		protected void onPostExecute(String msg){
+			dialog.dismiss();
+			if(msg.equals(getResources().getString(R.string.login_success))){
+
+				CheckBox rememberlogin = Objects.requireNonNull(getView()).findViewById(R.id.remember_login);
+
+				SharedPreferences savedlogin = Objects.requireNonNull(getContext()).getSharedPreferences("savedlogin", 0);
+				SharedPreferences.Editor editor = savedlogin.edit();
+				if(rememberlogin.isChecked()){
+					EditText usernameField = getView().findViewById(R.id.username);
+					editor.putString("username", usernameField.getText().toString());
+					EditText passwordField = getView().findViewById(R.id.password);
+					editor.putString("password", passwordField.getText().toString());
+				} else {
+					editor.remove("username");
+					editor.remove("password");
+				}
+				editor.apply();
+
+				//Hide keyboard if it is open
+				final InputMethodManager inputManager = (InputMethodManager) Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
+				if(inputManager.isAcceptingText()){
+					inputManager.hideSoftInputFromWindow(Objects.requireNonNull(getActivity().getCurrentFocus()).getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+				}
+
+				Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_loginFragment_to_productListFragment);
+			}
+			Toast msgToast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
 			msgToast.show();
 		}
 	}
 
-	public class RegisterActivity extends AsyncTask<String, Void, Integer> {
+	@SuppressLint("StaticFieldLeak")
+	public class RegisterActivity extends AsyncTask<String, Void, String> {
 		private ProgressDialog dialog;
 
 		protected void onPreExecute(){
@@ -150,41 +166,27 @@ public class loginFragment extends Fragment {
 			dialog.setMessage(getResources().getString(R.string.loading));
 			dialog.show();
 		}
-		protected Integer doInBackground(String... params){
+		protected String doInBackground(String... params){
 			try {
 				try {
 					Authentication.registerUser(params[0], params[1]);
-					return 0;
+					return getResources().getString(R.string.registered);
 				} catch (Exceptions.AlreadyExists e) {
-					return 1;
+					return getResources().getString(R.string.user_already_exists);
 				} catch (Exceptions.InvalidPassword e) {
-					return 2;
+					return getResources().getString(R.string.invalid_password);
 				} catch (Exceptions.InvalidUsername e){
-					return 3;
+					return getResources().getString(R.string.invalid_username);
 				} catch (Exceptions.NetworkingException e) {
-					return -1;
+					return getResources().getString(R.string.unexpected_error);
 				}
 			} catch (JSONException e){
 				throw new RuntimeException(e);
 			}
 		}
-		protected void onPostExecute(Integer result){
+		protected void onPostExecute(String message){
 			dialog.dismiss();
-			Toast msgToast;
-			String message;
-			if(result.equals(0)){
-				message = getResources().getString(R.string.registered);
-				Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_productListFragment);
-			} else if(result.equals(1)){
-				message = getResources().getString(R.string.user_already_exists);
-			} else if(result.equals(2)){
-				message = getResources().getString(R.string.invalid_password);
-			} else if(result.equals(3)){
-				message = getResources().getString(R.string.invalid_username);
-			} else {
-				 message = getResources().getString(R.string.unexpected_error);
-			}
-			msgToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+			Toast msgToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
 			msgToast.show();
 		}
 	}

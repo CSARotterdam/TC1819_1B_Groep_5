@@ -86,4 +86,8 @@
     <string name="logging_in">Logging in...</string>
     <string name="login_success">Logged in!</string>
     <string name="login_failed">Login failed.</string>
+    <string name="loan_added_successfully">Item successfully reserved.</string>
+    <string name="no_items_for_product">There are no items available for this product at the selected time.</string>
+    <string name="create_loan">Place reservation</string>
+    <string name="logout_success">Logged out!</string>
 </resources>

@@ -74,10 +74,12 @@ public class Statistics {
             String key = keys.next();
             HashMap<String, Integer> entry = new HashMap<>();
             JSONObject entryObject = response.getJSONObject(key);
-            entry.put("total", entryObject.getInt("total"));
-            entry.put("reservations", entryObject.getInt("reservations"));
-            entry.put("loanedOut", entryObject.getInt("loanedOut"));
-            entry.put("inStock", entryObject.getInt("inStock"));
+            entry.put("total", entryObject.getInt("total"));                         // Total amount of items
+            entry.put("totalReservations", entryObject.getInt("totalReservations")); // Total amount of loans placed
+            entry.put("reservations", entryObject.getInt("reservations"));           // Amount of loans placed for today
+            entry.put("loanedOut", entryObject.getInt("loanedOut"));                 // Amount of physical items taken from stock for today
+            entry.put("inStock", entryObject.getInt("total") - entryObject.getInt("loanedOut"));      // Amount of physical items in stock
+            entry.put("available", entryObject.getInt("total") - entryObject.getInt("reservations")); // Total amount of items not reserved for today
             result.put(key, entry);
         }
         return result;

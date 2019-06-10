@@ -57,4 +57,5 @@
 	<string name="product_removal_success">Product verwijderd.</string>
 	<string name="stock_lowered">Voorraad verlaagd.</string>
 	<string name="user_no_borrowed_items">Deze gebruiker heeft nog geen items geleend.</string>
+    <string name="create_loan">Plaats reservering</string>
 </resources>

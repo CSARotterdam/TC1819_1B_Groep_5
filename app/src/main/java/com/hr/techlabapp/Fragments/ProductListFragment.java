@@ -3,11 +3,12 @@ package com.hr.techlabapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -28,9 +29,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
-import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.CustomViews.GridItem;
@@ -71,6 +72,8 @@ public class ProductListFragment extends Fragment
 
 	private NavigationView navigationView;
 
+	private FloatingActionButton FAB;
+
 	private Button addProduct;
 	private Button statistics;
 
@@ -98,6 +101,12 @@ public class ProductListFragment extends Fragment
 		(new FillProducts()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		toolbar = getView().findViewById(R.id.toolbar);
 		((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+		FAB = getView().findViewById(R.id.fab);
+		Drawable WhiteCam = getResources().getDrawable(android.R.drawable.ic_menu_camera,getActivity().getTheme()).getConstantState().newDrawable();
+		WhiteCam.mutate().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+		FAB.setImageDrawable(WhiteCam);
+		FAB.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_Camera));
 
 		drawerLayout = getView().findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout,toolbar,

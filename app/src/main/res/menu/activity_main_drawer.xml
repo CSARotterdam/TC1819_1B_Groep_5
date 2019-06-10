@@ -21,6 +21,9 @@
     <item android:title="">
         <menu>
             <item
+                android:id="@+id/scan"
+                android:title="Scan" />
+            <item
                 android:id="@+id/statistics"
                 android:title="Statistics" />
             <item

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.hr.techlabapp.AppConfig;
 
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,16 +20,24 @@ import java.util.Iterator;
 import java.util.List;
 
 public class LoanItem {
+    public int ID;
     public int productItemID;
+    public String userId;
     public Date start;
     public Date end;
-    public int ID;
+    public boolean isAcquired = false;
 
-    public LoanItem(int ID, int productItemID, Date start, Date end){
+    public LoanItem(int ID, int productItemID, Date start, Date end) {
+        this(ID, AppConfig.currentUser != null ? AppConfig.currentUser.username : null, productItemID, start, end, false);
+    }
+
+    public LoanItem(int ID, String userId, int productItemID, Date start, Date end, boolean isAcquired){
         this.ID = ID;
         this.productItemID = productItemID;
+        this.userId = userId;
         this.start = start;
         this.end = end;
+        this.isAcquired = isAcquired;
     }
 
     /**
@@ -56,14 +65,14 @@ public class LoanItem {
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
-                .put("username", AppConfig.currentUser.username)
-                .put("token", AppConfig.currentUser.token)
-                .put("requestType", "addLoan")
-                .put("requestData", new JSONObject()
-                        .put("productId", productID)
-                        .put("start", format.format(start))
-                        .put("end", format.format(end))
-                );
+            .put("username", AppConfig.currentUser.username)
+            .put("token", AppConfig.currentUser.token)
+            .put("requestType", "addLoan")
+            .put("requestData", new JSONObject()
+                .put("productId", productID)
+                .put("start", format.format(start))
+                .put("end", format.format(end))
+            );
 
         JSONObject response = (JSONObject)Connection.Send(request);
         return new LoanItem(response.getInt("loanId"), response.getInt("productItem"), start, end);
@@ -92,37 +101,86 @@ public class LoanItem {
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
-                .put("username", AppConfig.currentUser.username)
-                .put("token", AppConfig.currentUser.token)
-                .put("requestType", "extendLoan")
-                .put("requestData", new JSONObject()
-                        .put("loanItemID", loanItemID)
-                        .put("start", format.format(start))
-                        .put("end", format.format(end))
-                );
+            .put("username", AppConfig.currentUser.username)
+            .put("token", AppConfig.currentUser.token)
+            .put("requestType", "extendLoan")
+            .put("requestData", new JSONObject()
+                .put("loanItemID", loanItemID)
+                .put("start", format.format(start))
+                .put("end", format.format(end))
+            );
         JSONObject response = (JSONObject) Connection.Send(request);
         return response.getBoolean("success");
     }
 
     /**
-     * Gets a loanItem from the server.
-     * @param loanItemID The ID of the LoanItem that will be retrieved.
-     * @return The LoanItem.
-     * @throws JSONException
+     * Gets a set of LoanItems from the server.
+     * @param productItemIds A set of product ids to get associated loans from.
+     * @param username The user from whom to get loans. Requires Collaborator permission or higher to take effect.
+     * @param loanItemID The id of a specific loan to return. This limits the list size to 1 element.
+     * @param start The Date the loans must end after.
+     * @param end The Date the loans must start before.
+     * @return A set of LoanItems matching the conditions.
      */
-    public LoanItem getLoan(int loanItemID) throws JSONException{
+    public static List<LoanItem> getLoans(@Nullable List<Integer> productItemIds,
+                                          @Nullable String username,
+                                          @Nullable Integer loanItemID,
+                                          @Nullable Date start,
+                                          @Nullable Date end
+    ) throws JSONException {
+        DateFormat format = SimpleDateFormat.getDateInstance();
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
-                .put("username", AppConfig.currentUser.username)
-                .put("token", AppConfig.currentUser.token)
-                .put("requestType", "getLoan")
-                .put("requestData", new JSONObject()
-                        .put("loanItemID", loanItemID)
-                );
+            .put("username", AppConfig.currentUser.username)
+            .put("token", AppConfig.currentUser.token)
+            .put("requestType", "getLoans")
+            .put("requestData", new JSONObject()
+                .put("productItemIds", productItemIds)
+                .put("userId", username)
+                .put("loanItemID", loanItemID)
+                .put("start", start != null ? format.format(start) : null)
+                .put("end", end != null ? format.format(end) : null)
+            );
 
-        JSONObject response = (JSONObject)Connection.Send(request);
-        return new LoanItem(response.getInt("ID"), response.getInt("product_item"), start, end);
+        JSONArray response = (JSONArray) Connection.Send(request);
+
+        List<LoanItem> outList = new ArrayList<>();
+        for (int i = 0; i < response.length(); i++) {
+            JSONObject loanJSON = response.getJSONObject(i);
+            outList.add(new LoanItem(
+                loanJSON.optInt("id"),
+                loanJSON.optString("user"),
+                loanJSON.optInt("product_item"),
+                loanJSON.has("start") ? new Date(loanJSON.getLong("start")) : null,
+                loanJSON.has("end") ? new Date(loanJSON.getLong("end")) : null,
+                loanJSON.optBoolean("is_item_acquired")
+            ));
+        }
+
+        return outList;
+    }
+
+    /**
+     * Sets the specified loan's acquired value in the database. This value specifies
+     * if the item associated with this loan has been taken from stock.
+     *
+     * Requires Collaborator permissions or higher.
+     * @param value The value to set the acquired value to.
+     * @throws JSONException
+     */
+    public void setAcquired(boolean value) throws JSONException {
+        // Create request JSON
+        JSONObject request = new JSONObject()
+            .put("username", AppConfig.currentUser.username)
+            .put("token", AppConfig.currentUser.token)
+            .put("requestType", "getLoan")
+            .put("requestData", new JSONObject()
+                .put("loanItemID", this.ID)
+                .put("value", value)
+            );
+        Connection.Send(request);
+        this.isAcquired = value;
     }
 
     /**
@@ -130,8 +188,8 @@ public class LoanItem {
      * the start and end parameters.
      * @param productId
      * @param start The start of the date range to scan for unavailable dates.
-     * @param end
-     * @return
+     * @param end The end of the date range to scan for unavailable dates.
+     * @return A list of dates where loans cannot be placed
      * @throws JSONException
      */
     public static List<Date> getUnavailableDates(String productId, Date start, Date end) throws JSONException {

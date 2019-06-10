@@ -6,7 +6,6 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.hr.techlabapp.AppConfig;
-import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
@@ -110,7 +109,7 @@ public final class Product {
     }
 
     public String getName() {
-        return getName(AppConfig.language);
+        return getName(AppConfig.getLanguage());
     }
     public String getName(@Nullable String language) {
         if (name.containsKey(language)) return name.get(language);
@@ -160,6 +159,14 @@ public final class Product {
             for (HashMap.Entry<String, String> entry : criteria.entrySet())
                 requestCriteria.put(entry.getKey(), entry.getValue());
         }
+
+        // Force inclusion of the primary fallback "en"
+        if(!Arrays.asList(languages).contains("en")) {
+            List<String> temp = new ArrayList<>(Arrays.asList(languages));
+            temp.add("en");
+            languages = temp.toArray(languages);
+        }
+
         JSONObject request = new JSONObject()
                 .put("requestType", "getProducts")
                 .put("username", AppConfig.currentUser.username)
@@ -167,7 +174,7 @@ public final class Product {
                 .put("requestData", new JSONObject()
                         .put("columns", fields)
                         .put("criteria", requestCriteria)
-                        .put("language", languages == null ? null : new JSONArray(Arrays.asList(languages)))
+                        .put("language", languages == null ? new JSONArray() : new JSONArray(Arrays.asList(languages)))
                         .put("start", start)
                         .put("amount", amount)
                 );

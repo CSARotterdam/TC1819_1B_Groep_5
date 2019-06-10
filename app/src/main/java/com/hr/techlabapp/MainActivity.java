@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.settings) {
-            startActivity(new Intent(MainActivity.this, settings.class));
+            startActivity(new Intent(MainActivity.this, Settings.class));
         }else if (id == R.id.Help) {
             startActivity(new Intent(MainActivity.this, Help.class));
 

@@ -1,11 +1,8 @@
 package com.hr.techlabapp.Fragments;
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -38,12 +35,6 @@ public class qrGenFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        ((NavHostActivity)context).currentFragment = this;
-        super.onAttach(context);
-    }
-
     public static qrGenFragment newInstance() {
         qrGenFragment fragment = new qrGenFragment();
         return fragment;
@@ -52,6 +43,7 @@ public class qrGenFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((NavHostActivity)getActivity()).currentFragment = this;
 
         this.ivStats = getView().findViewById(R.id.ivStats);
         this.dingetje = getView().findViewById(R.id.dingetje);
@@ -63,7 +55,7 @@ public class qrGenFragment extends Fragment {
                 String geweldigeTekst = dingetje.getText().toString().trim(); //maakt van de ingevoerde text een string - spaties op het begin/einde.
 
                 try {
-                    Bitmap yeet = new qrGenerator().qrDing(geweldigeTekst); //string -> qr code
+                    Bitmap yeet = new qrGenerator().qrGen(geweldigeTekst); //string -> qr code
                     ivStats.setImageBitmap(yeet); // -> laat qr code zien als het goed gaat
                 } catch (WriterException e) {
                     Toast.makeText(getContext(), "u done goofed", Toast.LENGTH_SHORT).show(); //?? moet nog uitzoeken hoe dit precies werkt lel.
@@ -98,4 +90,9 @@ public class qrGenFragment extends Fragment {
         super.onDetach();
         //mListener = null;
     }
+
+    /*public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }*/
 }

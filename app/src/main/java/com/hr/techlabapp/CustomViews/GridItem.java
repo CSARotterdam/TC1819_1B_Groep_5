@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
 
@@ -215,7 +216,7 @@ public class GridItem extends ConstraintLayout {
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.getName("en"));
+		this.name.setText(product.getName(AppConfig.language));
 		new setAvailability().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		/*		this.availability.setText(getResources().getString(R.string.availability,
 				Availability.get(product.ID).get("inStock"),

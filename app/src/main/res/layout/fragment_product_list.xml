@@ -24,7 +24,7 @@
 				android:id="@+id/toolbar"
 				android:layout_width="match_parent"
 				android:layout_height="?attr/actionBarSize"
-				android:background="#CC0133"
+				android:background="?attr/colorPrimary"
 				app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 		</com.google.android.material.appbar.AppBarLayout>
@@ -39,6 +39,13 @@
 				android:layout_height="wrap_content"/>
 		</ScrollView>
 		<!--Waarom bestaat dit-->
+		<com.google.android.material.floatingactionbutton.FloatingActionButton
+			android:id="@+id/fab"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|end"
+			android:layout_margin="@dimen/fab_margin"
+			app:srcCompat="@drawable/ic_menu_camera"/>
 	</androidx.coordinatorlayout.widget.CoordinatorLayout>
 	<com.google.android.material.navigation.NavigationView
 		app:layout_constraintTop_toTopOf="parent"

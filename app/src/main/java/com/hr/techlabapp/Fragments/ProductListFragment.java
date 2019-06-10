@@ -3,11 +3,12 @@ package com.hr.techlabapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -28,9 +29,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
-import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.CustomViews.GridItem;
@@ -51,6 +52,7 @@ import java.util.Objects;
 
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_AVAILABILITY_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_CATEGORY_KEY;
+import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_DESCRIPTION_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_ID_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_IMAGE_ID_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_IMAGE_KEY;
@@ -70,6 +72,8 @@ public class ProductListFragment extends Fragment
 	private Toolbar toolbar;
 
 	private NavigationView navigationView;
+
+	private FloatingActionButton FAB;
 
 	private Button addProduct;
 	private Button statistics;
@@ -98,6 +102,12 @@ public class ProductListFragment extends Fragment
 		(new FillProducts()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		toolbar = getView().findViewById(R.id.toolbar);
 		((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+		FAB = getView().findViewById(R.id.fab);
+		Drawable WhiteCam = getResources().getDrawable(android.R.drawable.ic_menu_camera,getActivity().getTheme()).getConstantState().newDrawable();
+		WhiteCam.mutate().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+		FAB.setImageDrawable(WhiteCam);
+		FAB.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_Camera));
 
 		drawerLayout = getView().findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout,toolbar,
@@ -229,6 +239,7 @@ public class ProductListFragment extends Fragment
 					b.putString(PRODUCT_MANUFACTURER_KEY, p.manufacturer);
 					b.putString(PRODUCT_IMAGE_ID_KEY, p.imageId);
 					b.putSerializable(PRODUCT_NAME_KEY, p.name);
+					b.putSerializable(PRODUCT_DESCRIPTION_KEY, p.description);
 					b.putSerializable(PRODUCT_AVAILABILITY_KEY, GridItem.Availability.get(p.ID));
 					b.putParcelable(PRODUCT_IMAGE_KEY, p.image);
 					Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_productInfoFragment,b);

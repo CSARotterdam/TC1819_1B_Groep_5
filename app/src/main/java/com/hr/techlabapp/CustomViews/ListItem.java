@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.Statistics;
 import com.hr.techlabapp.R;
@@ -167,7 +168,7 @@ public class ListItem extends ConstraintLayout {
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.getName("en"));
+		this.name.setText(product.getName(AppConfig.language));
 		this.availability.setText(getResources().getString(R.string.availability,
 				Availability.get(product.ID).get("inStock"),
 				Availability.get(product.ID).get("total")));

@@ -27,7 +27,7 @@ public class qrGenerator {
     private int rood = Color.rgb(204, 1, 51); //rood. now, let's see if this will work. it does!!
     private int wit = Color.WHITE; // en dit is de kleur wit. verder geen bijzondere opmerkingen
 
-    public Bitmap qrDing(String geweldigeTekst) throws WriterException { // < hoe had ik met mijn slaperige kop de static gemist hier??
+    public Bitmap qrGen(String geweldigeTekst) throws WriterException { // < hoe had ik met mijn slaperige kop de static gemist hier??
 
         QRCodeWriter qr = new QRCodeWriter(); //de writer aanroepen om qr dingetje te maken.
         HashMap<EncodeHintType, Object> encodeDing = new HashMap<>();
@@ -60,8 +60,8 @@ public class qrGenerator {
             return yeet;
 
         } catch (WriterException ex){
-                ex.printStackTrace(); //nog meer exceptions
-                Log.wtf(ex.getMessage(), ex);
+            ex.printStackTrace(); //nog meer exceptions
+            Log.wtf(ex.getMessage(), ex);
         }
         return null;
     }

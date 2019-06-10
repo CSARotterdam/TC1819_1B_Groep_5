@@ -6,11 +6,16 @@
     android:id="@+id/camera"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Camera">
+    tools:context=".Fragments.CameraFragment">
 
     <TextureView
-        android:id="@+id/view_finder"
+        android:id="@+id/camera_frag"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.hr.techlabapp.CustomViews.ViewFinderView
+        android:id="@+id/viewfinder_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
 
 </FrameLayout>

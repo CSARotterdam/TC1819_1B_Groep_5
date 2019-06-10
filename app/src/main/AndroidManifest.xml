@@ -20,12 +20,11 @@
             android:label="@string/title_activity_contact"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
-            android:name=".Activities.NavHostActivity"
+            android:name="$Activities.NavHostActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

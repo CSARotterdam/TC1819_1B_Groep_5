@@ -118,6 +118,16 @@ public final class Product {
         return ""; // Final fallback is blank
     }
 
+    public String getDescription() {
+        return getDescription(AppConfig.getLanguage());
+    }
+    public String getDescription(@Nullable String language) {
+        if (description.containsKey(language)) return description.get(language);
+        else if (description.containsKey("en")) return description.get("en"); // Primary fallback is english
+        else if (description.containsKey("id")) return description.get("id"); // Secondary fallback is to id. (if present)
+        return ""; // Final fallback is blank
+    }
+
     /**
      * Gets all products matching the given criteria.
      * @param criteria A map of field names and conditions.

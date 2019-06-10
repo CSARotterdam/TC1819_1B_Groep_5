@@ -1,16 +1,21 @@
 package com.hr.techlabapp;
 
+import android.content.res.Resources;
+
 import com.hr.techlabapp.Networking.*;
 
-import java.util.HashMap;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.Map;
 
 public final class AppConfig {
-	//public static final String serverAddress = "192.168.2.101";
-	public static final String serverAddress = "192.168.178.9"; //Nolz desktop
-	//public static final String serverAddress = "192.168.0.130"; //Gijs home
+	public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+	public static final String serverAddress = "192.168.2.101";
+//	public static final String serverAddress = "192.168.178.9"; //Nolz desktop
 
-	public static String language = Locale.getDefault().getLanguage();
 	public static User currentUser;
+
+	public static String getLanguage() {
+		return Resources.getSystem().getConfiguration().locale.getLanguage();
+	}
 }

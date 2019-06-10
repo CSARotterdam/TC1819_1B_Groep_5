@@ -23,7 +23,7 @@ import java.util.Map;
 
 public final class Product {
     public String ID;
-    private String productIDCopy;
+    public String productIDCopy;
     public String manufacturer;
     public String categoryID;
     public HashMap<String, String> name;
@@ -183,7 +183,11 @@ public final class Product {
                 Iterator<String> itr = ((JSONObject)product.get("name")).keys();
                 while (itr.hasNext()) {
                     String key = itr.next();
-                    name.put(key, ((JSONObject)product.get("name")).getString(key));
+                    String value = ((JSONObject)product.get("name")).getString(key);
+                    if(value.equals("null")){
+                        value = null;
+                    }
+                    name.put(key, value);
                 }
             } else if (product.has("name"))
                 name.put("id", product.getString("name"));
@@ -194,7 +198,11 @@ public final class Product {
                 Iterator<String> itr = ((JSONObject)product.get("description")).keys();
                 while (itr.hasNext()) {
                     String key = itr.next();
-                    description.put(key, ((JSONObject)product.get("description")).getString(key));
+                    String value = ((JSONObject)product.get("description")).getString(key);
+                    if(value.equals("null")){
+                        value = null;
+                    }
+                    description.put(key, value);
                 }
             } else if (product.has("description"))
                 description.put("id", product.getString("description"));

@@ -305,6 +305,11 @@ public final class Product {
             encodedImage = null;
         }
 
+        String newID = product.ID;
+        if(product.productIDCopy.equals(newID)){
+            newID = null;
+        }
+
         //Create request
         JSONObject request = new JSONObject()
             .put("username", AppConfig.currentUser.username)
@@ -312,12 +317,14 @@ public final class Product {
             .put("requestType", "updateProduct")
             .put("requestData", new JSONObject()
                 .put("productID", product.productIDCopy)
-                .put("newProductID", product.ID)
+                .put("newProductID", newID)
                 .put("categoryID", product.categoryID)
                 .put("manufacturer", product.manufacturer)
                 .put("image", encodedImage)
                 .put("name", new JSONObject(product.name))
+                .put("description", new JSONObject(product.description))
             );
+        Log.i("tag", request.toString());
         Connection.Send(request);
     }
 }

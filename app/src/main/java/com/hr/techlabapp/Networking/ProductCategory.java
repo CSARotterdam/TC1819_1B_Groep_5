@@ -1,27 +1,17 @@
 package com.hr.techlabapp.Networking;
 
-import android.graphics.Bitmap;
-import android.util.Base64;
-import android.util.Log;
-
 import com.hr.techlabapp.AppConfig;
-import com.hr.techlabapp.Fragments.AddProductFragment;
-import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import static java.lang.System.in;
 
 public final class ProductCategory {
     public String categoryID;

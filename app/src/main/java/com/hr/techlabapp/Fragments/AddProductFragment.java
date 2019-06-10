@@ -98,6 +98,10 @@ public class AddProductFragment extends Fragment {
 				Toast toast = Toast.makeText(context, getResources().getText(R.string.product_id_required), Toast.LENGTH_SHORT);
 				toast.show();
 				return;
+			} else if(productID.length() > 50) {
+				Toast toast = Toast.makeText(context, getResources().getText(R.string.product_id_too_long), Toast.LENGTH_SHORT);
+				toast.show();
+				return;
 			}
 
 			//Get product name. Cancel if not set.

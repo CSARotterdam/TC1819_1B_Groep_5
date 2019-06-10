@@ -36,8 +36,8 @@ class Connection {
             //Connect to server
             URL url = new URL("http://" + address + "/");
             connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(30000);
+            connection.setReadTimeout(30000);
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
@@ -84,6 +84,7 @@ class Connection {
                         Class<?>[] classes = Exceptions.class.getClasses();
                         for (Class<?> c : classes) {
                             if (c.getSimpleName().equals(reason)) {
+                                Log.i("Exeption", message);
                                 throw (Exceptions.NetworkingException)
                                 c.getConstructor(String.class).newInstance(message);
                             }

@@ -29,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.hr.techlabapp.Activities.NavHostActivity;
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.ProductCategory;
@@ -243,7 +244,7 @@ public class AddProductFragment extends Fragment {
 		@Override
 		protected List<ProductCategory> doInBackground(Void... voids) {
 			try{
-				return ProductCategory.getProductCategories(new String[]{"en"});
+				return ProductCategory.getProductCategories(new String[]{AppConfig.getLanguage()});
 			}
 			catch (JSONException ex){
 				return new ArrayList<>();

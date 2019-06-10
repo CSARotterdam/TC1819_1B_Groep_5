@@ -216,7 +216,7 @@ public class GridItem extends ConstraintLayout {
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.getName(AppConfig.language));
+		this.name.setText(product.getName(AppConfig.getLanguage()));
 		new setAvailability().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		/*		this.availability.setText(getResources().getString(R.string.availability,
 				Availability.get(product.ID).get("inStock"),

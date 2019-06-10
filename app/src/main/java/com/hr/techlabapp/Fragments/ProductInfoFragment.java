@@ -103,6 +103,8 @@ public class ProductInfoFragment extends Fragment {
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
 		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_createLoanFragment,getArguments()));
+		Button edit = getView().findViewById(R.id.edit_product);
+		edit.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_editProductFragment,getArguments()));
 
 		// sets the onClickListener
 		delete = getView().findViewById(R.id.delete);

@@ -127,7 +127,7 @@ public class AddProductFragment extends Fragment {
 			String categoryID = "uncategorized";
 			for(ProductCategory cat : ProductCategories){
 				//noinspection ConstantConditions
-				if(cat.name.get("en").equals(selectedCategory)){
+				if(cat.getName().equals(selectedCategory)){
 					categoryID = cat.categoryID;
 					break;
 				}
@@ -255,7 +255,7 @@ public class AddProductFragment extends Fragment {
 		protected void onPostExecute(List<ProductCategory> contents){
 			List<String> categories = new ArrayList<>();
 			for(ProductCategory cat : contents){
-				categories.add(cat.name.get("en"));
+				categories.add(cat.getName());
 				ProductCategories.add(cat);
 			}
 

@@ -6,7 +6,6 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.hr.techlabapp.AppConfig;
-import com.hr.techlabapp.Fragments.loginFragment;
 
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
@@ -23,7 +22,7 @@ import java.util.Map;
 
 public final class Product {
     public String ID;
-    private String productIDCopy;
+    public String productIDCopy;
     public String manufacturer;
     public String categoryID;
     public HashMap<String, String> name;
@@ -110,12 +109,22 @@ public final class Product {
     }
 
     public String getName() {
-        return getName(AppConfig.language);
+        return getName(AppConfig.getLanguage());
     }
     public String getName(@Nullable String language) {
         if (name.containsKey(language)) return name.get(language);
         else if (name.containsKey("en")) return name.get("en"); // Primary fallback is english
         else if (name.containsKey("id")) return name.get("id"); // Secondary fallback is to id. (if present)
+        return ""; // Final fallback is blank
+    }
+
+    public String getDescription() {
+        return getDescription(AppConfig.getLanguage());
+    }
+    public String getDescription(@Nullable String language) {
+        if (description.containsKey(language)) return description.get(language);
+        else if (description.containsKey("en")) return description.get("en"); // Primary fallback is english
+        else if (description.containsKey("id")) return description.get("id"); // Secondary fallback is to id. (if present)
         return ""; // Final fallback is blank
     }
 
@@ -160,6 +169,14 @@ public final class Product {
             for (HashMap.Entry<String, String> entry : criteria.entrySet())
                 requestCriteria.put(entry.getKey(), entry.getValue());
         }
+
+        // Force inclusion of the primary fallback "en"
+        if(!Arrays.asList(languages).contains("en")) {
+            List<String> temp = new ArrayList<>(Arrays.asList(languages));
+            temp.add("en");
+            languages = temp.toArray(languages);
+        }
+
         JSONObject request = new JSONObject()
                 .put("requestType", "getProducts")
                 .put("username", AppConfig.currentUser.username)
@@ -167,7 +184,7 @@ public final class Product {
                 .put("requestData", new JSONObject()
                         .put("columns", fields)
                         .put("criteria", requestCriteria)
-                        .put("language", languages == null ? null : new JSONArray(Arrays.asList(languages)))
+                        .put("language", languages == null ? new JSONArray() : new JSONArray(Arrays.asList(languages)))
                         .put("start", start)
                         .put("amount", amount)
                 );
@@ -183,7 +200,11 @@ public final class Product {
                 Iterator<String> itr = ((JSONObject)product.get("name")).keys();
                 while (itr.hasNext()) {
                     String key = itr.next();
-                    name.put(key, ((JSONObject)product.get("name")).getString(key));
+                    String value = ((JSONObject)product.get("name")).getString(key);
+                    if(value.equals("null")){
+                        value = null;
+                    }
+                    name.put(key, value);
                 }
             } else if (product.has("name"))
                 name.put("id", product.getString("name"));
@@ -194,7 +215,11 @@ public final class Product {
                 Iterator<String> itr = ((JSONObject)product.get("description")).keys();
                 while (itr.hasNext()) {
                     String key = itr.next();
-                    description.put(key, ((JSONObject)product.get("description")).getString(key));
+                    String value = ((JSONObject)product.get("description")).getString(key);
+                    if(value.equals("null")){
+                        value = null;
+                    }
+                    description.put(key, value);
                 }
             } else if (product.has("description"))
                 description.put("id", product.getString("description"));
@@ -297,6 +322,11 @@ public final class Product {
             encodedImage = null;
         }
 
+        String newID = product.ID;
+        if(product.productIDCopy.equals(newID)){
+            newID = null;
+        }
+
         //Create request
         JSONObject request = new JSONObject()
             .put("username", AppConfig.currentUser.username)
@@ -304,12 +334,14 @@ public final class Product {
             .put("requestType", "updateProduct")
             .put("requestData", new JSONObject()
                 .put("productID", product.productIDCopy)
-                .put("newProductID", product.ID)
+                .put("newProductID", newID)
                 .put("categoryID", product.categoryID)
                 .put("manufacturer", product.manufacturer)
                 .put("image", encodedImage)
                 .put("name", new JSONObject(product.name))
+                .put("description", new JSONObject(product.description))
             );
+        Log.i("tag", request.toString());
         Connection.Send(request);
     }
 }

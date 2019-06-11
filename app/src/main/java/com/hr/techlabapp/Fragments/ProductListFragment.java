@@ -34,6 +34,7 @@ import androidx.navigation.Navigation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.hr.techlabapp.Activities.NavHostActivity;
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.CustomViews.GridItem;
 import com.hr.techlabapp.CustomViews.ListItem;
 import com.hr.techlabapp.CustomViews.cGrid;
@@ -188,7 +189,7 @@ public class ProductListFragment extends Fragment
 		@Override
 		protected List<Product> doInBackground(Void... voids) {
 			try{
-				List<Product> Products = Product.getProducts(null,new String[]{"en"});
+				List<Product> Products = Product.getProducts(null,new String[]{AppConfig.getLanguage()});
 				new setAvailability().executeOnExecutor(THREAD_POOL_EXECUTOR, Products);
 				return Products;
 			}

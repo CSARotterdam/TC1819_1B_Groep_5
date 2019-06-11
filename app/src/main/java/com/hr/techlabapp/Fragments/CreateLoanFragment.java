@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.hr.techlabapp.Activities.NavHostActivity;
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.LoanItem;
 import com.hr.techlabapp.Networking.Product;
@@ -88,7 +89,6 @@ public class CreateLoanFragment extends Fragment {
 				.inMode(CalendarPickerView.SelectionMode.RANGE)
 				.withSelectedDate(new Date());
 		calendar.setTypeface(Typeface.SANS_SERIF);
-
 
 		Button btn = getView().findViewById(R.id.createLoanBtn);
 		btn.setOnClickListener(new View.OnClickListener() {

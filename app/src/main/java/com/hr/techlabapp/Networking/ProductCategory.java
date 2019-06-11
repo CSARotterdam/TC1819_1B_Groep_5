@@ -28,9 +28,8 @@ public final class ProductCategory {
      * Returns the name of this product using the language specified in AppConfig
      */
     public String getName() {
-        return getName(AppConfig.language);
+        return getName(AppConfig.getLanguage());
     }
-
     /**
      * Returns the name of this product in the desired language.
      *
@@ -82,6 +81,14 @@ public final class ProductCategory {
             for (HashMap.Entry<String, String> entry : criteria.entrySet())
                 requestCriteria.put(entry.getKey(), entry.getValue());
         }
+
+        // Force inclusion of the primary fallback "en"
+        else if(!Arrays.asList(languages).contains("en")) {
+            List<String> temp = new ArrayList<>(Arrays.asList(languages));
+            temp.add("en");
+            languages = temp.toArray(languages);
+        }
+
         JSONObject request = new JSONObject()
                 .put("requestType", "getProductCategories")
                 .put("username", AppConfig.currentUser.username)
@@ -89,7 +96,7 @@ public final class ProductCategory {
                 .put("requestData", new JSONObject()
                         .put("columns", fields)
                         .put("criteria", requestCriteria)
-                        .put("language", languages == null ? null : new JSONArray(Arrays.asList(languages)))
+                        .put("language", languages == null ? new JSONArray() : new JSONArray(Arrays.asList(languages)))
                         .put("start", start)
                         .put("amount", amount)
                 );

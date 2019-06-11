@@ -61,7 +61,7 @@ public class LoanItem {
      * @throws JSONException
      */
     public static LoanItem addLoan(String productID, Date start, Date end) throws JSONException {
-        DateFormat format = SimpleDateFormat.getDateInstance();
+        DateFormat format = AppConfig.dateFormat;
         //Create JSON object
         JSONObject request;
         request = new JSONObject()
@@ -193,7 +193,7 @@ public class LoanItem {
      * @throws JSONException
      */
     public static List<Date> getUnavailableDates(String productId, Date start, Date end) throws JSONException {
-        DateFormat format = SimpleDateFormat.getDateInstance();
+        DateFormat format = AppConfig.dateFormat;
         JSONObject request = new JSONObject()
             .put("username", AppConfig.currentUser.username)
             .put("token", AppConfig.currentUser.token)

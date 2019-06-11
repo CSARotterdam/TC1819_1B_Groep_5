@@ -29,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.hr.techlabapp.Activities.NavHostActivity;
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.ProductCategory;
@@ -126,7 +127,7 @@ public class AddProductFragment extends Fragment {
 			String categoryID = "uncategorized";
 			for(ProductCategory cat : ProductCategories){
 				//noinspection ConstantConditions
-				if(cat.name.get("en").equals(selectedCategory)){
+				if(cat.getName().equals(selectedCategory)){
 					categoryID = cat.categoryID;
 					break;
 				}
@@ -243,7 +244,7 @@ public class AddProductFragment extends Fragment {
 		@Override
 		protected List<ProductCategory> doInBackground(Void... voids) {
 			try{
-				return ProductCategory.getProductCategories(new String[]{"en"});
+				return ProductCategory.getProductCategories(new String[]{AppConfig.getLanguage()});
 			}
 			catch (JSONException ex){
 				return new ArrayList<>();
@@ -254,7 +255,7 @@ public class AddProductFragment extends Fragment {
 		protected void onPostExecute(List<ProductCategory> contents){
 			List<String> categories = new ArrayList<>();
 			for(ProductCategory cat : contents){
-				categories.add(cat.name.get("en"));
+				categories.add(cat.getName());
 				ProductCategories.add(cat);
 			}
 

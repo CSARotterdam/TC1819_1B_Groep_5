@@ -31,6 +31,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.hr.techlabapp.Activities.NavHostActivity;
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.ProductCategory;
@@ -271,9 +272,9 @@ public class EditProductFragment extends Fragment {
 
 		@Override
 		protected Pair<Integer, ArrayAdapter<String>> doInBackground(Product... products) {
-			ArrayList<ProductCategory> contents;
+			List<ProductCategory> contents;
 			try{
-				contents = (ArrayList)ProductCategory.getProductCategories(new String[]{"en"});
+				contents = ProductCategory.getProductCategories(new String[]{AppConfig.getLanguage()});
 			}
 			catch (JSONException ex){
 				contents = new ArrayList<>();

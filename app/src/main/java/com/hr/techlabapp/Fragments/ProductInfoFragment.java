@@ -91,7 +91,7 @@ public class ProductInfoFragment extends Fragment {
 			new loadImage().execute();
 		// sets the string values
 		name = getView().findViewById(R.id.name);
-		name.setText(getResources().getString(R.string.product_name_value,product.getName(AppConfig.language)));
+		name.setText(getResources().getString(R.string.product_name_value,product.getName(AppConfig.getLanguage())));
 		id = getView().findViewById(R.id.product_id);
 		id.setText(getResources().getString(R.string.product_id_value, product.ID));
 		// TODO: add this
@@ -103,7 +103,7 @@ public class ProductInfoFragment extends Fragment {
 		stock.setText(getResources().getString(R.string.available_value,
 				((HashMap<String,Integer>) getArguments().getSerializable(PRODUCT_AVAILABILITY_KEY)).get("inStock")));
 		des = getView().findViewById(R.id.description);
-		des.setText(getResources().getString(R.string.product_des_value,product.description.get(AppConfig.language)));
+		des.setText(getResources().getString(R.string.product_des_value,product.description.get(AppConfig.getLanguage())));
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
 		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_createLoanFragment,getArguments()));

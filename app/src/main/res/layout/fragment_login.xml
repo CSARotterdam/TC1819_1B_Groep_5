@@ -112,9 +112,13 @@
 	<!--TODO: Make it work-->
 
 	<CheckBox
+		android:layout_marginTop="@dimen/fab_margin"
 		android:id="@+id/remember_login"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/register"
 		android:text="Remember Login"
 		tools:layout_editor_absoluteX="29dp"
 		tools:layout_editor_absoluteY="329dp" />

@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, Help.class));
 
         } else if (id == R.id.Notifications) {
-            startActivity(new Intent(MainActivity.this,Noti.class));
         } else if  (id == R.id.language) {
 
 

@@ -137,10 +137,10 @@
 		android:id="@+id/contactActivity"
 		android:name="com.hr.techlabapp.Fragments.ContactFragment"
 		android:label="activity_contact_form"
-		tools:layout="@layout/activity_contact_form" />
+		tools:layout="@layout/contact_form_fragment" />
 	<fragment
 		android:id="@+id/settings2"
-		android:name="com.hr.techlabapp.Settings"
+		android:name="com.hr.techlabapp.Fragments.Settings"
 		android:label="settings"
 		tools:layout="@layout/settings" >
 		<action

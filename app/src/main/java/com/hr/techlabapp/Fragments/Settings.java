@@ -1,4 +1,4 @@
-package com.hr.techlabapp;
+package com.hr.techlabapp.Fragments;
 
 import android.content.Intent;
 
@@ -14,8 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.hr.techlabapp.R;
+
 public class Settings extends Fragment {
     Button language;
+
+    public Settings(){
+
+    }
 
     @Nullable
     @Override

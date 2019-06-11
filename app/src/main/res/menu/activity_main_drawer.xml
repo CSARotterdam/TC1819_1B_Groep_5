@@ -20,9 +20,12 @@
 
     <item android:title="">
         <menu>
+            <!--<item
+                android:id="@+id/scan"
+                android:title="Scan" />
             <item
                 android:id="@+id/statistics"
-                android:title="Statistics" />
+                android:title="Statistics" />-->
             <item
                 android:id="@+id/settings"
                 android:title="Settings" />

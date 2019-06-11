@@ -128,7 +128,7 @@ public class LoanItem {
                                           @Nullable Date start,
                                           @Nullable Date end
     ) throws JSONException {
-        DateFormat format = SimpleDateFormat.getDateInstance();
+        DateFormat format = AppConfig.dateFormat;
         //Create JSON object
         JSONObject request;
         request = new JSONObject()

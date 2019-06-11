@@ -11,7 +11,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -183,7 +182,7 @@ public class GridItem extends ConstraintLayout {
 								im = product.getImage();
 						}
 						catch (JSONException ex){
-							im = BitmapFactory.decodeResource(getResources(),R.drawable.cuteaf);
+							return null;
 						}
 						finally {
 							Images.put(product.imageId,im);

@@ -1,34 +1,39 @@
-package com.hr.techlabapp;
+package com.hr.techlabapp.Fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.hr.techlabapp.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ContactActivity extends AppCompatActivity {
-    private Activity activity;
+public class ContactFragment extends Fragment {
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.contact_form_fragment, container, false);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_form);
-
-        final EditText your_name        = (EditText) findViewById(R.id.your_name);
-        final EditText your_email       = (EditText) findViewById(R.id.your_email);
-        final EditText your_subject     = (EditText) findViewById(R.id.your_subject);
-        final EditText your_message     = (EditText) findViewById(R.id.your_message);
-
-
-
-        Button email = (Button) findViewById(R.id.post_message);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final EditText your_name        = getView().findViewById(R.id.your_name);
+        final EditText your_email       = getView().findViewById(R.id.your_email);
+        final EditText your_subject     = getView().findViewById(R.id.your_subject);
+        final EditText your_message     = getView().findViewById(R.id.your_message);
+        Button email = getView().findViewById(R.id.post_message);
         email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,27 +83,6 @@ public class ContactActivity extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //Get a Tracker (should auto-report)
-
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-    }
-
 
     // validating email id
 

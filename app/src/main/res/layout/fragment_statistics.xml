@@ -1,102 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/frameLayout5"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".Fragments.StatisticsFragment"><!--
-	<androidx.constraintlayout.widget.ConstraintLayout
-		android:id="@+id/product_statistics"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		android:layout_margin="@dimen/usual_margin"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="@color/check_image_background_color">
-		<TextView
-			android:id="@+id/name"
-			android:padding="@dimen/usual_margin"
-			app:layout_constraintLeft_toLeftOf="parent"
-			app:layout_constraintRight_toRightOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:textAlignment="center"
-			android:text="@string/product_statistics"
-			android:textAllCaps="true"
-			android:textColor="@color/textColor"
-			android:background="@color/colorPrimary"/>
-		<TextView
-			android:id="@+id/this_week_text"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/this_week"
-			app:layout_constraintLeft_toLeftOf="parent"
-			android:padding="@dimen/usual_margin"
-			android:textSize="20sp"
-			android:textColor="@color/ListTextColor"
-			app:layout_constraintTop_toBottomOf="@id/name"/>
-		<TextView
-			android:id="@+id/this_week"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/hour_min"
-			app:layout_constraintRight_toRightOf="parent"
-			android:padding="@dimen/usual_margin"
-			android:textSize="15sp"
-			android:textColor="@color/ListTextColor"
-			app:layout_constraintTop_toBottomOf="@id/name"
-			app:layout_constraintBottom_toBottomOf="@id/this_week_text"/>
-		&lt;!&ndash;TODO: make custom shape (not me)&ndash;&gt;
-		<View
-			android:id="@+id/topbar"
-			app:layout_constraintTop_toTopOf="@id/topbar_stats"
-			app:layout_constraintLeft_toLeftOf="parent"
-			app:layout_constraintBottom_toBottomOf="@id/topbar_stats"
-			android:layout_width="200dp"
-			android:layout_height="10dp"
-			android:background="@color/colorAccent"
-			android:layout_margin="@dimen/usual_margin"/>
-		<TextView
-			android:id="@+id/topbar_stats"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			app:layout_constraintTop_toBottomOf="@id/this_week"
-			app:layout_constraintLeft_toRightOf="@id/topbar"
-			app:layout_constraintBottom_toBottomOf="parent"
-			android:padding="@dimen/usual_margin"
-			android:text="@string/hour_min"/>
-	</androidx.constraintlayout.widget.ConstraintLayout>
-	<Space
-		android:id="@+id/spacer"
-		android:layout_width="match_parent"
-		app:layout_constraintTop_toBottomOf="@id/product_statistics"
-		android:layout_height="25dp"/>
-	<androidx.constraintlayout.widget.ConstraintLayout
-		android:id="@+id/user_statistics"
-		app:layout_constraintTop_toBottomOf="@id/spacer"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		android:layout_margin="@dimen/usual_margin"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="@color/check_image_background_color">
-		<TextView
-			android:id="@id/name"
-			android:padding="@dimen/usual_margin"
-			app:layout_constraintLeft_toLeftOf="parent"
-			app:layout_constraintRight_toRightOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:textAlignment="center"
-			android:text="@string/user_statistics"
-			android:textAllCaps="true"
-			android:textColor="@color/textColor"
-			android:background="@color/colorPrimary"/>
-	</androidx.constraintlayout.widget.ConstraintLayout>-->
+	tools:context=".Fragments.StatisticsFragment">
 	<TextView
 		android:id="@+id/product_statistics_text"
 		android:layout_height="wrap_content"
@@ -113,20 +23,4 @@
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/product_statistics_text"/>
-	<TextView
-		android:id="@+id/user_statistics_text"
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/product_chart"
-		android:text="@string/user_statistics"
-		android:textAlignment="center"/>
-	<com.github.mikephil.charting.charts.BarChart
-		android:id="@+id/user_chart"
-		android:layout_height="250dp"
-		android:layout_width="match_parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/user_statistics_text"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

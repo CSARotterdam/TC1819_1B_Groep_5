@@ -105,12 +105,6 @@ public class ProductListFragment extends Fragment
 		toolbar = getView().findViewById(R.id.toolbar);
 		((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-		FAB = getView().findViewById(R.id.fab);
-		Drawable WhiteCam = getResources().getDrawable(android.R.drawable.ic_menu_camera,getActivity().getTheme()).getConstantState().newDrawable();
-		WhiteCam.mutate().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-		FAB.setImageDrawable(WhiteCam);
-		FAB.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productListFragment_to_Camera));
-
 		drawerLayout = getView().findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout,toolbar,
 				R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -120,10 +114,11 @@ public class ProductListFragment extends Fragment
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-				int id = menuItem.getItemId();
-
 				//Statistics
-				switch(id){
+				switch(menuItem.getItemId()){
+					case R.id.scan:
+						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_Camera);
+						return true;
 					case R.id.statistics:
 						Bundle b = new Bundle();
 						ArrayList<Product> products = new ArrayList<>();
@@ -135,10 +130,11 @@ public class ProductListFragment extends Fragment
 								products.add(((GridItem)cl).getProduct());
 						b.putSerializable("products", products);
 						b.putSerializable("availabilty",GridItem.Availability);
-						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment);
-						break;
+						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment, b);
+						return true;
 					case R.id.Log_out:
 						new logoutTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+						return true;
 				}
 				return false;
 			}
@@ -151,28 +147,6 @@ public class ProductListFragment extends Fragment
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getActivity().getMenuInflater().inflate(R.menu.productlistmenu, menu);
 		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so lon
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		//noinspection SimplifiableIfStatement
-		if (id == R.id.language)
-			return true;
-		else if (id == R.id.Help)
-			return true;
-		else if (id == R.id.Notifications)
-			return true;
-		else if (id == R.id.add_product) {
-			Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_addProductFragment);
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
 	}
 
 	@SuppressLint("StaticFieldLeak")

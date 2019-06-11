@@ -66,7 +66,6 @@
 				app:layout_constraintRight_toRightOf="parent"
 				android:layout_width="match_parent"
 				android:layout_height="@dimen/check_image_height"
-				android:src="@drawable/cuteaf"
 				android:contentDescription="@string/image_description" />
 		</androidx.constraintlayout.widget.ConstraintLayout>
 		<TextView

@@ -3,10 +3,16 @@ package com.hr.techlabapp.Networking;
 import java.util.HashMap;
 
 public class User {
-    String username;
+    public static final int NOT_LOGGED_IN = 0;
+    public static final int USER = 1;
+    public static final int COLLABORATOR = 2;
+    public static final int ADMIN = 3;
+
     String hash;
     long token;
-    int permissionLevel;
+
+    public String username;
+    public int permissionLevel;
 
     public User(String username, String hash, long token, int permissionLevel){
         this.username = username;

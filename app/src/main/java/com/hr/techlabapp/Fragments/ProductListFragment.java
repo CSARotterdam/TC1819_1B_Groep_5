@@ -42,6 +42,7 @@ import com.hr.techlabapp.Networking.Authentication;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.Statistics;
+import com.hr.techlabapp.Networking.User;
 import com.hr.techlabapp.R;
 
 import org.json.JSONException;
@@ -51,6 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import static com.hr.techlabapp.AppConfig.currentUser;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_AVAILABILITY_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_CATEGORY_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_DESCRIPTION_KEY;
@@ -59,6 +61,7 @@ import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_IMAGE_ID_K
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_IMAGE_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_MANUFACTURER_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_NAME_KEY;
+import static com.hr.techlabapp.Networking.User.ADMIN;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -115,7 +118,7 @@ public class ProductListFragment extends Fragment
 			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 				//Statistics
 				switch(menuItem.getItemId()){
-					case R.id.scan:
+					/*case R.id.scan:
 						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_Camera);
 						return true;
 					case R.id.statistics:
@@ -130,7 +133,7 @@ public class ProductListFragment extends Fragment
 						b.putSerializable("products", products);
 						b.putSerializable("availabilty",GridItem.Availability);
 						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment, b);
-						return true;
+						return true;*/
 					case R.id.Log_out:
 						new logoutTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 						return true;
@@ -144,7 +147,8 @@ public class ProductListFragment extends Fragment
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getActivity().getMenuInflater().inflate(R.menu.productlistmenu, menu);
+		if(currentUser.permissionLevel == ADMIN)
+			getActivity().getMenuInflater().inflate(R.menu.productlistmenu, menu);
 		return true;
 	}
 

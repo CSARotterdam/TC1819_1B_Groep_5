@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ContactActivity"
+            android:name=".Fragments.ContactFragment"
             android:label="@string/title_activity_contact"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ContactActivity"
+            android:name=".Fragments.ContactFragment"
             tools:ignore="DuplicateActivity" />
     </application>
 

@@ -135,6 +135,7 @@ public class ProductListFragment extends Fragment
 						b.putSerializable("products", products);
 						b.putSerializable("availabilty",GridItem.Availability);
 						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment);
+						break;
 					case R.id.Log_out:
 						new logoutTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 				}

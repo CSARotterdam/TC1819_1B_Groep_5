@@ -33,6 +33,7 @@ import java.util.HashMap;
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressWarnings("all")
 public class ProductInfoFragment extends Fragment {
 	public static final String PRODUCT_NAME_KEY = "ProductName";
 	public static final String PRODUCT_DESCRIPTION_KEY = "ProductDescription";
@@ -117,11 +118,8 @@ public class ProductInfoFragment extends Fragment {
 			public void onClick(View v) {
 				// makes a new delete dialog
 				DeleteItemDialog dialog = new DeleteItemDialog();
-				// makes the args
-				Bundle args = new Bundle();
-				args.putCharSequence("ID",product.ID);
 				// sets the args
-				dialog.setArguments(args);
+				dialog.setArguments(getArguments());
 				// shows the dialog
 				assert getFragmentManager() != null;
 				dialog.show(getFragmentManager(),String.format("delete item %s",product.ID));
@@ -141,7 +139,6 @@ public class ProductInfoFragment extends Fragment {
 				return BitmapFactory.decodeResource(getResources(),R.drawable.cuteaf);
 			}
 		}
-
 		@Override
 		protected void onPostExecute(Bitmap bitmap) {
 			image.setImageBitmap(bitmap);

@@ -281,13 +281,14 @@ public final class Product {
         Connection.Send(request);
     }
 
-    public static void deleteProductItems(int count) throws JSONException{
+    public static void deleteProductItems(String productID, int count) throws JSONException{
         //Create request
         JSONObject request = new JSONObject()
                 .put("username", AppConfig.currentUser.username)
                 .put("token", AppConfig.currentUser.token)
                 .put("requestType", "deleteProductItem")
                 .put("requestData", new JSONObject()
+                        .put("productId", productID)
                         .put("count", count)
                 );
 

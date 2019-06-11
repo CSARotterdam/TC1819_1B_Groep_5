@@ -102,21 +102,5 @@ public class CheckLendRequestFragment extends Fragment {
 		catch (JSONException ex){
 			amount.setText(getResources().getString(R.string.amount_value,0));
 		}
-		//sets the on click the event
-		userHistory = getView().findViewById(R.id.user_history);
-		userHistory.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				//the dialog to show the user history
-				UserHistoryDialog dialog = new UserHistoryDialog();
-				//makes the arguments needed for the dialog
-				Bundle args = new Bundle();
-				args.putInt("ID",958956);
-				//sets the arguments
-				dialog.setArguments(args);
-				//shows the dialog
-				dialog.show(getFragmentManager(),String.format("user history %07d",958956));
-			}
-		});
 	}
 }

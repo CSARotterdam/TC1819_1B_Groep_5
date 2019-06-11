@@ -197,7 +197,7 @@ public class ListItem extends ConstraintLayout {
 							im = product.getImage();
 						}
 						catch (JSONException ex){
-							im = BitmapFactory.decodeResource(getResources(),R.drawable.cuteaf);
+							return null;
 						}
 						finally {
 							Images.put(product.imageId,im);

@@ -24,8 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-		android:src="@drawable/cuteaf"/>
+        android:scaleType="centerCrop"/>
 	<TextView
         android:id="@+id/name"
         android:layout_width="match_parent"

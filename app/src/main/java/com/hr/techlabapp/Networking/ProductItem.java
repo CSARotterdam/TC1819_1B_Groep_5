@@ -23,6 +23,38 @@ public final class ProductItem {
         this.productId = productId;
     }
 
+    public static ArrayList<Integer> addProductItem(Product product)throws JSONException {
+        return addProductItem(product.ID, 1);
+    }
+
+    public static ArrayList<Integer> addProductItem(String productID)throws JSONException {
+        return addProductItem(productID, 1);
+    }
+
+    public static ArrayList<Integer> addProductItem(Product product, int count) throws JSONException {
+        return addProductItem(product.ID, count);
+    }
+
+    public static ArrayList<Integer> addProductItem(String productID, int count) throws JSONException {
+        //Create request
+        JSONObject request = new JSONObject()
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
+                .put("requestType", "addProductItem")
+                .put("requestData", new JSONObject()
+                        .put("productID", productID)
+                        .put("count", count)
+                );
+
+        JSONArray array = (JSONArray)Connection.Send(request);
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for (int i=0; i<array.length(); i++) {
+            list.add( array.getInt(i) );
+        }
+
+        return list;
+    }
+
     /**
      * Returns the items of the given product types.
      *

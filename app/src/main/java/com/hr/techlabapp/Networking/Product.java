@@ -303,9 +303,9 @@ public final class Product {
         JSONObject request = new JSONObject()
                 .put("username", AppConfig.currentUser.username)
                 .put("token", AppConfig.currentUser.token)
-                .put("requestType", "deleteProductItem")
+                .put("requestType", "deleteProductItems")
                 .put("requestData", new JSONObject()
-                        .put("productId", productID)
+                        .put("productID", productID)
                         .put("count", count)
                 );
 

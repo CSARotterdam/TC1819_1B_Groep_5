@@ -58,6 +58,9 @@
 		<action
 			android:id="@+id/action_productInfoFragment_to_editProductFragment"
 			app:destination="@id/editProductFragment" />
+		<action
+			android:id="@+id/action_productInfoFragment_self"
+			app:destination="@id/productInfoFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/addProductFragment"

@@ -91,7 +91,7 @@
     <string name="create_loan">Place reservation</string>
     <string name="logout_success">Logged out!</string>
     <string name="edit">Edit</string>
-    <string name="delete">Delete</string>
+    <string name="edit_stock">Edit product stock</string>
     <string name="new_product_name">New product name</string>
     <string name="new_product_id">New product ID</string>
     <string name="new_product_cat">New product category</string>
@@ -110,6 +110,9 @@
     <string name="contact_form_button">Send Message</string>
     <string name="contact_form_post_message">Please wait! We\'re sending your message to the support department...</string>
     <string name="contact_posted">Your message has been successfully delivered.</string>
+    <string name="no_stock_count_given">Please enter a new stock count</string>
+    <string name="stock_increased">Product stock successfully increased.</string>
+    <string name="too_many_products">You can only add up to 30 items at a time.</string>
 
 
 </resources>

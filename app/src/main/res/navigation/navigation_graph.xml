@@ -37,6 +37,9 @@
 		<action
 			android:id="@+id/action_productListFragment_to_Camera"
 			app:destination="@id/Camera" />
+		<action
+			android:id="@+id/action_productListFragment_to_settings2"
+			app:destination="@id/settings2" />
 	</fragment>
 	<fragment
 		android:id="@+id/productInfoFragment"
@@ -130,4 +133,18 @@
 		android:name="com.hr.techlabapp.Fragments.qrGenFragment"
 		android:label="fragment_qr_gen"
 		tools:layout="@layout/fragment_qr_gen" />
+	<fragment
+		android:id="@+id/contactActivity"
+		android:name="com.hr.techlabapp.Fragments.ContactFragment"
+		android:label="activity_contact_form"
+		tools:layout="@layout/activity_contact_form" />
+	<fragment
+		android:id="@+id/settings2"
+		android:name="com.hr.techlabapp.Settings"
+		android:label="settings"
+		tools:layout="@layout/settings" >
+		<action
+			android:id="@+id/action_settings2_to_contactActivity"
+			app:destination="@id/contactActivity" />
+	</fragment>
 </navigation>

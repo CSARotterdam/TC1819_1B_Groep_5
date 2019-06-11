@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -250,7 +251,7 @@ public class ProductListFragment extends Fragment
 		}
 	}
 
-	class setAvailability extends AsyncTask<List<Product>, Void, Void>{
+	public static class setAvailability extends AsyncTask<List<Product>, Void, Void>{
 		@Override
 		protected Void doInBackground(List<Product>... products) {
 			ArrayList<String> productIds = new ArrayList<>();

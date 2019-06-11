@@ -21,7 +21,7 @@ import androidx.navigation.Navigation;
 
 import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.AppConfig;
-import com.hr.techlabapp.CustomViews.DeleteItemDialog;
+import com.hr.techlabapp.CustomViews.EditItemStockDialog;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
 
@@ -116,12 +116,10 @@ public class ProductInfoFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// makes a new delete dialog
-				DeleteItemDialog dialog = new DeleteItemDialog();
-				// makes the args
-				Bundle args = new Bundle();
-				args.putCharSequence("ID",product.ID);
+				EditItemStockDialog dialog = new EditItemStockDialog();
+				dialog.context = getContext();
 				// sets the args
-				dialog.setArguments(args);
+				dialog.setArguments(getArguments());
 				// shows the dialog
 				assert getFragmentManager() != null;
 				dialog.show(getFragmentManager(),String.format("delete item %s",product.ID));

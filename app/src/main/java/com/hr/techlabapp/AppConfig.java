@@ -10,7 +10,7 @@ import java.util.Locale;
 
 public final class AppConfig {
 	public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-	public static final String serverAddress = "172.20.10.2";
+	public static final String serverAddress = "145.137.56.229";
 //	public static final String serverAddress = "192.168.178.9"; //Nolz desktop
 
 	public static User currentUser;

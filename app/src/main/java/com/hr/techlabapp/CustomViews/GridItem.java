@@ -25,6 +25,7 @@ import com.hr.techlabapp.R;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GridItem extends ConstraintLayout {
@@ -35,6 +36,7 @@ public class GridItem extends ConstraintLayout {
 	public static HashMap<String,HashMap<String, Integer>> Availability;
 	public static HashMap<String, Bitmap> Images = new HashMap<>();
 
+	private ArrayList<AsyncTask> Tasks = new ArrayList<>();
 	private ImageView image;
 	private TextView name;
 	private TextView availability;
@@ -59,10 +61,8 @@ public class GridItem extends ConstraintLayout {
 	private void Init(Context context) {
 		if (Build.VERSION.SDK_INT >= 23)
 			Init23(context);
-		else if (Build.VERSION.SDK_INT >= 17)
-			Init17(context);
 		else
-			Init15(context);
+			Init17(context);
 	}
 
 	@RequiresApi(23)
@@ -127,36 +127,12 @@ public class GridItem extends ConstraintLayout {
 		SetConstraints();
 	}
 
-	@RequiresApi(15)
-	private void Init15(Context context) {
-		image = new ImageView(context);
-		image.setId(R.id.image);
-		image.setVisibility(View.INVISIBLE);
-		progress = new ProgressBar(context);
-		progress.setId(R.id.progress);
-		name = new TextView(context);
-		name.setId(R.id.name);
-		name.setTextColor(ContextCompat.getColor(context, R.color.textColor));
-		name.setLayoutParams(
-				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		name.setBackgroundColor(ContextCompat.getColor(context, R.color.textBackground));
-		availability = new TextView(context);
-		availability.setId(R.id.availability);
-		availability.setTextColor(ContextCompat.getColor(context, R.color.textColor));
-		availability.setLayoutParams(
-				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		availability.setBackgroundColor(ContextCompat.getColor(context, R.color.textBackground));
-		addView(progress);
-		addView(image);
-		addView(availability);
-		addView(name);
-		SetConstraints();
-	}
-
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
-		new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		ShowImage sh =  new ShowImage();
+		Tasks.add(sh);
+		sh.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	private void SetConstraints() {
@@ -216,10 +192,9 @@ public class GridItem extends ConstraintLayout {
 	private void setValues() {
 		// sets the values
 		this.name.setText(product.getName(AppConfig.getLanguage()));
-		new setAvailability().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		/*		this.availability.setText(getResources().getString(R.string.availability,
-				Availability.get(product.ID).get("inStock"),
-				Availability.get(product.ID).get("total")));*/
+		setAvailability sa = new setAvailability();
+		sa.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		Tasks.add(sa);
 	}
 
 	class setAvailability extends AsyncTask<Void,Void, HashMap<String,Integer>>{
@@ -264,6 +239,8 @@ public class GridItem extends ConstraintLayout {
 
 	@Override
 	protected void finalize() throws Throwable {
+		for(AsyncTask task: Tasks)
+			task.cancel(true);
 		super.finalize();
 	}
 }

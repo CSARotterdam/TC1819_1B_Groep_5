@@ -32,11 +32,11 @@ public class GridItem extends ConstraintLayout {
 
 	private Product product;
 	private boolean ImageLoaded = false;
+	private boolean isBusy = false;
 
 	public static HashMap<String,HashMap<String, Integer>> Availability;
 	public static HashMap<String, Bitmap> Images = new HashMap<>();
 
-	private ArrayList<AsyncTask> Tasks = new ArrayList<>();
 	private ImageView image;
 	private TextView name;
 	private TextView availability;
@@ -130,9 +130,15 @@ public class GridItem extends ConstraintLayout {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
-		ShowImage sh =  new ShowImage();
-		Tasks.add(sh);
-		sh.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		isBusy = true;
+		new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	}
+
+	public void loadImage(){
+		if(!ImageLoaded || !isBusy){
+			isBusy = true;
+			new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		}
 	}
 
 	private void SetConstraints() {
@@ -146,40 +152,38 @@ public class GridItem extends ConstraintLayout {
 
 		@Override
 		protected Bitmap doInBackground(Void... voids) {
-			while (!ImageLoaded)
-				if (isVisibleToUser()) {
-					// checks if the image isn't already loaded and visible to the user
-					// gets a random image
-					Bitmap im = null;
-					if(Images.get(product.imageId) != null)
-						im = Images.get(product.imageId);
-					else
-						try{
-								im = product.getImage();
-						}
-						catch (JSONException ex){
-							return null;
-						}
-						finally {
-							Images.put(product.imageId,im);
-						}
-					int imh = im.getHeight();
-					int imw = im.getWidth();
-					float aspectRatio = (float)imw / imh;
-					// sets the new img width and height depending of the aspect ratio of the image
-					// TODO: should use attributes
-					int nimw = imh > imw ? (int)(dptopx(100) * aspectRatio) : dptopx(125);
-					int nimh = imw > imh ? (int)(dptopx(125) * aspectRatio) : dptopx(100);
-					// Scales the bitmap
-					ImageLoaded = true;
-					return Bitmap.createScaledBitmap(im, nimw, nimh, false);
-				}
+			if (isVisibleToUser()) {
+				// checks if the image isn't already loaded and visible to the user
+				// gets a random image
+				Bitmap im = null;
+				if (Images.get(product.imageId) != null)
+					im = Images.get(product.imageId);
+				else
+					try {
+						im = product.getImage();
+					} catch (JSONException ex) {
+						return null;
+					} finally {
+						Images.put(product.imageId, im);
+					}
+				int imh = im.getHeight();
+				int imw = im.getWidth();
+				float aspectRatio = (float) imw / imh;
+				// sets the new img width and height depending of the aspect ratio of the image
+				// TODO: should use attributes
+				int nimw = imh > imw ? (int) (dptopx(100) * aspectRatio) : dptopx(125);
+				int nimh = imw > imh ? (int) (dptopx(125) * aspectRatio) : dptopx(100);
+				// Scales the bitmap
+				ImageLoaded = true;
+				return Bitmap.createScaledBitmap(im, nimw, nimh, false);
+			}
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Bitmap aVoid) {
 			super.onPostExecute(aVoid);
+			isBusy = false;
 			if (aVoid == null)
 				return;
 			image.setImageBitmap(aVoid);
@@ -192,9 +196,7 @@ public class GridItem extends ConstraintLayout {
 	private void setValues() {
 		// sets the values
 		this.name.setText(product.getName(AppConfig.getLanguage()));
-		setAvailability sa = new setAvailability();
-		sa.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		Tasks.add(sa);
+		new setAvailability().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	class setAvailability extends AsyncTask<Void,Void, HashMap<String,Integer>>{
@@ -239,8 +241,6 @@ public class GridItem extends ConstraintLayout {
 
 	@Override
 	protected void finalize() throws Throwable {
-		for(AsyncTask task: Tasks)
-			task.cancel(true);
 		super.finalize();
 	}
 }

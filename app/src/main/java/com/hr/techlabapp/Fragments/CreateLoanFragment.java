@@ -20,7 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.hr.techlabapp.Activities.NavHostActivity;
-import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.LoanItem;
 import com.hr.techlabapp.Networking.Product;
@@ -60,7 +59,7 @@ public class CreateLoanFragment extends Fragment {
 	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_create_loan2, container, false);
+		return inflater.inflate(R.layout.fragment_create_loan, container, false);
 	}
 
 	@Override

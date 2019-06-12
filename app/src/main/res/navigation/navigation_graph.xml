@@ -87,7 +87,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/checkLendRequestFragment"
-		android:name="com.hr.techlabapp.Fragments.CheckLendRequestFragment"
+		android:name="com.hr.techlabapp.Fragments.AcceptLoanFragment"
 		android:label="fragment_check_lend_request"
 		tools:layout="@layout/fragment_check_lend_request" >
 		<action
@@ -115,7 +115,7 @@
 		android:id="@+id/createLoanFragment"
 		android:name="com.hr.techlabapp.Fragments.CreateLoanFragment"
 		android:label="fragment_create_loan2"
-		tools:layout="@layout/fragment_create_loan2" >
+		tools:layout="@layout/fragment_create_loan" >
 		<action
 			android:id="@+id/action_createLoanFragment_to_qrGenFragment"
 			app:destination="@id/qrGenFragment" />

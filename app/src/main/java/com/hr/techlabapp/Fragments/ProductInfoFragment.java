@@ -4,7 +4,6 @@ package com.hr.techlabapp.Fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -122,7 +121,7 @@ public class ProductInfoFragment extends Fragment {
 				dialog.setArguments(getArguments());
 				// shows the dialog
 				assert getFragmentManager() != null;
-				dialog.show(getFragmentManager(),String.format("delete item %s",product.ID));
+				dialog.show(getFragmentManager(),String.format(getResources().getString(R.string.edit_stock_for),product.getName()));
 			}
 		});
 	}	

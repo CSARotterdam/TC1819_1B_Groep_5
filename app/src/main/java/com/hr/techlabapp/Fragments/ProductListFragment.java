@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -117,24 +118,7 @@ public class ProductListFragment extends Fragment
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-				//Statistics
 				switch(menuItem.getItemId()){
-					/*case R.id.scan:
-						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_Camera);
-						return true;
-					case R.id.statistics:
-						Bundle b = new Bundle();
-						ArrayList<Product> products = new ArrayList<>();
-						if(Products.isList())
-							for(ConstraintLayout cl: Products.getItems())
-								products.add(((ListItem)cl).getProduct());
-						else
-							for(ConstraintLayout cl: Products.getItems())
-								products.add(((GridItem)cl).getProduct());
-						b.putSerializable("products", products);
-						b.putSerializable("availabilty",GridItem.Availability);
-						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment, b);
-						return true;*/
 					case R.id.Log_out:
 						new logoutTask().execute();
 						return true;
@@ -151,6 +135,17 @@ public class ProductListFragment extends Fragment
 		if(currentUser.permissionLevel == ADMIN)
 			getActivity().getMenuInflater().inflate(R.menu.productlistmenu, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+		int id = item.getItemId();
+		switch (id){
+			case R.id.add_product:
+				Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_addProductFragment);
+				return true;
+		}
+		return false;
 	}
 
 	@SuppressLint("StaticFieldLeak")

@@ -18,8 +18,7 @@
 	<string name="decline">الغاء</string>
 	<string name="accept">موافق</string>
 	<string name="image_description">صورة المنتج</string>
-	<string name="delete_item_title">حذف "%s"</string>
-    <string name="add_product">إضافة منتج</string>
+	<string name="add_product">إضافة منتج</string>
 	<string name="add_image">إضافة صورة</string>
 	<string name="product_statistics">احصائية عن المنتج</string>
 	<string name="hour_min">%02d hr %02d دقيقة</string>
@@ -41,7 +40,6 @@
 	<string name="navigation_drawer_open">افتح القائمة</string>
 	<string name="navigation_drawer_close">أغلق القائمة</string>
 	<!-- TODO: Remove or change this placeholder text -->
-	<string name="hello_blank_fragment">مرحبا</string>
 	<string name="unexpected_error">حدث خطأغير متوقع, ترجى المحاولة لاحقا.</string>
 	<string name="invalid_username">الرجاء استخدام رقم الاكتتاب الصحيح كاسم مستخدم</string>
 	<string name="invalid_password">كلمة المرور غير صحيحة!</string>

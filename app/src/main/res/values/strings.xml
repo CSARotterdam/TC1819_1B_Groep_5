@@ -30,7 +30,7 @@
     <string name="decline">Decline</string>
     <string name="accept">Accept</string>
     <string name="image_description">An image of the product</string>
-    <string name="delete_item_title">Delete "%s"</string>
+    <string name="edit_stock_for">Edit stock for %s</string>
     <string name="delete_product">Delete Product</string>
     <string name="add_product">Add product</string>
     <string name="add_image">Add image</string>
@@ -65,7 +65,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="unexpected_error">An unexpected error occurred. Please try again later.</string>
     <string name="invalid_username">Please use your student number or staff code as username.</string>
     <string name="invalid_password">That password is not valid!</string>
@@ -113,6 +112,7 @@
     <string name="no_stock_count_given">Please enter a new stock count</string>
     <string name="stock_increased">Product stock successfully increased.</string>
     <string name="too_many_products">You can only add up to 30 items at a time.</string>
+    <string name="amount_currently_available">Amount currently available:</string>
 
 
 </resources>

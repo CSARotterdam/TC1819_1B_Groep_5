@@ -32,6 +32,7 @@ import com.hr.techlabapp.R;
 import org.json.JSONException;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
@@ -46,6 +47,7 @@ public class ListItem extends ConstraintLayout {
 	public static HashMap<String,HashMap<String, Integer>> Availability;
 	public static HashMap<String, Bitmap> Images = GridItem.Images;
 
+	private ArrayList<AsyncTask> Tasks = new ArrayList<>();
 	private ImageView image;
 	private TextView name;
 	private TextView availability;
@@ -70,10 +72,8 @@ public class ListItem extends ConstraintLayout {
 	private void Init(Context context) {
 		if (Build.VERSION.SDK_INT >= 23)
 			Init23(context);
-		else if (Build.VERSION.SDK_INT >= 17)
-			Init17(context);
 		else
-			Init15(context);
+			Init17(context);
 	}
 
 	@RequiresApi(23)
@@ -133,30 +133,6 @@ public class ListItem extends ConstraintLayout {
 		SetConstraints();
 	}
 
-	@RequiresApi(15)
-	private void Init15(Context context) {
-		image = new ImageView(context);
-		image.setId(R.id.image);
-		image.setVisibility(View.INVISIBLE);
-		progress = new ProgressBar(context);
-		progress.setId(R.id.progress);
-		name = new TextView(context);
-		name.setId(R.id.name);
-		name.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
-		name.setLayoutParams(
-				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		availability = new TextView(context);
-		availability.setId(R.id.availability);
-		availability.setTextColor(ContextCompat.getColor(context, R.color.ListTextColor));
-		availability.setLayoutParams(
-				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		addView(progress);
-		addView(image);
-		addView(availability);
-		addView(name);
-		SetConstraints();
-	}
-
 	private void SetConstraints() {
 		// makes the layout like listitem.xml
 		ConstraintSet CSS = new ConstraintSet();
@@ -169,16 +145,33 @@ public class ListItem extends ConstraintLayout {
 	private void setValues() {
 		// sets the values
 		this.name.setText(product.getName(AppConfig.getLanguage()));
-		this.availability.setText(getResources().getString(R.string.availability,
-				Availability.get(product.ID).get("inStock"),
-				Availability.get(product.ID).get("total")));
+		setAvailability sa = new setAvailability();
+		sa.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		Tasks.add(sa);
+	}
+
+
+	class setAvailability extends AsyncTask<Void,Void, HashMap<String,Integer>>{
+		@Override
+		protected HashMap<String, Integer> doInBackground(Void... voids) {
+			while(Availability == null){}
+			return Availability.get(product.ID);
+		}
+
+		@Override
+		protected void onPostExecute(HashMap<String, Integer> av) {
+			availability.setText(getResources().getString(R.string.availability, av.get("available"), av.get("total")));
+		}
 	}
 
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
-		new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		ShowImage sh =  new ShowImage();
+		Tasks.add(sh);
+		sh.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
+
 
 	public Product getProduct() {
 		return product;
@@ -248,6 +241,8 @@ public class ListItem extends ConstraintLayout {
 
 	@Override
 	protected void finalize() throws Throwable {
+		for(AsyncTask task: Tasks)
+			task.cancel(true);
 		super.finalize();
 	}
 }

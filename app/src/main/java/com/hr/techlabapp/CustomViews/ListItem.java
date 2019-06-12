@@ -221,7 +221,7 @@ public class ListItem extends ConstraintLayout {
 	}
 
 	public void loadImage(){
-		if(!ImageLoaded || !isBusy){
+		if(!ImageLoaded && !isBusy){
 			isBusy = true;
 			new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		}

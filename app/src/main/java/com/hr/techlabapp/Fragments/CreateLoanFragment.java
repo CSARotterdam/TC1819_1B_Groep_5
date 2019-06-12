@@ -98,7 +98,7 @@ public class CreateLoanFragment extends Fragment {
 					Log.i("CreateLoanFragment", "Nothing is selected. Skipping action...");
 					return;
 				}
-				new AddLoan_Action().execute(calendar.getSelectedDates());
+				new AddLoan_Action().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, calendar.getSelectedDates());
 			}
 		});
 
@@ -106,7 +106,7 @@ public class CreateLoanFragment extends Fragment {
 	}
 
 	private void refreshCalendar() {
-		new GetUnavailableDates_Action().execute();
+		new GetUnavailableDates_Action().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	@SuppressLint("StaticFieldLeak")

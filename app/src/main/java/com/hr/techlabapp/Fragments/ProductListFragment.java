@@ -136,7 +136,7 @@ public class ProductListFragment extends Fragment
 						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_statisticsFragment, b);
 						return true;*/
 					case R.id.Log_out:
-						new logoutTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+						new logoutTask().execute();
 						return true;
 				}
 				return false;
@@ -163,6 +163,7 @@ public class ProductListFragment extends Fragment
 			dialog.show();
 		}
 		protected String doInBackground(String... params){
+			Log.e("LogoutTask", "Excecuting background task...");
 			try{
 				Authentication.logout();
 				return getResources().getString(R.string.logout_success);

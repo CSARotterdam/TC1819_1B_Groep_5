@@ -88,7 +88,7 @@ public class ProductInfoFragment extends Fragment {
 		if(product.image != null)
 			image.setImageBitmap(product.image);
 		else
-			new loadImage().execute();
+			new loadImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		// sets the string values
 		name = getView().findViewById(R.id.name);
 		name.setText(getResources().getString(R.string.product_name_value,product.getName(AppConfig.getLanguage())));

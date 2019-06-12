@@ -43,11 +43,11 @@ import java.util.logging.LogRecord;
 public class ListItem extends ConstraintLayout {
 	private Product product;
 	private boolean ImageLoaded = false;
+	private boolean isBusy = false;
 
 	public static HashMap<String,HashMap<String, Integer>> Availability;
 	public static HashMap<String, Bitmap> Images = GridItem.Images;
 
-	private ArrayList<AsyncTask> Tasks = new ArrayList<>();
 	private ImageView image;
 	private TextView name;
 	private TextView availability;
@@ -145,9 +145,7 @@ public class ListItem extends ConstraintLayout {
 	private void setValues() {
 		// sets the values
 		this.name.setText(product.getName(AppConfig.getLanguage()));
-		setAvailability sa = new setAvailability();
-		sa.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		Tasks.add(sa);
+		new setAvailability().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 
@@ -167,9 +165,8 @@ public class ListItem extends ConstraintLayout {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
-		ShowImage sh =  new ShowImage();
-		Tasks.add(sh);
-		sh.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		isBusy = true;
+		new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 
@@ -180,32 +177,30 @@ public class ListItem extends ConstraintLayout {
 	class ShowImage extends AsyncTask<Void, Void, Bitmap> {
 		@Override
 		protected Bitmap doInBackground(Void... voids) {
-			while (!ImageLoaded)
-				if (isVisibleToUser()) {
-					Bitmap im = null;
-					if(Images.get(product.imageId) != null)
-						im = Images.get(product.imageId);
-					else
-						try{
-							im = product.getImage();
-						}
-						catch (JSONException ex){
-							return null;
-						}
-						finally {
-							Images.put(product.imageId,im);
-						}
-					int imh = im.getHeight();
-					int imw = im.getWidth();
-					float aspectRatio = (float)imw / imh;
-					// sets the new img width and height depending of the aspect ratio of the image
-					// TODO: should use attributes
-					int nimw = imh > imw ? (int)(dptopx(100) * aspectRatio) : dptopx(125);
-					int nimh = imw > imh ? (int)(dptopx(125) * aspectRatio) : dptopx(100);
-					// Scales the bitmap
-					ImageLoaded = true;
-					return Bitmap.createScaledBitmap(im, nimw, nimh, false);
-				}
+
+			if (isVisibleToUser()) {
+				Bitmap im = null;
+				if (Images.get(product.imageId) != null)
+					im = Images.get(product.imageId);
+				else
+					try {
+						im = product.getImage();
+					} catch (JSONException ex) {
+						return null;
+					} finally {
+						Images.put(product.imageId, im);
+					}
+				int imh = im.getHeight();
+				int imw = im.getWidth();
+				float aspectRatio = (float) imw / imh;
+				// sets the new img width and height depending of the aspect ratio of the image
+				// TODO: should use attributes
+				int nimw = imh > imw ? (int) (dptopx(100) * aspectRatio) : dptopx(125);
+				int nimh = imw > imh ? (int) (dptopx(125) * aspectRatio) : dptopx(100);
+				// Scales the bitmap
+				ImageLoaded = true;
+				return Bitmap.createScaledBitmap(im, nimw, nimh, false);
+			}
 			return null;
 		}
 
@@ -225,6 +220,12 @@ public class ListItem extends ConstraintLayout {
 		setValues();
 	}
 
+	public void loadImage(){
+		if(!ImageLoaded && !isBusy){
+			isBusy = true;
+			new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		}
+	}
 	private boolean isVisibleToUser() {
 		Rect scrollBounds = new Rect();
 		View parent = (View) getParent();
@@ -241,8 +242,6 @@ public class ListItem extends ConstraintLayout {
 
 	@Override
 	protected void finalize() throws Throwable {
-		for(AsyncTask task: Tasks)
-			task.cancel(true);
 		super.finalize();
 	}
 }

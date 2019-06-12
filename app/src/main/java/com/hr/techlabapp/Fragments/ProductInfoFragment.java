@@ -100,7 +100,7 @@ public class ProductInfoFragment extends Fragment {
 		cat.setText(getResources().getString(R.string.product_cat_value, product.categoryID));
 		stock = getView().findViewById(R.id.availability);
 		stock.setText(getResources().getString(R.string.available_value,
-				((HashMap<String,Integer>) getArguments().getSerializable(PRODUCT_AVAILABILITY_KEY)).get("inStock")));
+				((HashMap<String,Integer>) getArguments().getSerializable(PRODUCT_AVAILABILITY_KEY)).get("available")));
 		des = getView().findViewById(R.id.description);
 		des.setText(getResources().getString(R.string.product_des_value,product.getDescription()));
 		// sets the onClickListener

@@ -109,6 +109,18 @@ public class ProductListFragment extends Fragment
 		toolbar = getView().findViewById(R.id.toolbar);
 		((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
+		scrollView = getView().findViewById(R.id.scrollView);
+		scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+			@Override
+			public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+				for(ConstraintLayout c: Products.getItems()){
+					if(c instanceof GridItem)
+						((GridItem)c).loadImage();
+					else
+						((ListItem)c).loadImage();
+				}
+			}
+		});
 		drawerLayout = getView().findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout,toolbar,
 				R.string.navigation_drawer_open, R.string.navigation_drawer_close);

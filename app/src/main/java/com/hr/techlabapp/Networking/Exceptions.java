@@ -11,15 +11,6 @@ public class Exceptions {
     }
 
     /**
-     * Thrown when the client failed to connect to the API.
-     */
-    public static class ServerConnectionFailed extends NetworkingException{
-        public ServerConnectionFailed() { super(); }
-        public ServerConnectionFailed(String message) { super(message); }
-        public ServerConnectionFailed(Throwable e) { super(e); }
-    }
-
-    /**
      * Thrown when the client token expired and couldn't be renewed.
      */
     public static class TokenRenewalException extends NetworkingException {

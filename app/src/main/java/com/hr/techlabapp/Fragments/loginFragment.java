@@ -121,7 +121,7 @@ public class loginFragment extends Fragment {
 				} else {
 					return getResources().getString(R.string.login_failed);
 				}
-			}catch (Exceptions.ServerConnectionFailed e){
+			}catch (Exceptions.NetworkingException e){
 				return getResources().getString(R.string.unexpected_error);
 			}
 		}

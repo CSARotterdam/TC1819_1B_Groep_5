@@ -174,7 +174,7 @@ public class ProductListFragment extends Fragment
 			try{
 				Authentication.logout();
 				return getResources().getString(R.string.logout_success);
-			}catch (Exceptions.ServerConnectionFailed e){
+			}catch (Exceptions.NetworkingException e){
 				return getResources().getString(R.string.unexpected_error);
 			} catch (JSONException e){
 				return getResources().getString(R.string.unexpected_error);

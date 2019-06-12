@@ -26,7 +26,6 @@
 	<string name="decline">Wijger</string>
 	<string name="accept">Accepteer</string>
 	<string name="image_description">Een afbeelding van het product</string>
-	<string name="delete_item_title">Verwijder "%s"</string>
 	<string name="delete_product">Verwijder Product</string>
 	<string name="add_product">Product Toevoegen</string>
 	<string name="add_image">Afbeelding Toevoegen</string>

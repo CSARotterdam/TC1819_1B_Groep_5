@@ -7,26 +7,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.net.Network;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hr.techlabapp.Fragments.ProductListFragment;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.ProductItem;
@@ -34,7 +26,6 @@ import com.hr.techlabapp.R;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -85,10 +76,14 @@ public class EditItemStockDialog extends DialogFragment {
 		// makes a new builder
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		// sets the title to R.string.delete_item_title with %s replaced with the id of the product
-		builder.setTitle(getResources().getString(R.string.delete_item_title,ID)); //TODO Translate
+		builder.setTitle(getResources().getString(R.string.edit_stock_for,ID)); //TODO Translate
 		// sets the layout
 		view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.delete_dialog_layout, null);
 		builder.setView(view);
+
+		TextView count = view.findViewById(R.id.availabilityCount);
+		count.setText(GridItem.Availability.get(product.ID).get("inStock")+"");
+
 		// sets buttons and listeners
 		builder.setPositiveButton(getResources().getString(R.string.OK), new DialogInterface.OnClickListener() {
 			@Override

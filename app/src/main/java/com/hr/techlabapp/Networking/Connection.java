@@ -22,6 +22,8 @@ import static com.hr.techlabapp.Networking.Authentication.auth;
 
 class Connection {
     private static final String TAG = "TL.Networking-Conn.";
+    private static int current = 0;
+    private static int completed = 0;
 
     /**
      * Sends a request to the server.
@@ -34,8 +36,11 @@ class Connection {
         String address = AppConfig.serverAddress;
 
         try {
+            Integer curr = new Integer(current);
+            current++;
             //Connect to server
             URL url = new URL("http://" + address + "/");
+            Log.e("Send"+curr, "Connecting to server...");
             connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(30000);
             connection.setReadTimeout(30000);
@@ -51,7 +56,8 @@ class Connection {
             outSteam.flush();
             outSteam.close();
 
-            //Receive data
+            //Receive data;
+            Log.e("Send"+curr, "Receiving data...");
             DataInputStream inStream = new DataInputStream(connection.getInputStream());
             BufferedReader d = new BufferedReader(new InputStreamReader(inStream));
             StringBuilder sb = new StringBuilder();
@@ -60,7 +66,9 @@ class Connection {
             while ((s = d.readLine()) != null) {
                 sb.append(s);
             }
+            Log.e("Send"+curr, "Created response json...");
             JSONObject response = new JSONObject(sb.toString());
+            connection.disconnect();
             String reason = response.optString("reason");
             String message = response.optString("message");
 

@@ -120,7 +120,7 @@ public class ProductListFragment extends Fragment
 			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 				switch(menuItem.getItemId()){
 					case R.id.Log_out:
-						new logoutTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+						new logoutTask().execute();
 						return true;
 				}
 				return false;
@@ -158,6 +158,7 @@ public class ProductListFragment extends Fragment
 			dialog.show();
 		}
 		protected String doInBackground(String... params){
+			Log.e("LogoutTask", "Excecuting background task...");
 			try{
 				Authentication.logout();
 				return getResources().getString(R.string.logout_success);

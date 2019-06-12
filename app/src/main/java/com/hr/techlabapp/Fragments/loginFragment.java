@@ -88,7 +88,7 @@ public class loginFragment extends Fragment {
 				String username = usernameField.getText().toString();
 				EditText passwordField = getView().findViewById((R.id.password));
 				String password = passwordField.getText().toString();
-				new  LoginActivity().execute(username, password);
+				new  LoginActivity().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, password);
 			}
 		});
 
@@ -100,7 +100,7 @@ public class loginFragment extends Fragment {
 				String username = usernameField.getText().toString();
 				EditText passwordField = getView().findViewById((R.id.password));
 				String password = passwordField.getText().toString();
-				new  RegisterActivity().execute(username, password);
+				new  RegisterActivity().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, username, password);
 			}
 		});
 	}

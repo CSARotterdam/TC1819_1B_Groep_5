@@ -103,7 +103,7 @@ public class ProductInfoFragment extends Fragment {
 		stock.setText(getResources().getString(R.string.available_value,
 				((HashMap<String,Integer>) getArguments().getSerializable(PRODUCT_AVAILABILITY_KEY)).get("inStock")));
 		des = getView().findViewById(R.id.description);
-		des.setText(getResources().getString(R.string.product_des_value,product.description.get(AppConfig.getLanguage())));
+		des.setText(getResources().getString(R.string.product_des_value,product.getDescription()));
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
 		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_createLoanFragment,getArguments()));
@@ -133,7 +133,7 @@ public class ProductInfoFragment extends Fragment {
 		@Override
 		protected Bitmap doInBackground(Void... voids) {
 			try{
-					return product.getImage();
+				return product.getImage();
 			}
 			catch (JSONException ex){
 				return null;

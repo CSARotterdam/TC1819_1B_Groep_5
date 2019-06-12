@@ -155,6 +155,7 @@ public class CreateLoanFragment extends Fragment {
 			dialog.show();
 		}
 
+		@SuppressLint("StringFormatInvalid")
 		@Override
 		protected String doInBackground(Object... params) {
 			if (params.length == 0) return null;
@@ -181,8 +182,9 @@ public class CreateLoanFragment extends Fragment {
 			// Add one day in milliseconds to create a range of exactly one day.
 			maxDate.setTime(maxDate.getTime() + 86400000);
 
+			LoanItem item;
 			try {
-				LoanItem.addLoan(product, minDate, maxDate);
+				item = LoanItem.addLoan(product, minDate, maxDate);
 			} catch (Exceptions.NoItemsForProduct e){
 				Log.w(TAG, e.getClass().getSimpleName() + ": " + e.getMessage());
 				return getResources().getString(R.string.no_items_for_product);
@@ -194,7 +196,7 @@ public class CreateLoanFragment extends Fragment {
 				return getResources().getString(R.string.unexpected_error);
 			}
 			reloadCalendar = true;
-			return getResources().getString(R.string.loan_added_successfully);
+			return String.format(getResources().getString(R.string.loan_added_successfully), item.ID);
 		}
 
 		protected void onPostExecute(String message){

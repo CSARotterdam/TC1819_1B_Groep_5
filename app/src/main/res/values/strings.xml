@@ -114,6 +114,20 @@
     <string name="too_many_products">You can only add up to 30 items at a time.</string>
     <string name="amount_currently_available">Amount currently available:</string>
     <string name="loan_id">Loan Id</string>
+    <string name="notification_settings">Notification Settings</string>
+    <string name="account">Account</string>
+    <string name="tos">Terms of Service</string>
+    <string name="contact">Contact</string>
+    <string name="general_settings">General</string>
+    <string name="about">About</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="tos_summary">Read the Terms of Service</string>
+    <string name="contact_summary">Contact the TechLab Team.</string>
+    <string name="clear_saved_login">Clear account details</string>
+    <string name="clear_saved_login_summary">Clear your saved account details</string>
+    <string name="clear_login_confirmation">This cannot be undone. Continue?</string>
+    <string name="continue_action">Continue</string>
+    <string name="clear_login_complete">Login details successfully deleted.</string>
 
 
 </resources>

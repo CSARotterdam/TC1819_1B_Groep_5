@@ -67,7 +67,7 @@ public class StatisticsFragment extends Fragment {
 			entries.add(new BarEntry(i,new float[] { ava.get(p.ID).get("inStock"), ava.get(p.ID).get("total") }));
 			i++;
 		}
-		BarData Data = new BarData(new BarDataSet(entries,"Products"));
+		BarData Data = new BarData(new BarDataSet(entries,"products"));
 		Data.setBarWidth(0.9f);
 		ProductChart.setData(Data);
 		ProductChart.setDrawValueAboveBar(true);

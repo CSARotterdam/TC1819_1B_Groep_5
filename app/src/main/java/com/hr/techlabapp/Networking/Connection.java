@@ -10,11 +10,11 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 
@@ -23,7 +23,6 @@ import static com.hr.techlabapp.Networking.Authentication.auth;
 class Connection {
     private static final String TAG = "TL.Networking-Conn.";
     private static int current = 0;
-    private static int completed = 0;
 
     /**
      * Sends a request to the server.
@@ -36,7 +35,7 @@ class Connection {
         String address = AppConfig.serverAddress;
 
         try {
-            Integer curr = new Integer(current);
+            int curr = current;
             current++;
             //Connect to server
             URL url = new URL("http://" + address + "/");
@@ -58,7 +57,14 @@ class Connection {
 
             //Receive data;
             Log.e("Send"+curr, "Receiving data...");
-            DataInputStream inStream = new DataInputStream(connection.getInputStream());
+            DataInputStream inStream;
+            try{
+                 inStream = new DataInputStream(connection.getInputStream());
+            } catch (IOException e){
+                Log.e("Connection.Send()", e.getMessage(), e);
+                throw new Exceptions.NetworkingException();
+            }
+
             BufferedReader d = new BufferedReader(new InputStreamReader(inStream));
             StringBuilder sb = new StringBuilder();
             String s;
@@ -108,9 +114,6 @@ class Connection {
                     throw new Exceptions.UnexpectedServerResponse(message);
             }
             responseData = response.opt("responseData");
-        } catch (SocketTimeoutException e){
-            Log.e("Connection.Send()", e.getMessage(), e);
-            throw new Exceptions.ServerConnectionFailed(e);
         } catch (IOException e){
             Log.e("Connection.Send()", e.getMessage(), e);
             throw new Exceptions.NetworkingException(e);

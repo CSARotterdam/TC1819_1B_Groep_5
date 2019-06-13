@@ -52,9 +52,10 @@
             android:layout_height="wrap_content"
             android:minHeight="45dp" />
 
-        <androidx.cardview.widget.CardView
+        <com.hr.techlabapp.CustomViews.ProductItemView
             android:layout_width="match_parent"
-            android:layout_height="150dp" />
+            android:layout_height="150dp">
+        </com.hr.techlabapp.CustomViews.ProductItemView>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

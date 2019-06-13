@@ -1,7 +1,6 @@
 package com.hr.techlabapp.Fragments;
 
-
-import android.graphics.Bitmap;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.hr.techlabapp.Networking.Product;
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.R;
-
-import java.util.HashMap;
-
-import static com.hr.techlabapp.Fragments.ProductInfoFragment.*;
 
 /**
  * A fragment for accepting loans and taking loaned items back in.
@@ -25,6 +20,13 @@ public class AcceptLoanFragment extends Fragment {
 
 	public AcceptLoanFragment() {
 		// Required empty public constructor
+	}
+
+	@Override
+	public void onAttach(@NonNull Context context) {
+		// This allows the back button to work
+		((NavHostActivity)context).currentFragment = this;
+		super.onAttach(context);
 	}
 
 	@Override

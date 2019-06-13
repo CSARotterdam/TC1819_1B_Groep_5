@@ -3,21 +3,9 @@ package com.hr.techlabapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,9 +16,15 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import androidx.fragment.app.FragmentTransaction;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,7 +38,6 @@ import com.hr.techlabapp.Networking.Authentication;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.Networking.Statistics;
-import com.hr.techlabapp.Networking.User;
 import com.hr.techlabapp.R;
 
 import org.json.JSONException;
@@ -69,7 +62,6 @@ import static com.hr.techlabapp.Networking.User.COLLABORATOR;
 /**
  * A simple {@link Fragment} subclass.
  */
-// gets rid of the useless/usefull warnings
 @SuppressWarnings("all")
 public class ProductListFragment extends Fragment
 	implements IFragmentLimitationsWorkarounds{
@@ -91,6 +83,12 @@ public class ProductListFragment extends Fragment
 
 	public ProductListFragment() {
 		// Required empty public constructor
+	}
+
+	@Override
+	public void onAttach(@NonNull Context context) {
+		((NavHostActivity)context).currentFragment = this;
+		super.onAttach(context);
 	}
 
 	@Override
@@ -133,11 +131,15 @@ public class ProductListFragment extends Fragment
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 				switch(menuItem.getItemId()){
+					case R.id.Products:
+						navigationView.setCheckedItem(R.id.Products);
+						drawerLayout.closeDrawers();
+						return false;
 					case R.id.Log_out:
 						new logoutTask().execute();
 						return true;
 					case R.id.Loans:
-						Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_productListFragment_to_manageLoanFragment);
+						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_manageLoanFragment);
 						return true;
 					case R.id.ManageUsers:
 						// TODO Implement manage users fragment
@@ -146,6 +148,14 @@ public class ProductListFragment extends Fragment
 				return false;
 			}
 		});
+
+		navigationView.setCheckedItem(R.id.Products);
+
+		// Apply permission specific features
+		switch (currentUser.permissionLevel) {
+			case ADMIN: adminFeatures();
+			case COLLABORATOR: collaboratorFeatures();
+		}
 	}
 
 	/**
@@ -169,10 +179,6 @@ public class ProductListFragment extends Fragment
 		// Inflate the menu; this adds items to the action bar if it is present.
 		if(currentUser.permissionLevel == ADMIN)
 			getActivity().getMenuInflater().inflate(R.menu.productlistmenu, menu);
-		switch (currentUser.permissionLevel) {
-			case ADMIN: adminFeatures();
-			case COLLABORATOR: collaboratorFeatures();
-		}
 		return true;
 	}
 
@@ -219,6 +225,7 @@ public class ProductListFragment extends Fragment
 
 	@Override
 	public boolean onBackPressed() {
+		navigationView.setCheckedItem(R.id.Products);
 		if (drawerLayout.isDrawerOpen(GravityCompat.START))
 			drawerLayout.closeDrawer(GravityCompat.START);
 		return true;

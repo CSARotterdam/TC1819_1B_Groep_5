@@ -64,6 +64,7 @@ import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_IMAGE_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_MANUFACTURER_KEY;
 import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_NAME_KEY;
 import static com.hr.techlabapp.Networking.User.ADMIN;
+import static com.hr.techlabapp.Networking.User.COLLABORATOR;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -126,6 +127,7 @@ public class ProductListFragment extends Fragment
 				R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawerLayout.addDrawerListener(toggle);
 		toggle.syncState();
+
 		navigationView = getView().findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
@@ -134,18 +136,43 @@ public class ProductListFragment extends Fragment
 					case R.id.Log_out:
 						new logoutTask().execute();
 						return true;
+					case R.id.Loans:
+						Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_productListFragment_to_manageLoanFragment);
+						return true;
+					case R.id.ManageUsers:
+						// TODO Implement manage users fragment
+						return false;
 				}
 				return false;
 			}
 		});
 	}
 
+	/**
+	 * Shows collaborator features in this fragment
+	 */
+	private void collaboratorFeatures() {
+		Menu navMenu = navigationView.getMenu();
+		navMenu.findItem(R.id.Loans).setVisible(true);
+	}
+
+	/**
+	 * Shows admin features in this fragment
+	 */
+	private void adminFeatures() {
+		Menu navMenu = navigationView.getMenu();
+		navMenu.findItem(R.id.ManageUsers).setVisible(true);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		if(currentUser.permissionLevel == ADMIN)
 			getActivity().getMenuInflater().inflate(R.menu.productlistmenu, menu);
+		switch (currentUser.permissionLevel) {
+			case ADMIN: adminFeatures();
+			case COLLABORATOR: collaboratorFeatures();
+		}
 		return true;
 	}
 

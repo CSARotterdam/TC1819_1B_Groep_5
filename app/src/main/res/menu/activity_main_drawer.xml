@@ -11,6 +11,14 @@
             android:id="@+id/My_Items"
             android:title="My Items" />
         <item
+            android:id="@+id/Loans"
+            android:title="Manage Loans"
+            android:visible="false"/>
+        <item
+            android:id="@+id/ManageUsers"
+            android:title="Manage Users"
+            android:visible="false"/>
+        <item
             android:id="@+id/Notifications"
             android:title="Notifications" />
         <item
@@ -32,8 +40,6 @@
             <item
                 android:id="@+id/Log_out"
                 android:title="Log out" />
-
         </menu>
     </item>
-
 </menu>

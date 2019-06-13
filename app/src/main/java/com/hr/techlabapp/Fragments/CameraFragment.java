@@ -172,7 +172,7 @@ public class CameraFragment extends Fragment {
         String q = s;//uuhhh omdat een void niet echt iets terugggefft
         bun.putString("message", q);
         getFragmentManager().popBackStack();
-        Navigation.findNavController(getView()).navigate(R.id.action_Camera_to_checkLendRequestFragment,bun);
+        Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_manageLoanFragment,bun);
     }
 
     public CameraFragment newInstance() {

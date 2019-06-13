@@ -40,6 +40,9 @@
 		<action
 			android:id="@+id/action_productListFragment_to_settings2"
 			app:destination="@id/settings2" />
+		<action
+			android:id="@+id/action_productListFragment_to_manageLoanFragment"
+			app:destination="@id/manageLoanFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/productInfoFragment"
@@ -86,10 +89,10 @@
 			app:destination="@id/productListFragment" />
 	</fragment>
 	<fragment
-		android:id="@+id/checkLendRequestFragment"
+		android:id="@+id/manageLoanFragment"
 		android:name="com.hr.techlabapp.Fragments.AcceptLoanFragment"
 		android:label="fragment_check_lend_request"
-		tools:layout="@layout/fragment_check_lend_request" >
+		tools:layout="@layout/fragment_accept_loan" >
 		<action
 			android:id="@+id/action_checkLendRequestFragment_to_productListFragment"
 			app:destination="@id/productListFragment" />
@@ -104,9 +107,6 @@
 		android:id="@+id/Camera"
 		android:name="com.hr.techlabapp.Fragments.CameraFragment"
 		tools:layout="@layout/fragment_camera">
-		<action
-			android:id="@+id/action_Camera_to_checkLendRequestFragment"
-			app:destination="@id/checkLendRequestFragment" />
 		<action
 			android:id="@+id/action_Camera_to_loginFragment"
 			app:destination="@id/loginFragment" />

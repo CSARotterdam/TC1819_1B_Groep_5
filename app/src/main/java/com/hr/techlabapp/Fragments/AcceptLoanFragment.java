@@ -22,7 +22,6 @@ import static com.hr.techlabapp.Fragments.ProductInfoFragment.*;
  * A fragment for accepting loans and taking loaned items back in.
  */
 public class AcceptLoanFragment extends Fragment {
-	private Product product;
 
 	public AcceptLoanFragment() {
 		// Required empty public constructor
@@ -32,19 +31,11 @@ public class AcceptLoanFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_check_lend_request, container, false);
+		return inflater.inflate(R.layout.fragment_accept_loan, container, false);
 	}
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		product = new Product(
-				getArguments().getString(PRODUCT_ID_KEY),
-				getArguments().getString(PRODUCT_MANUFACTURER_KEY),
-				getArguments().getString(PRODUCT_CATEGORY_KEY),
-				(HashMap<String, String>) getArguments().getSerializable(PRODUCT_NAME_KEY),
-				(HashMap<String, String>) getArguments().getSerializable(PRODUCT_DESCRIPTION_KEY),
-				getArguments().getString(PRODUCT_IMAGE_ID_KEY),
-				(Bitmap) getArguments().getParcelable(PRODUCT_IMAGE_KEY));
 	}
 }

@@ -113,6 +113,7 @@
     <string name="stock_increased">Product stock successfully increased.</string>
     <string name="too_many_products">You can only add up to 30 items at a time.</string>
     <string name="amount_currently_available">Amount currently available:</string>
+    <string name="loan_id">Loan Id</string>
 
 
 </resources>

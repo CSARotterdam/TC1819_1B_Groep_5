@@ -144,6 +144,9 @@ public class ProductListFragment extends Fragment
 					case R.id.ManageUsers:
 						// TODO Implement manage users fragment
 						return false;
+					case R.id.settings:
+						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_settings2);
+						return true;
 				}
 				return false;
 			}

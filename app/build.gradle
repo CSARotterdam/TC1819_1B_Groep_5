@@ -24,6 +24,7 @@ repositories {
 
 
 dependencies {
+    implementation 'androidx.preference:preference:1.0.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.savvi.datepicker:rangepicker:1.2.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])

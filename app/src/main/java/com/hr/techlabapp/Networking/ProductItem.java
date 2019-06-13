@@ -59,10 +59,12 @@ public final class ProductItem {
      * Returns the items of the given product types.
      *
      * @param productIds An array of product id's whose items to return.
+     * @param productIds An array containing the id's of the items to return.
      * @return A map containing a list of items per specified product.
      * @throws JSONException Shouldn't ever happen but whatever.
      */
-    public static HashMap<String, List<ProductItem>> getProductItems(String... productIds)
+    public static HashMap<String, List<ProductItem>> getProductItems(@Nullable String[] productIds,
+                                                                     @Nullable Integer[] itemIds)
         throws JSONException {
         //Create JSON object
         JSONObject request = new JSONObject()
@@ -70,7 +72,8 @@ public final class ProductItem {
                 .put("username", AppConfig.currentUser.username)
                 .put("token", AppConfig.currentUser.token)
                 .put("requestData", new JSONObject()
-                        .put("products", new JSONArray(Arrays.asList(productIds)))
+                        .put("products", productIds != null ? new JSONArray(Arrays.asList(productIds)) : null)
+                        .put("itemIds", itemIds != null ? new JSONArray(Arrays.asList(itemIds)) : null)
                 );
 
         JSONObject responseData = (JSONObject) Connection.Send(request);

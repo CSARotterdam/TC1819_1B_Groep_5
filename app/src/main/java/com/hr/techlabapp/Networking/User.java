@@ -1,5 +1,13 @@
 package com.hr.techlabapp.Networking;
 
+import com.hr.techlabapp.AppConfig;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User {
@@ -28,5 +36,23 @@ public class User {
         out.put("token", token);
         out.put("permissionLevel", permissionLevel);
         return out;
+    }
+
+    public static ArrayList<User> getUsers() throws JSONException{
+        //Create JSON object;
+        JSONObject request = new JSONObject()
+                .put("username", AppConfig.currentUser.username)
+                .put("token", AppConfig.currentUser.token)
+                .put("requestType", "logout")
+                .put("requestData", new JSONObject()
+                );
+
+        JSONArray response = (JSONArray)Connection.Send(request);
+        ArrayList<User> users = new ArrayList<>();
+        for (int i=0; i < response.length(); i++) {
+            JSONObject data = response.getJSONObject(i);
+            users.add(new User(data.getString("username"), null, 0, data.getInt("permission")));
+        }
+        return users;
     }
 }

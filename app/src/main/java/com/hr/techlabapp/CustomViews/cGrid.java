@@ -19,8 +19,8 @@ import com.hr.techlabapp.Networking.Product;
 import java.util.ArrayList;
 
 public class cGrid extends LinearLayout {
-	// The List of Products
-	private ArrayList<Product> Products = new ArrayList<>();
+	// The List of products
+	public ArrayList<Product> products = new ArrayList<>();
 	// The Rows For the Grid
 	private ArrayList<LinearLayout> Rows = new ArrayList<>();
 	// If the view is a list or a grid
@@ -81,7 +81,7 @@ public class cGrid extends LinearLayout {
 	@RequiresApi(15)
 	private void Populate15() {
 		if (!List)
-			for (Product p : Products) {
+			for (Product p : products) {
 				GridItem GI = new GridItem(getContext());
 				// Makes the parameters for height width
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dptopx(100), dptopx(125));
@@ -107,7 +107,7 @@ public class cGrid extends LinearLayout {
 				}
 			}
 		else
-			for (Product p : Products) {
+			for (Product p : products) {
 				ListItem LI = new ListItem(getContext());
 				// makes the paramters
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dptopx(125));
@@ -127,7 +127,7 @@ public class cGrid extends LinearLayout {
 	@RequiresApi(21)
 	private void Populate21() {
 		if (!List)
-			for (Product p : Products) {
+			for (Product p : products) {
 				GridItem GI = new GridItem(getContext());
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dptopx(100), dptopx(125));
 				int margin = dptopx(5);
@@ -148,7 +148,7 @@ public class cGrid extends LinearLayout {
 				}
 			}
 		else
-			for (Product p : Products) {
+			for (Product p : products) {
 				ListItem LI = new ListItem(getContext());
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dptopx(125));
 				int margin = dptopx(5);
@@ -170,7 +170,7 @@ public class cGrid extends LinearLayout {
 
 	// adds the product and if repopulate is true it repopulates the view
 	public void AddProduct(Product p) {
-		Products.add(p);
+		products.add(p);
 		if (!List) {
 			GridItem GI = new GridItem(getContext());
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dptopx(100), dptopx(125));

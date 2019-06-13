@@ -9,9 +9,9 @@
         android:id="@+id/icon"
         android:layout_width="125dp"
         android:layout_height="125dp"
+        android:layout_centerVertical="false"
         android:padding="10dp"
         android:scaleType="fitStart"
-        android:layout_centerVertical="true"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
     <TextView

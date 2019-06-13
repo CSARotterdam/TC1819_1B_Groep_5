@@ -66,7 +66,7 @@ import static com.hr.techlabapp.Networking.User.COLLABORATOR;
 public class ProductListFragment extends Fragment
 	implements IFragmentLimitationsWorkarounds{
 
-	private cGrid Products;
+	private static cGrid Products;
 
 	private Toolbar toolbar;
 
@@ -83,6 +83,10 @@ public class ProductListFragment extends Fragment
 
 	public ProductListFragment() {
 		// Required empty public constructor
+	}
+
+	public static List<Product> getProducts() {
+		return new ArrayList<>(Products.products);
 	}
 
 	@Override
@@ -225,7 +229,8 @@ public class ProductListFragment extends Fragment
 
 	@Override
 	public boolean onBackPressed() {
-		navigationView.setCheckedItem(R.id.Products);
+		if (navigationView != null)
+			navigationView.setCheckedItem(R.id.Products);
 		if (drawerLayout.isDrawerOpen(GravityCompat.START))
 			drawerLayout.closeDrawer(GravityCompat.START);
 		return true;

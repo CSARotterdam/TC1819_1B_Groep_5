@@ -102,9 +102,6 @@ public class AcceptLoanFragment extends Fragment {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			progress.setVisibility(View.VISIBLE);
-			getView().requestLayout();
-			getView().findViewById(R.id.fucking_retard).requestLayout();
-			progress.requestLayout();
 		}
 
 		@Override
@@ -190,6 +187,7 @@ public class AcceptLoanFragment extends Fragment {
 				public void run() {
 					productItemView.title.setText(finalProduct.getName());
                     productItemView.icon.setImageBitmap(finalProduct.image);
+                    productItemView.icon
 				}
 			});
 
@@ -200,9 +198,6 @@ public class AcceptLoanFragment extends Fragment {
 		protected void onPostExecute(Void aVoid) {
 			super.onPostExecute(aVoid);
 			progress.setVisibility(View.INVISIBLE);
-			getView().requestLayout();
-			getView().findViewById(R.id.fucking_retard).requestLayout();
-			progress.requestLayout();
 		}
 	}
 

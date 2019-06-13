@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +36,7 @@ import java.util.List;
  * A fragment for accepting loans and taking loaned items back in.
  */
 public class AcceptLoanFragment extends Fragment {
-	public static final long UPDATE_DELAY = 500;
+	public static final long UPDATE_DELAY = 1500;
 
 	private ProgressBar progress;
 
@@ -187,7 +188,6 @@ public class AcceptLoanFragment extends Fragment {
 				public void run() {
 					productItemView.title.setText(finalProduct.getName());
                     productItemView.icon.setImageBitmap(finalProduct.image);
-                    productItemView.icon
 				}
 			});
 

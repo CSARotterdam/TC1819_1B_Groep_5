@@ -91,7 +91,7 @@ public class ProductItemView extends CardView {
 			throw new NullPointerException();
 		}
 
-		this.loan = null;
+		this.loan = loanItem;
 
 		// Try to get the associated productItem
 		item = null;

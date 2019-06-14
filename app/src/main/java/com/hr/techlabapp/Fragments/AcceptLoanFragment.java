@@ -182,6 +182,11 @@ public class AcceptLoanFragment extends Fragment {
             }
 			final Product finalProduct = product;
 
+			// End early if no product is found
+			if (product == null) {
+				return null;
+			}
+
 			// Set stuff on the ui with the collected data
 			getActivity().runOnUiThread(new Runnable() {
 				@Override

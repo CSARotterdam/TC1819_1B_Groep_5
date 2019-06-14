@@ -2,17 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
+    <!--<PreferenceCategory
         app:key="general_category"
         app:title="@string/general_settings">
 
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 
-    <PreferenceCategory
+    <!--<PreferenceCategory
         app:key="notifications_category"
         app:title="@string/notification_settings">
 
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 
     <PreferenceCategory
         app:key="account_category"

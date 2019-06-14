@@ -22,6 +22,7 @@
             android:id="@+id/Notifications"
             android:title="Notifications" />
         <item
+            android:visible="false"
             android:id="@+id/Help"
             android:title="Help" />
     </group>

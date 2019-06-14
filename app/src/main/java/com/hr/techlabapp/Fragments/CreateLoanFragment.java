@@ -154,7 +154,7 @@ public class CreateLoanFragment extends Fragment {
 			dialog.show();
 		}
 
-		@SuppressLint("StringFormatInvalid")
+		@SuppressLint({"StringFormatInvalid", "StringFormatMatches"})
 		@Override
 		protected String doInBackground(Object... params) {
 			if (params.length == 0) return null;
@@ -184,9 +184,10 @@ public class CreateLoanFragment extends Fragment {
 			LoanItem item;
 			try {
 				item = LoanItem.addLoan(product, minDate, maxDate);
-			} catch (Exceptions.NoItemsForProduct e){
-				Log.w(TAG, e.getClass().getSimpleName() + ": " + e.getMessage());
+			} catch (Exceptions.NoItemsForProduct e) {
 				return getResources().getString(R.string.no_items_for_product);
+			}catch (Exceptions.InvalidArguments e){
+				return getResources().getString(R.string.max_loan_duration_exceeded);
 			} catch (Exceptions.NetworkingException e) {
 				Log.e(TAG, "Error while adding loan: " + e.getClass().getSimpleName() + ": " + e.getMessage());
 				return getResources().getString(R.string.unexpected_error);

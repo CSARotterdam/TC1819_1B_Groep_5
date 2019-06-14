@@ -23,45 +23,96 @@
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/image">
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
 
-		<LinearLayout
-			android:id="@+id/info_names"
-			android:layout_width="wrap_content"
-			android:layout_height="0dp"
-			android:layout_margin="@dimen/usual_margin"
-			android:orientation="vertical"
-			android:padding="@dimen/usual_margin"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintLeft_toLeftOf="parent"
-			app:layout_constraintRight_toRightOf="parent"
-			app:layout_constraintTop_toTopOf="parent">
 			<!--TODO: change the value for each block-->
 			<TextView
 				android:id="@+id/name"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_margin="@dimen/usual_margin" />
+				android:layout_margin="@dimen/usual_margin"
+				android:text="@string/product_name"
+				android:textStyle="bold"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+
+			<TextView
+				android:id="@+id/name_val"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/usual_margin"/>
 
 			<TextView
 				android:id="@+id/product_id"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_margin="@dimen/usual_margin" />
+				android:layout_margin="@dimen/usual_margin"
+				android:text="@string/product_id"
+				android:textStyle="bold"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/name" />
+
+			<TextView
+				android:id="@+id/product_id_val"
+				app:layout_constraintTop_toBottomOf="@id/name"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/usual_margin"/>
 
 			<TextView
 				android:id="@+id/category"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_margin="@dimen/usual_margin" />
+				android:layout_margin="@dimen/usual_margin"
+				android:text="@string/product_cat"
+				android:textStyle="bold"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/product_id" />
+
+			<TextView
+				android:id="@+id/category_val"
+				app:layout_constraintTop_toBottomOf="@id/product_id"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/usual_margin"/>
 
 			<TextView
 				android:id="@+id/product_man"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_margin="@dimen/usual_margin" />
+				android:layout_margin="@dimen/usual_margin"
+				android:text="@string/product_man"
+				android:textStyle="bold"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/category" />
+
+			<TextView
+				android:id="@+id/product_man_val"
+				app:layout_constraintTop_toBottomOf="@id/category"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/usual_margin"/>
 
 			<TextView
 				android:id="@+id/description"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/usual_margin"
+				android:text="@string/product_des"
+				android:textStyle="bold"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/product_man" />
+			<TextView
+				android:id="@+id/description_val"
+				app:layout_constraintTop_toBottomOf="@id/description"
+				app:layout_constraintStart_toStartOf="parent"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_margin="@dimen/usual_margin" />
@@ -70,8 +121,20 @@
 				android:id="@+id/availability"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_margin="@dimen/usual_margin" />
-		</LinearLayout>
+				android:layout_margin="@dimen/usual_margin"
+				android:text="@string/available"
+				android:textStyle="bold"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/description_val" />
+
+			<TextView
+				android:id="@+id/availability_val"
+				app:layout_constraintTop_toBottomOf="@id/description_val"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/usual_margin"/>
+		</androidx.constraintlayout.widget.ConstraintLayout>
 	</ScrollView>
 
 	<Space

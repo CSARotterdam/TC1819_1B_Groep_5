@@ -130,5 +130,6 @@
     <string name="clear_login_complete">Login details successfully deleted.</string>
     <string name="clear_login_confirmation">Are you sure? This cannot be done.</string>
     <string name="remember_login">Remember Login</string>
+    <string name="max_loan_duration_exceeded">You can only reserve a product for up to 21 days.</string>
 
 </resources>

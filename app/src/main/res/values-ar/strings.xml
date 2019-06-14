@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">TechLab App</string>
-	<string name="title_activity_login">تسجيل الدخول</string>
-	<string name="action_settings">الضبط</string>
+    <string name="action_settings">الضبط</string>
 	<string name="username_input">اسم المستخدم</string>
 	<string name="password_input">كلمة المرور</string>
 	<string name="login">تسجيل الدخول</string>
@@ -37,10 +36,7 @@
 	<string name="available_value">المنتج متاح: %29d</string>
 	<string name="available">المنتج متاح:</string>
 	<string name="delete_product">حذف المنتج</string>
-	<string name="title_activity_main">ماي تيخلاب</string>
-	<string name="navigation_drawer_open">افتح القائمة</string>
-	<string name="navigation_drawer_close">أغلق القائمة</string>
-	<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
 	<string name="unexpected_error">حدث خطأغير متوقع, ترجى المحاولة لاحقا.</string>
 	<string name="invalid_username">الرجاء استخدام رقم الاكتتاب الصحيح كاسم مستخدم</string>
 	<string name="invalid_password">كلمة المرور غير صحيحة!</string>

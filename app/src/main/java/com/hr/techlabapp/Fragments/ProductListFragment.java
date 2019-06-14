@@ -178,7 +178,7 @@ public class ProductListFragment extends Fragment
 	 */
 	private void adminFeatures() {
 		Menu navMenu = navigationView.getMenu();
-		navMenu.findItem(R.id.ManageUsers).setVisible(true);
+		//navMenu.findItem(R.id.ManageUsers).setVisible(true);
 	}
 
 	@Override

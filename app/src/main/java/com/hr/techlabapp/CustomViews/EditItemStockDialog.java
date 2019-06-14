@@ -45,20 +45,6 @@ public class EditItemStockDialog extends DialogFragment {
 
 	public View view;
 
-	String ID;
-
-	@Override
-	public void setArguments(@Nullable Bundle args) {
-		super.setArguments(args);
-		try{
-			//gets the id of the product
-			assert args != null;
-			ID = (String) args.get("ID");
-		}catch (NullPointerException ex){
-			ID = "";
-		}
-	}
-
 	@SuppressLint("SetTextI18n")
 	@NonNull
 	@Override
@@ -76,9 +62,9 @@ public class EditItemStockDialog extends DialogFragment {
 		// makes a new builder
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		// sets the title to R.string.delete_item_title with %s replaced with the id of the product
-		builder.setTitle(getResources().getString(R.string.edit_stock_for,ID)); //TODO Translate
+		builder.setTitle(getResources().getString(R.string.edit_stock_for,product.getName())); //TODO Translate
 		// sets the layout
-		view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.delete_dialog_layout, null);
+		view = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.edit_item_stock_layout, null);
 		builder.setView(view);
 
 		TextView count = view.findViewById(R.id.availabilityCount);

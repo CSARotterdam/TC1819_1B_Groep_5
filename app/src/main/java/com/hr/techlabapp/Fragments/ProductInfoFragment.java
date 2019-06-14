@@ -94,20 +94,19 @@ public class ProductInfoFragment extends Fragment {
 		else
 			new loadImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		// sets the string values
-		name = getView().findViewById(R.id.name);
-		name.setText(getResources().getString(R.string.product_name_value,product.getName(AppConfig.getLanguage())));
-		id = getView().findViewById(R.id.product_id);
-		id.setText(getResources().getString(R.string.product_id_value, product.ID));
+		name = getView().findViewById(R.id.name_val);
+		name.setText(product.getName(AppConfig.getLanguage()));
+		id = getView().findViewById(R.id.product_id_val);
+		id.setText(product.ID);
 		// TODO: add this
-		man = getView().findViewById(R.id.product_man);
-		man.setText(getResources().getString(R.string.product_man_value, product.manufacturer));
-		cat = getView().findViewById(R.id.category);
-		cat.setText(getResources().getString(R.string.product_cat_value, product.categoryID));
-		stock = getView().findViewById(R.id.availability);
-		stock.setText(getResources().getString(R.string.available_value,
-				((HashMap<String,Integer>) getArguments().getSerializable(PRODUCT_AVAILABILITY_KEY)).get("available")));
-		des = getView().findViewById(R.id.description);
-		des.setText(getResources().getString(R.string.product_des_value,product.getDescription()));
+		man = getView().findViewById(R.id.product_man_val);
+		man.setText(product.manufacturer);
+		cat = getView().findViewById(R.id.category_val);
+		cat.setText(product.categoryID);
+		stock = getView().findViewById(R.id.availability_val);
+		stock.setText(((HashMap<String,Integer>) getArguments().getSerializable(PRODUCT_AVAILABILITY_KEY)).get("available").toString());
+		des = getView().findViewById(R.id.description_val);
+		des.setText(product.getDescription());
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
 		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_createLoanFragment,getArguments()));

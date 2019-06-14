@@ -21,6 +21,7 @@
     <string name="product_man">Product Manufacturer:</string>
     <string name="product_man_value">Product Manufacturer:%27s</string>
     <string name="available_value">Products Available:%29d</string>
+    <string name="available">Products Available:</string>
     <string name="username_id" translatable="false">%s %s (%07d)</string>
     <string name="date_of_request">Sent request on: %td-%tm-%tY</string>
     <string name="user_history">User history</string>

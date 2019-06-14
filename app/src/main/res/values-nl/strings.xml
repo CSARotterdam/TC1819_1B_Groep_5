@@ -18,6 +18,7 @@
 	<string name="product_des">Product Beschrijving:</string>
 	<string name="product_des_value">Product Beschrijving:%n%s</string>
 	<string name="available_value">Producten Beschickbaar:%25d</string>
+	<string name="available">Producten Beschickbaar:</string>
 	<string name="date_of_request">Aanvraag verzonden op: %td-%tm-%tY</string>
 	<string name="user_history">Gebruiker Geschiedenis</string>
 	<string name="user_history_dialog_title">Gebruiker geschiedenis van %07d</string>

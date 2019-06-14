@@ -35,6 +35,7 @@
 	<string name="product_man">صانع المنتج:</string>
 	<string name="product_man_value">صانع المنتج: %27s</string>
 	<string name="available_value">المنتج متاح: %29d</string>
+	<string name="available">المنتج متاح:</string>
 	<string name="delete_product">حذف المنتج</string>
 	<string name="title_activity_main">ماي تيخلاب</string>
 	<string name="navigation_drawer_open">افتح القائمة</string>

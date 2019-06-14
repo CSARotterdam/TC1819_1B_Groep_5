@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/Products"
+        android:id="@+id/products"
         android:title="Products" />
 
     <item
-        android:id="@+id/My_Items"
+        android:id="@+id/my_items"
         android:title="My Items"/>
     <item
-        android:id="@+id/Notifications"
+        android:id="@+id/notifications"
         android:title="Notifications"/>
     <item
-        android:id="@+id/Help"
+        android:id="@+id/help"
         android:title="Help"
         />
     <item
         android:id="@+id/Settings"
         android:title="Settings"/>
     <item
-        android:id="@+id/Log_out"
+        android:id="@+id/log_out"
         android:title="Log out"/>
 
 </menu>

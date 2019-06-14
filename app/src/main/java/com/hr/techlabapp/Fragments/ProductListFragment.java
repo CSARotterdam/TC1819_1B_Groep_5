@@ -135,17 +135,20 @@ public class ProductListFragment extends Fragment
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 				switch(menuItem.getItemId()){
-					case R.id.Products:
-						navigationView.setCheckedItem(R.id.Products);
+					case R.id.products:
+						navigationView.setCheckedItem(R.id.products);
 						drawerLayout.closeDrawers();
 						return false;
-					case R.id.Log_out:
+					case R.id.my_items:
+						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_myItemsFragment);
+						return true;
+					case R.id.log_out:
 						new logoutTask().execute();
 						return true;
-					case R.id.Loans:
+					case R.id.loans:
 						Navigation.findNavController(getView()).navigate(R.id.action_productListFragment_to_manageLoanFragment);
 						return true;
-					case R.id.ManageUsers:
+					case R.id.manage_users:
 						// TODO Implement manage users fragment
 						return false;
 					case R.id.settings:
@@ -156,7 +159,7 @@ public class ProductListFragment extends Fragment
 			}
 		});
 
-		navigationView.setCheckedItem(R.id.Products);
+		navigationView.setCheckedItem(R.id.products);
 
 		// Apply permission specific features
 		switch (currentUser.permissionLevel) {
@@ -170,7 +173,7 @@ public class ProductListFragment extends Fragment
 	 */
 	private void collaboratorFeatures() {
 		Menu navMenu = navigationView.getMenu();
-		navMenu.findItem(R.id.Loans).setVisible(true);
+		navMenu.findItem(R.id.loans).setVisible(true);
 	}
 
 	/**
@@ -233,7 +236,7 @@ public class ProductListFragment extends Fragment
 	@Override
 	public boolean onBackPressed() {
 		if (navigationView != null)
-			navigationView.setCheckedItem(R.id.Products);
+			navigationView.setCheckedItem(R.id.products);
 		if (drawerLayout.isDrawerOpen(GravityCompat.START))
 			drawerLayout.closeDrawer(GravityCompat.START);
 		return true;

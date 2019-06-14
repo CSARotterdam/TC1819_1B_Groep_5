@@ -130,5 +130,12 @@
     <string name="clear_login_complete">Login details successfully deleted.</string>
     <string name="clear_login_confirmation">Are you sure? This cannot be done.</string>
     <string name="remember_login">Remember Login</string>
+    <string name="no_such_loan_id">No loan found for this ID</string>
+    <string name="to">to</string>
+    <string name="item_id_tag">Item ID:</string>
+    <string name="loan_id_tag">Loan ID:</string>
+    <string name="loan_accept_success">Loan successfully accepted.%nYou can now give user %s item %01d</string>
+    <string name="loan_decline_success">Loan successfully declined.</string>
+    <string name="loan_already_started">Failed; This loan has already started.</string>
 
 </resources>

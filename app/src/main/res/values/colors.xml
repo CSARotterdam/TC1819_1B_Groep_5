@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#94001F</color>
     <color name="colorAccent">#EC003C</color>
     <color name="textColor">#FFFFFF</color>
-    <color name="ListTextColor">#000</color>
+    <color name="ListTextColor">#000000</color>
     <color name="textBackground">#70000000</color>
     <color name="check_image_background_color">#30008577</color>
 

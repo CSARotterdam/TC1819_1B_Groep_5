@@ -98,4 +98,9 @@
 	<string name="notification_settings">Notificatie Instellingen</string>
 	<string name="no_stock_count_given">Voer een nieuw productaantal in.</string>
     <string name="remember_login">Inloggegevens onthouden</string>
+    <string name="to">tot</string>
+	<string name="item_id_tag">Item ID:</string>
+	<string name="loan_accept_success">Reservering succesvol geaccepteerd.%nJe kan nu gebruiker %s voorwerp %01d geven.</string>
+	<string name="loan_decline_success">Reservering successvol geweigerd.</string>
+	<string name="loan_already_started">Mislukt; Deze reservering is al gestart.</string>
 </resources>

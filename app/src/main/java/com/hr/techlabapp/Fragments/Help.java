@@ -1,6 +1,7 @@
 package com.hr.techlabapp.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.R;
 
 public class Help extends Fragment {
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        ((NavHostActivity)context).currentFragment = this;
+        super.onAttach(context);
+    }
 
     public Help(){
 

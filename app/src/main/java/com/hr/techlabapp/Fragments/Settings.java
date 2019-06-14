@@ -1,6 +1,7 @@
 package com.hr.techlabapp.Fragments;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -19,12 +20,20 @@ import androidx.navigation.Navigation;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.hr.techlabapp.Activities.NavHostActivity;
 import com.hr.techlabapp.R;
 
 import java.util.Locale;
 import java.util.Objects;
 
 public class Settings extends PreferenceFragmentCompat {
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        ((NavHostActivity)context).currentFragment = this;
+        super.onAttach(context);
+    }
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);

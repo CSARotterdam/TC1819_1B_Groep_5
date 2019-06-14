@@ -134,8 +134,10 @@
     <string name="to">to</string>
     <string name="item_id_tag">Item ID:</string>
     <string name="loan_id_tag">Loan ID:</string>
-    <string name="loan_accept_success">Loan successfully accepted.%nYou can now give user %s item %01d</string>
+    <string name="loan_accept_success">Loan successfully accepted.%nYou can now give user \'%s\' item %01d</string>
     <string name="loan_decline_success">Loan successfully declined.</string>
     <string name="loan_already_started">Failed; This loan has already started.</string>
+    <string name="loan_takeback_success">Successfully taken back the item.</string>
+    <string name="takeback">Take back</string>
 
 </resources>

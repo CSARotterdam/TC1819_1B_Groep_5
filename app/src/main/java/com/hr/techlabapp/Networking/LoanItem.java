@@ -174,13 +174,35 @@ public class LoanItem {
         JSONObject request = new JSONObject()
             .put("username", AppConfig.currentUser.username)
             .put("token", AppConfig.currentUser.token)
-            .put("requestType", "getLoan")
+            .put("requestType", "setLoanAcquired")
             .put("requestData", new JSONObject()
                 .put("loanItemID", this.ID)
                 .put("value", value)
             );
         Connection.Send(request);
         this.isAcquired = value;
+    }
+
+    /**
+     * Deletes this loan
+     */
+    public void delete() throws JSONException {
+        deleteLoan(this.ID);
+    }
+
+    /**
+     * Deletes the specified loan.
+     * @param loanId The id of the loanItem to delete.
+     */
+    public static void deleteLoan(int loanId) throws JSONException {
+        JSONObject request = new JSONObject()
+            .put("username", AppConfig.currentUser.username)
+            .put("token", AppConfig.currentUser.token)
+            .put("requestType", "deleteLoan")
+            .put("requestData", new JSONObject()
+                .put("loanId", loanId)
+            );
+        Connection.Send(request);
     }
 
     /**

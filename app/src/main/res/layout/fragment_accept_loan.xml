@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Fragments.AcceptLoanFragment">
+    tools:context=".Fragments.AcceptLoanFragment"
+    android:paddingBottom="20dp">
 
     <ProgressBar
         android:id="@+id/loading_bar"
@@ -39,8 +40,8 @@
         <com.hr.techlabapp.CustomViews.ProductItemView
             android:id="@+id/productItemCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </com.hr.techlabapp.CustomViews.ProductItemView>
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
 
     </LinearLayout>
     <Button
@@ -49,7 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:text="@string/accept" />
+        android:text="@string/accept"
+        android:layout_margin="20dp"/>
 
     <Button
         android:id="@+id/btn_decline"
@@ -57,5 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:text="@string/decline" />
+        android:text="@string/decline"
+        android:layout_margin="20dp"/>
 </RelativeLayout>

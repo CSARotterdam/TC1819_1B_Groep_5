@@ -1,6 +1,7 @@
 package com.hr.techlabapp.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,9 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,7 +39,7 @@ import java.util.List;
  * A fragment for accepting loans and taking loaned items back in.
  */
 public class AcceptLoanFragment extends Fragment {
-	public static final long UPDATE_DELAY = 1500;
+	public static final long UPDATE_DELAY = 1000;
 
 	private ProgressBar progress;
 
@@ -69,14 +72,37 @@ public class AcceptLoanFragment extends Fragment {
 		this.loanIdText = getView().findViewById(R.id.loan_id_text);
 		this.progress = getView().findViewById(R.id.loading_bar);
 
+		Button acceptBtn = getView().findViewById(R.id.btn_accept);
+		Button declineBtn = getView().findViewById(R.id.btn_decline);
+
+		acceptBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new AcceptDecline_Action().execute(true, !productItemView.loan.isAcquired);
+			}
+		});
+		declineBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new AcceptDecline_Action().execute(false);
+			}
+		});
+
 		loanIdText.addTextChangedListener(new TextWatcher() {
 			private final Runnable action = new Runnable() {
 				@Override
 				public void run() {
-					Log.e("AcceptLoanFrag", "Running update action");
+					Log.i("AcceptLoanFrag", "Running update action");
+					if (clear) {
+						setCardVisibility(View.INVISIBLE);
+						return;
+					}
+					if (productItemView.loan != null && Integer.parseInt(loanIdText.getText().toString()) == productItemView.loan.ID)
+						return;
 					new Update_Action().execute();
 				}
 			};
+			private boolean clear = false;
 
 			private Handler updateHandler = new Handler();
 
@@ -91,14 +117,28 @@ public class AcceptLoanFragment extends Fragment {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (s.length() == 0) return;
+				clear = s.length() == 0;
 				updateHandler.postDelayed(action, UPDATE_DELAY);
 			}
 		});
 	}
 
+
+	private void showDialog(String message) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+		builder.setMessage(message)
+				.setCancelable(false)
+				.setPositiveButton(getResources().getString(R.string.OK), null);
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+
+	private void toast(String message) {
+		Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+	}
+
 	@SuppressLint("StaticFieldLeak")
-	private class Update_Action extends AsyncTask<Void, Void, Void> {
+	private class Update_Action extends AsyncTask<Void, Void, String> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -106,15 +146,7 @@ public class AcceptLoanFragment extends Fragment {
 		}
 
 		@Override
-		protected Void doInBackground(Void... voids) {
-			try {
-				return backgroundTask();
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
-		private Void backgroundTask() {
+		protected String doInBackground(Void... voids) {
 			// Get the loan
 			LoanItem loan;
 			try {
@@ -128,90 +160,103 @@ public class AcceptLoanFragment extends Fragment {
 				loan = results.size() != 0 ? results.get(0) : null;
 			} catch (JSONException | Exceptions.NetworkingException e) {
 				// End early in case of error
-				// TODO Implement error feedback
 				e.printStackTrace();
-				return null;
+				return getResources().getString(R.string.unexpected_error);
 			}
 
 			// End early if no loan was found
 			if (loan == null) {
-				return null;
+				return getResources().getString(R.string.no_such_loan_id);
 			}
 
-			// Try to get the associated productItem
-			ProductItem item = null;
 			try {
-				HashMap<String, List<ProductItem>> items = ProductItem.getProductItems(null, new Integer[] {loan.productItemID});
-				if (!items.isEmpty()) {
-					item = items.get(items.keySet().toArray()[0]).get(0);
-				}
+				productItemView.setLoanAsync(loan);
 			} catch (JSONException | Exceptions.NetworkingException e) {
-				// End early in case of error
-				// TODO Implement error feedback
-				e.printStackTrace();
-				return null;
+				return getResources().getString(R.string.unexpected_error);
 			}
 
-			// End early if no productItem was found
-			if (item == null) {
-				return null;
-			}
-
-			// Try to get the associated product by searching through productListFragment's product list
-			List<Product> products = ProductListFragment.getProducts();
-			Product product = null;
-			for (Product p : products) {
-				if (p.ID.equals(item.productId)) {
-					product = p;
-					break;
-				}
-			}
-
-			Log.e("Yeet", "" + product);
-			// End early if no product was found
-			if (product == null) {
-				return null;
-			}
-			// Get product image if it hasn't loaded yet
-			if (product.image == null) {
-			    try {
-			        product.getImage();
-                } catch (JSONException | Exceptions.NetworkingException e) {
-			        e.printStackTrace();
-                }
-            }
-			final Product finalProduct = product;
-
-			// End early if no product is found
-			if (product == null) {
-				return null;
-			}
-
-			// Set stuff on the ui with the collected data
 			getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					productItemView.title.setText(finalProduct.getName());
-                    productItemView.icon.setImageBitmap(finalProduct.image);
+					Button acceptBtn = getView().findViewById(R.id.btn_accept);
+					acceptBtn.setText(productItemView.loan.isAcquired ? R.string.takeback : R.string.accept);
 				}
 			});
+
+			setCardVisibility(View.VISIBLE);
 
 			return null;
 		}
 
 		@Override
-		protected void onPostExecute(Void aVoid) {
-			super.onPostExecute(aVoid);
+		protected void onPostExecute(String message) {
+			super.onPostExecute(message);
+
+			if (message != null) toast(message);
 			progress.setVisibility(View.INVISIBLE);
 		}
 	}
 
-	private class SetImage_Action extends AsyncTask<Void, Void, Void> {
-	    // TODO implement this image setter task to replace the concurrent image loading
+	private void setCardVisibility(final int visibility) {
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				productItemView.setVisibility(visibility);
+			}
+		});
+	}
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-            return null;
-        }
-    }
+	private class AcceptDecline_Action extends AsyncTask<Boolean, Void, String> {
+		private boolean useToast = false;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progress.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		protected String doInBackground(Boolean... booleans) {
+			if (productItemView.loan == null ||
+				booleans.length < 1) return null;
+
+			// If set to decline, delete the thing
+			if (!booleans[0]) {
+				try {
+					productItemView.loan.delete();
+					setCardVisibility(View.INVISIBLE);
+				} catch (JSONException | Exceptions.NetworkingException e) {
+					if (e instanceof Exceptions.LoanAlreadyStarted)
+						return getResources().getString(R.string.loan_already_started);
+					return getResources().getString(R.string.unexpected_error);
+				}
+				return getResources().getString(R.string.loan_decline_success);
+			}
+
+			try {
+				productItemView.loan.setAcquired(booleans[1]);
+				new Update_Action().execute();
+				if (!booleans[1])
+					return getResources().getString(R.string.loan_takeback_success);
+				return getResources().getString(R.string.loan_accept_success,
+						productItemView.loan.userId,
+						productItemView.loan.productItemID);
+			} catch (JSONException | Exceptions.NetworkingException e) {
+				e.printStackTrace();
+				useToast = true;
+				return getResources().getString(R.string.unexpected_error);
+			}
+		}
+
+		@Override
+		protected void onPostExecute(String message) {
+			super.onPostExecute(message);
+
+			if (message != null) {
+				if (useToast) toast(message);
+				else showDialog(message);
+			}
+			progress.setVisibility(View.INVISIBLE);
+		}
+	}
 }

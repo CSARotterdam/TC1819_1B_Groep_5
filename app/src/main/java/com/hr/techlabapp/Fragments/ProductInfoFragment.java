@@ -29,6 +29,9 @@ import org.json.JSONException;
 
 import java.util.HashMap;
 
+import static com.hr.techlabapp.AppConfig.currentUser;
+import static com.hr.techlabapp.Networking.User.ADMIN;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -54,6 +57,7 @@ public class ProductInfoFragment extends Fragment {
 
 	private Button borrow;
 	private Button delete;
+	private Button edit;
 
 	public ProductInfoFragment() {
 		// Required empty public constructor
@@ -106,9 +110,10 @@ public class ProductInfoFragment extends Fragment {
 		// sets the onClickListener
 		borrow = getView().findViewById(R.id.borrow);
 		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_createLoanFragment,getArguments()));
-		Button edit = getView().findViewById(R.id.edit_product);
+		edit = getView().findViewById(R.id.edit_product);
 		edit.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_editProductFragment,getArguments()));
-
+		if(currentUser.permissionLevel != ADMIN)
+			edit.setVisibility(View.GONE);
 		// sets the onClickListener
 		delete = getView().findViewById(R.id.delete);
 		delete.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +129,8 @@ public class ProductInfoFragment extends Fragment {
 				dialog.show(getFragmentManager(),String.format(getResources().getString(R.string.edit_stock_for),product.getName()));
 			}
 		});
+		if(currentUser.permissionLevel != ADMIN)
+			delete.setVisibility(View.GONE);
 	}	
 
 	@SuppressLint("StaticFieldLeak")

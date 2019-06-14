@@ -105,4 +105,5 @@
 	<string name="loan_already_started">Mislukt; Deze reservering is al gestart.</string>
 	<string name="loan_takeback_success">Het voorwerp is succesvol terug genomen.</string>
 	<string name="takeback">Terugnemen</string>
+    <string name="max_loan_duration_exceeded">Je mag een product maar maximaal 21 dagen reserveren.</string>
 </resources>

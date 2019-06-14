@@ -139,5 +139,9 @@
     <string name="loan_already_started">Failed; This loan has already started.</string>
     <string name="loan_takeback_success">Successfully taken back the item.</string>
     <string name="takeback">Take back</string>
+    <string name="max_loan_duration_exceeded">You can only reserve a product for up to 21 days.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

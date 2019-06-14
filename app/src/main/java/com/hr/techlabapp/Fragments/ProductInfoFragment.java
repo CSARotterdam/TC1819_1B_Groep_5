@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Space;
 import android.widget.TextView;
 
 import androidx.navigation.Navigation;
@@ -112,8 +113,6 @@ public class ProductInfoFragment extends Fragment {
 		borrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_createLoanFragment,getArguments()));
 		edit = getView().findViewById(R.id.edit_product);
 		edit.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_productInfoFragment_to_editProductFragment,getArguments()));
-		if(currentUser.permissionLevel != ADMIN)
-			edit.setVisibility(View.GONE);
 		// sets the onClickListener
 		delete = getView().findViewById(R.id.delete);
 		delete.setOnClickListener(new View.OnClickListener() {
@@ -129,9 +128,15 @@ public class ProductInfoFragment extends Fragment {
 				dialog.show(getFragmentManager(),String.format(getResources().getString(R.string.edit_stock_for),product.getName()));
 			}
 		});
-		if(currentUser.permissionLevel != ADMIN)
+		if(currentUser.permissionLevel != ADMIN) {
 			delete.setVisibility(View.GONE);
-	}	
+			edit.setVisibility(View.GONE);
+			Space space = getView().findViewById(R.id.middlespacer);
+			space.setVisibility(View.GONE);
+			space = getView().findViewById(R.id.space2);
+			space.setVisibility(View.GONE);
+		}
+	}
 
 	@SuppressLint("StaticFieldLeak")
 	class loadImage extends AsyncTask <Void,Void,Bitmap>{

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ItemAdapter">
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <com.hr.techlabapp.CustomViews.ProductItemView
+        android:id="@+id/first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:iconSize="90dp"
+        app:title="Fifa 2018">
+    </com.hr.techlabapp.CustomViews.ProductItemView>
+
+
+    <com.hr.techlabapp.CustomViews.ProductItemView
+        android:id="@+id/second"
+        android:layout_below="@id/first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:iconSize="90dp"
+        app:title="Fifa 2018">
+    </com.hr.techlabapp.CustomViews.ProductItemView>
+
+
+    <com.hr.techlabapp.CustomViews.ProductItemView
+        android:layout_below="@id/second"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:iconSize="90dp"
+        app:title="Drone">
+    </com.hr.techlabapp.CustomViews.ProductItemView>
+
+</RelativeLayout>

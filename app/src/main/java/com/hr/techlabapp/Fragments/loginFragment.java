@@ -152,8 +152,7 @@ public class loginFragment extends Fragment {
 
 				Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_loginFragment_to_productListFragment);
 			}
-			Toast msgToast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
-			msgToast.show();
+			Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -186,8 +185,32 @@ public class loginFragment extends Fragment {
 		}
 		protected void onPostExecute(String message){
 			dialog.dismiss();
-			Toast msgToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
-			msgToast.show();
+			if(message.equals(getResources().getString(R.string.registered))){
+
+				CheckBox rememberlogin = Objects.requireNonNull(getView()).findViewById(R.id.remember_login);
+
+				SharedPreferences savedlogin = Objects.requireNonNull(getContext()).getSharedPreferences("savedlogin", 0);
+				SharedPreferences.Editor editor = savedlogin.edit();
+				if(rememberlogin.isChecked()){
+					EditText usernameField = getView().findViewById(R.id.username);
+					editor.putString("username", usernameField.getText().toString());
+					EditText passwordField = getView().findViewById(R.id.password);
+					editor.putString("password", passwordField.getText().toString());
+				} else {
+					editor.remove("username");
+					editor.remove("password");
+				}
+				editor.apply();
+
+				//Hide keyboard if it is open
+				final InputMethodManager inputManager = (InputMethodManager) Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
+				if(inputManager.isAcceptingText()){
+					inputManager.hideSoftInputFromWindow(Objects.requireNonNull(getActivity().getCurrentFocus()).getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+				}
+
+				Navigation.findNavController(Objects.requireNonNull(getView())).navigate(R.id.action_loginFragment_to_productListFragment);
+			}
+			Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 		}
 	}
 }

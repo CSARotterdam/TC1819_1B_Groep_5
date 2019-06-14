@@ -38,13 +38,23 @@ public class User {
         return out;
     }
 
-    public static ArrayList<User> getUsers() throws JSONException{
+    public static ArrayList<User> getUsers(Integer permissionLevel) throws JSONException{
+        return getUsers(null, permissionLevel);
+    }
+
+    public static ArrayList<User> getUsers(String username) throws JSONException{
+        return getUsers(username, null);
+    }
+
+    public static ArrayList<User> getUsers(String username, Integer permissionLevel) throws JSONException{
         //Create JSON object;
         JSONObject request = new JSONObject()
                 .put("username", AppConfig.currentUser.username)
                 .put("token", AppConfig.currentUser.token)
                 .put("requestType", "logout")
                 .put("requestData", new JSONObject()
+                        .put("username", username)
+                        .put("permission", permissionLevel)
                 );
 
         JSONArray response = (JSONArray)Connection.Send(request);

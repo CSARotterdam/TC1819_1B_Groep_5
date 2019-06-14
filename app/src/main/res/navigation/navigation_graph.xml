@@ -13,9 +13,6 @@
 		<action
 			android:id="@+id/action_loginFragment_to_productListFragment"
 			app:destination="@id/productListFragment" />
-		<action
-			android:id="@+id/action_loginFragment_to_placeholder"
-			app:destination="@id/Register" />
 	</fragment>
 	<fragment
 		android:id="@+id/productListFragment"
@@ -43,6 +40,9 @@
 		<action
 			android:id="@+id/action_productListFragment_to_manageLoanFragment"
 			app:destination="@id/manageLoanFragment" />
+		<action
+			android:id="@+id/action_productListFragment_to_myItemsFragment"
+			app:destination="@id/myItemsFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/productInfoFragment"
@@ -82,11 +82,6 @@
 		<action
 			android:id="@+id/action_statisticsFragment_to_loginFragment"
 			app:destination="@id/loginFragment" />
-	</fragment>
-	<fragment android:id="@+id/Register">
-		<action
-			android:id="@+id/action_placeholder_to_productListFragment"
-			app:destination="@id/productListFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/manageLoanFragment"
@@ -150,4 +145,8 @@
 			android:id="@+id/action_settings2_to_contactActivity"
 			app:destination="@id/contactActivity" />
 	</fragment>
+	<fragment
+		android:id="@+id/myItemsFragment"
+		android:name="com.hr.techlabapp.Fragments.MyItemsFragment"
+		android:label="MyItemsFragment" />
 </navigation>

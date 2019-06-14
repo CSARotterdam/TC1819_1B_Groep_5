@@ -5,25 +5,25 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/Products"
+            android:id="@+id/products"
             android:title="Products" />
         <item
-            android:id="@+id/My_Items"
+            android:id="@+id/my_items"
             android:title="My Items" />
         <item
-            android:id="@+id/Loans"
+            android:id="@+id/loans"
             android:title="Manage Loans"
             android:visible="false"/>
         <item
-            android:id="@+id/ManageUsers"
+            android:id="@+id/manage_users"
             android:title="Manage Users"
             android:visible="false"/>
         <item
-            android:id="@+id/Notifications"
+            android:id="@+id/notifications"
             android:title="Notifications" />
         <item
             android:visible="false"
-            android:id="@+id/Help"
+            android:id="@+id/help"
             android:title="Help" />
     </group>
 
@@ -39,7 +39,7 @@
                 android:id="@+id/settings"
                 android:title="Settings" />
             <item
-                android:id="@+id/Log_out"
+                android:id="@+id/log_out"
                 android:title="Log out" />
         </menu>
     </item>

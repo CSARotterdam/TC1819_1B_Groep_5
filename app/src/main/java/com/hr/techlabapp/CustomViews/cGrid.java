@@ -3,9 +3,6 @@ package com.hr.techlabapp.CustomViews;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -13,13 +10,17 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.hr.techlabapp.Classes.Product;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.hr.techlabapp.Networking.Product;
 
 import java.util.ArrayList;
 
 public class cGrid extends LinearLayout {
-	// The List of Products
-	private ArrayList<Product> Products = new ArrayList<>();
+	// The List of products
+	public ArrayList<Product> products = new ArrayList<>();
 	// The Rows For the Grid
 	private ArrayList<LinearLayout> Rows = new ArrayList<>();
 	// If the view is a list or a grid
@@ -80,7 +81,7 @@ public class cGrid extends LinearLayout {
 	@RequiresApi(15)
 	private void Populate15() {
 		if (!List)
-			for (Product p : Products) {
+			for (Product p : products) {
 				GridItem GI = new GridItem(getContext());
 				// Makes the parameters for height width
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dptopx(100), dptopx(125));
@@ -106,7 +107,7 @@ public class cGrid extends LinearLayout {
 				}
 			}
 		else
-			for (Product p : Products) {
+			for (Product p : products) {
 				ListItem LI = new ListItem(getContext());
 				// makes the paramters
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dptopx(125));
@@ -126,17 +127,13 @@ public class cGrid extends LinearLayout {
 	@RequiresApi(21)
 	private void Populate21() {
 		if (!List)
-			for (Product p : Products) {
+			for (Product p : products) {
 				GridItem GI = new GridItem(getContext());
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dptopx(100), dptopx(125));
 				int margin = dptopx(5);
 				lp.setMargins(margin, margin, margin, margin);
 				GI.setLayoutParams(lp);
 				GI.setProduct(p);
-				// sets the elevation for shadows
-				/// if only it worked
-				GI.setElevation(dptopx(5));
-				GI.setTranslationZ(dptopx(2));
 				// sets itemClicked Event
 				GI.setOnClickListener(itemClicked);
 				if (Rows.get(Rows.size() - 1).getChildCount() == GetAmountInRow()) {
@@ -151,7 +148,7 @@ public class cGrid extends LinearLayout {
 				}
 			}
 		else
-			for (Product p : Products) {
+			for (Product p : products) {
 				ListItem LI = new ListItem(getContext());
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dptopx(125));
 				int margin = dptopx(5);
@@ -171,30 +168,39 @@ public class cGrid extends LinearLayout {
 		return Size.widthPixels / dptopx(135);
 	}
 
-	// adds the product and repopulates the view
-	public void AddProduct(Product p) {
-		AddProduct(p, true);
-	}
-
 	// adds the product and if repopulate is true it repopulates the view
-	public void AddProduct(Product p, boolean repopulate) {
-		Products.add(p);
-		if (repopulate) {
-			// clears the view
-			for (LinearLayout l : Rows)
-				l.removeAllViews();
-			removeAllViews();
-			Rows.clear();
-			if (!List) {
-				// makes the first row
+	public void AddProduct(Product p) {
+		products.add(p);
+		if (!List) {
+			GridItem GI = new GridItem(getContext());
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dptopx(100), dptopx(125));
+			int margin = dptopx(5);
+			lp.setMargins(margin, margin, margin, margin);
+			GI.setLayoutParams(lp);
+			GI.setProduct(p);
+			// sets itemClicked Event
+			GI.setOnClickListener(itemClicked);
+			if (Rows.get(Rows.size() - 1).getChildCount() == GetAmountInRow()) {
 				LinearLayout L1 = new LinearLayout(getContext());
 				L1.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 				L1.setOrientation(HORIZONTAL);
+				L1.addView(GI);
 				addView(L1);
 				Rows.add(L1);
+			} else {
+				Rows.get(Rows.size() - 1).addView(GI);
 			}
-			// repopulates
-			Populate();
+		}
+		else {
+			ListItem LI = new ListItem(getContext());
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dptopx(125));
+			int margin = dptopx(5);
+			lp.setMargins(0, margin, 0, margin);
+			LI.setLayoutParams(lp);
+			LI.setProduct(p);
+			// sets itemClicked Event
+			LI.setOnClickListener(itemClicked);
+			addView(LI);
 		}
 	}
 

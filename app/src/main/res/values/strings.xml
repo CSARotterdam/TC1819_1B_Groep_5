@@ -1,35 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">TechLab App</string>
-	<string name="action_settings">Settings</string>
-	<string name="availability" translatable="false">%d/%d</string>
-	<string name="title_activity_login">LoginActivity</string>
-	<string name="username_input">Username</string>
-	<string name="password_input">Password</string>
-	<string name="login">Login</string>
-	<string name="register">Register</string>
-	<string name="or">or</string>
-	<string name="borrow">Borrow</string>
-	<string name="product_name">Product Name:</string>
-	<string name="username_id" translatable="false">%s %s (%07d)</string>
-	<string name="date_of_request">Sent request on: %td-%tm-%tY</string>
-	<string name="user_history">User history</string>
-	<string name="user_history_dialog_title">User history of %07d</string>
-	<string name="amount_value">Amount: %d</string>
-	<string name="amount">Amount:</string>
-	<string name="decline">Decline</string>
-	<string name="accept">Accept</string>
-	<string name="image_description">An image of the product</string>
-	<string name="delete_item_title">Delete "%s"</string>
-	<string name="delete_everything">Delete everything</string>
-	<string name="add_product">Add product</string>
-	<string name="add_image">Add image</string>
-	<string name="product_statistics">Product statistics</string>
-	<string name="hour_min">%02d hr %02d min</string>
-	<string name="this_week">This week</string>
-	<string name="user_statistics">User statistics</string>
-	<string name="statistics">Statistics</string>
+    <string name="app_name">TechLab App</string>
+    <string name="action_settings">Settings</string>
+    <string name="availability" translatable="false">%d/%d</string>
+    <string name="title_activity_login" translatable="false">LoginActivity</string>
+    <string name="username_input">Username</string>
+    <string name="password_input">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="or">or</string>
+    <string name="borrow">Borrow</string>
+    <string name="product_name">Product Name:</string>
+    <string name="product_name_value">Product Name:%36s</string>
+    <string name="product_id">Product ID:</string>
+    <string name="product_id_value">Product ID:%38s</string>
+    <string name="product_cat">Product Category:</string>
+    <string name="product_cat_value">Product Category:%31s</string>
+    <string name="product_des">Product Description:</string>
+    <string name="product_des_value">Product Description:%n%s</string>
+    <string name="product_man">Product Manufacturer:</string>
+    <string name="product_man_value">Product Manufacturer:%27s</string>
+    <string name="available_value">Products Available:%29d</string>
+    <string name="available">Products Available:</string>
+    <string name="username_id" translatable="false">%s %s (%07d)</string>
+    <string name="date_of_request">Sent request on: %td-%tm-%tY</string>
+    <string name="user_history">User history</string>
+    <string name="user_history_dialog_title">User history of %07d</string>
+    <string name="Stock">Stock:</string>
+    <string name="amount_value">Amount: %d</string>
+    <string name="decline">Decline</string>
+    <string name="accept">Accept</string>
+    <string name="image_description">An image of the product</string>
+    <string name="edit_stock_for">Edit stock for %s</string>
+    <string name="delete_product">Delete Product</string>
+    <string name="add_product">Add product</string>
+    <string name="add_image">Add image</string>
+    <string name="product_statistics">Product statistics</string>
+    <string name="hour_min">%02d hr %02d min</string>
+    <string name="this_week">This week</string>
+    <string name="user_statistics">User statistics</string>
+    <string name="statistics">Statistics</string>
+    <!--TODO: give them values-->
+    <string name="pref_title_system_sync_settings" translatable="false" />
+    <string name="pref_title_sync_frequency" translatable="false" />
+    <string name="nav_header_desc" translatable="false" />
+    <string name="nav_header_title" translatable="false" />
+    <string name="nav_header_subtitle" translatable="false" />
+    <string name="pref_description_social_recommendations" translatable="false" />
+    <string name="pref_title_social_recommendations" translatable="false" />
+    <string name="pref_default_display_name" translatable="false" />
+    <string name="pref_title_display_name" translatable="false" />
+    <string name="pref_title_add_friends_to_messages" translatable="false" />
+    <string name="pref_header_general" translatable="false" />
+    <string name="pref_header_notifications" translatable="false" />
+    <string name="pref_header_data_sync" translatable="false" />
+    <string name="pref_title_new_message_notifications" translatable="false" />
+    <string name="pref_title_ringtone" translatable="false" />
+    <string name="pref_title_vibrate" translatable="false" />
+    <string name="pref_ringtone_silent" translatable="false" />
+    <string-array name="pref_sync_frequency_values" />
+    <string-array name="pref_sync_frequency_titles" />
+    <string-array name="pref_example_list_titles" />
+    <string-array name="pref_example_list_values" />
+    <string name="title_activity_main" translatable="false">My Techlab</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="unexpected_error">An unexpected error occurred. Please try again later.</string>
+    <string name="invalid_username">Please use your student number or staff code as username.</string>
+    <string name="invalid_password">That password is not valid!</string>
+    <string name="user_already_exists">A user already exists with this name.</string>
+    <string name="registered">Registered!</string>
+    <string name="loading">Loading...</string>
+    <string name="OK">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="product_removal_success">Product removed successfully.</string>
+    <string name="stock_lowered">Stock successfully lowered.</string>
+    <string name="product_removal_failed_loaned_out">Couldn\'t delete item. Some products are still loaned out.</string>
+    <string name="user_no_borrowed_items">This user hasn\'t borrowed any items yet.</string>
+    <string name="product_id_required">The Product ID field is required!</string>
+    <string name="product_name_required">The Product Name field is required!</string>
+    <string name="product_added_successfully">Product added successfully.</string>
+    <string name="product_already_exists">A product already exists with this ID.</string>
+    <string name="product_category_doesnt_exist">The selected category does not exist.</string>
+    <string name="logging_in">Logging in...</string>
+    <string name="login_success">Logged in!</string>
+    <string name="login_failed">Login failed.</string>
+    <string name="loan_added_successfully">Item successfully reserved.%nPlease show the following ID to a TechLab collaborator;%n%s</string>
+    <string name="no_items_for_product">There are no items available for this product at the selected time.</string>
+    <string name="create_loan">Place reservation</string>
+    <string name="logout_success">Logged out!</string>
+    <string name="edit">Edit</string>
+    <string name="edit_stock">Edit product stock</string>
+    <string name="new_product_name">New product name</string>
+    <string name="new_product_id">New product ID</string>
+    <string name="new_product_cat">New product category</string>
+    <string name="new_product_man">New product manufacturer</string>
+    <string name="new_product_des">New product description</string>
+    <string name="change_image">Change image</string>
+    <string name="edit_product">Edit product</string>
+    <string name="product_edited_successfully">Product successfully edited.</string>
+    <string name="product_id_too_long">The product ID must be no more than 50 characters long.</string>
+    <string name="title_activity_contact" translatable="false">ContactActivity</string>
+    <string name="contact_form">Contact Us</string>
+    <string name="contact_form_name">Your Name</string>
+    <string name="contact_form_email">Your Email Address</string>
+    <string name="contact_form_subject">Subject</string>
+    <string name="contact_form_message">Message</string>
+    <string name="contact_form_button">Send Message</string>
+    <string name="contact_form_post_message">Your message is now being sent...</string>
+    <string name="contact_posted">Your message has been sent.</string>
+    <string name="no_stock_count_given">Please enter a new stock count</string>
+    <string name="stock_increased">Product stock successfully increased.</string>
+    <string name="too_many_products">You can only add up to 30 items at a time.</string>
+    <string name="amount_currently_available">Amount currently available:</string>
+    <string name="loan_id">Loan Id</string>
+    <string name="notification_settings">Notification Settings</string>
+    <string name="account">Account</string>
+    <string name="tos">Terms of Service</string>
+    <string name="contact">Contact</string>
+    <string name="general_settings">General Settings</string>
+    <string name="about">About</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="tos_summary">Read the Terms of Service</string>
+    <string name="contact_summary">Contact the TechLab Team.</string>
+    <string name="clear_saved_login">Clear account details</string>
+    <string name="clear_saved_login_summary">Clear your saved account details</string>
+    <string name="continue_action">Continue</string>
+    <string name="clear_login_complete">Login details successfully deleted.</string>
+    <string name="clear_login_confirmation">Are you sure? This cannot be done.</string>
+    <string name="remember_login">Remember Login</string>
+    <string name="no_such_loan_id">No loan found for this ID</string>
+    <string name="to">to</string>
+    <string name="item_id_tag">Item ID:</string>
+    <string name="loan_id_tag">Loan ID:</string>
+    <string name="loan_accept_success">Loan successfully accepted.%nYou can now give user \'%s\' item %01d</string>
+    <string name="loan_decline_success">Loan successfully declined.</string>
+    <string name="loan_already_started">Failed; This loan has already started.</string>
+    <string name="loan_takeback_success">Successfully taken back the item.</string>
+    <string name="takeback">Take back</string>
+    <string name="max_loan_duration_exceeded">You can only reserve a product for up to 21 days.</string>
 
-	<!-- TODO: Remove or change this placeholder text -->
-	<string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

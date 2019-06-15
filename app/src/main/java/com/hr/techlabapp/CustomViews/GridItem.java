@@ -1,46 +1,46 @@
 package com.hr.techlabapp.CustomViews;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
+import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.hr.techlabapp.Classes.Product;
+import com.hr.techlabapp.AppConfig;
+import com.hr.techlabapp.Networking.Product;
 import com.hr.techlabapp.R;
 
-import java.util.Random;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GridItem extends ConstraintLayout {
 
 	private Product product;
-	private boolean ImageLoaded  = false;
-	// Useless just a place holder will be removed when we can get images from the
-	// database
-	@DrawableRes
-	private final static int[] images = new int[] { R.drawable.arduino, R.drawable.cuteaf };
+	private boolean ImageLoaded = false;
+	private boolean isBusy = false;
 
-	private final static Random r = new Random();
+	public static HashMap<String,HashMap<String, Integer>> Availability;
+	public static HashMap<String, Bitmap> Images = new HashMap<>();
+
 	private ImageView image;
 	private TextView name;
 	private TextView availability;
+	private ProgressBar progress;
 
 	public GridItem(Context context) {
 		super(context);
@@ -61,10 +61,8 @@ public class GridItem extends ConstraintLayout {
 	private void Init(Context context) {
 		if (Build.VERSION.SDK_INT >= 23)
 			Init23(context);
-		else if (Build.VERSION.SDK_INT >= 17)
-			Init17(context);
 		else
-			Init15(context);
+			Init17(context);
 	}
 
 	@RequiresApi(23)
@@ -72,6 +70,10 @@ public class GridItem extends ConstraintLayout {
 		// makes an image and sets its image to the image of the product
 		image = new ImageView(context);
 		image.setId(R.id.image);
+		image.setVisibility(View.INVISIBLE);
+		// makes the progress bar you see when there is no image
+		progress = new ProgressBar(context);
+		progress.setId(R.id.progress);
 		// makes the name
 		name = new TextView(context);
 		name.setId(R.id.name);
@@ -89,6 +91,7 @@ public class GridItem extends ConstraintLayout {
 		availability.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 		// adds the views
+		addView(progress);
 		addView(image);
 		addView(availability);
 		addView(name);
@@ -100,6 +103,9 @@ public class GridItem extends ConstraintLayout {
 	private void Init17(Context context) {
 		image = new ImageView(context);
 		image.setId(R.id.image);
+		image.setVisibility(View.INVISIBLE);
+		progress = new ProgressBar(context);
+		progress.setId(R.id.progress);
 		name = new TextView(context);
 		name.setId(R.id.name);
 		name.setTextAlignment(TEXT_ALIGNMENT_CENTER);
@@ -114,28 +120,7 @@ public class GridItem extends ConstraintLayout {
 		availability.setBackgroundColor(ContextCompat.getColor(context, R.color.textBackground));
 		availability.setLayoutParams(
 				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		addView(image);
-		addView(availability);
-		addView(name);
-		SetConstraints();
-	}
-
-	@RequiresApi(15)
-	private void Init15(Context context) {
-		image = new ImageView(context);
-		image.setId(R.id.image);
-		name = new TextView(context);
-		name.setId(ViewCompat.generateViewId());
-		name.setTextColor(ContextCompat.getColor(context, R.color.textColor));
-		name.setLayoutParams(
-				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		name.setBackgroundColor(ContextCompat.getColor(context, R.color.textBackground));
-		availability = new TextView(context);
-		availability.setId(R.id.availability);
-		availability.setTextColor(ContextCompat.getColor(context, R.color.textColor));
-		availability.setLayoutParams(
-				new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-		availability.setBackgroundColor(ContextCompat.getColor(context, R.color.textBackground));
+		addView(progress);
 		addView(image);
 		addView(availability);
 		addView(name);
@@ -145,7 +130,15 @@ public class GridItem extends ConstraintLayout {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
-		Scrolled();
+		isBusy = true;
+		new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	}
+
+	public void loadImage(){
+		if(!ImageLoaded && !isBusy){
+			isBusy = true;
+			new ShowImage().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		}
 	}
 
 	private void SetConstraints() {
@@ -155,51 +148,68 @@ public class GridItem extends ConstraintLayout {
 		setConstraintSet(CSS);
 	}
 
-
-	public void Scrolled() {
-		ShowImage s = new ShowImage();
-		s.execute();
-	}
-
-	class ShowImage extends AsyncTask<Void,Void,Void> {
+	class ShowImage extends AsyncTask<Void, Void, Bitmap> {
 
 		@Override
-		protected Void doInBackground(Void... voids) {
-			// checks if the image isn't already loaded and visible to the user
-			if(!ImageLoaded && isVisibleToUser()) {
+		protected Bitmap doInBackground(Void... voids) {
+			if (isVisibleToUser()) {
+				// checks if the image isn't already loaded and visible to the user
 				// gets a random image
-				// TODO: make it not random
-				Bitmap im = BitmapFactory.decodeResource(getResources(), images[r.nextInt(images.length)]);
-				// sets the image of the product
-				product.setImage(im);
+				Bitmap im = null;
+				if (Images.get(product.imageId) != null)
+					im = Images.get(product.imageId);
+				else
+					try {
+						im = product.getImage();
+					} catch (JSONException ex) {
+						return null;
+					} finally {
+						Images.put(product.imageId, im);
+					}
 				int imh = im.getHeight();
 				int imw = im.getWidth();
-				int aspectRatio = imw / imh;
+				float aspectRatio = (float) imw / imh;
 				// sets the new img width and height depending of the aspect ratio of the image
 				// TODO: should use attributes
-				int nimw = imh > imw ? dptopx(100) * aspectRatio : dptopx(125);
-				int nimh = imw > imh ? dptopx(125) * aspectRatio : dptopx(100);
+				int nimw = imh > imw ? (int) (dptopx(100) * aspectRatio) : dptopx(125);
+				int nimh = imw > imh ? (int) (dptopx(125) * aspectRatio) : dptopx(100);
 				// Scales the bitmap
-				final Bitmap fim = Bitmap.createScaledBitmap(im, nimw, nimh, false);
-				((Activity)getContext()).runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						// Draws the image
-						image.setImageBitmap(fim);
-						image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-					}
-				});
 				ImageLoaded = true;
+				return Bitmap.createScaledBitmap(im, nimw, nimh, false);
 			}
 			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap aVoid) {
+			super.onPostExecute(aVoid);
+			isBusy = false;
+			if (aVoid == null)
+				return;
+			image.setImageBitmap(aVoid);
+			image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+			// bcz progress.setVisibility(INVISIBLE) doesn't work
+			removeView(progress);
 		}
 	}
 
 	private void setValues() {
 		// sets the values
-		this.name.setText(product.getName());
-		this.availability.setText(getResources().getString(R.string.availability, product.getProductsAvailable(),
-				product.getProductCount()));
+		this.name.setText(product.getName(AppConfig.getLanguage()));
+		new setAvailability().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+	}
+
+	class setAvailability extends AsyncTask<Void,Void, HashMap<String,Integer>>{
+		@Override
+		protected HashMap<String, Integer> doInBackground(Void... voids) {
+			while(Availability == null){}
+			return Availability.get(product.ID);
+		}
+
+		@Override
+		protected void onPostExecute(HashMap<String, Integer> av) {
+			availability.setText(getResources().getString(R.string.availability, av.get("available"), av.get("total")));
+		}
 	}
 
 	public Product getProduct() {
@@ -212,12 +222,12 @@ public class GridItem extends ConstraintLayout {
 	}
 
 	// gets if the view is visible to the user
-	private boolean isVisibleToUser(){
+	private boolean isVisibleToUser() {
 		Rect scrollBounds = new Rect();
 		// gets the scrollview
-		View parent = (View)getParent();
+		View parent = (View) getParent();
 		while (!(parent instanceof ScrollView))
-			parent = (View)parent.getParent();
+			parent = (View) parent.getParent();
 		// sets the visible Rect to scrollBounds
 		parent.getHitRect(scrollBounds);
 		// check's if the view is in the visible rect
@@ -227,5 +237,10 @@ public class GridItem extends ConstraintLayout {
 	private int dptopx(int dp) {
 		// changes a value from dp to px
 		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		super.finalize();
 	}
 }

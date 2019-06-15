@@ -1,105 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/frameLayout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context=".Fragments.loginFragment">
+
 	<EditText
 		android:id="@+id/username"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/login_edittext_horizontal_margin"
+		android:layout_marginLeft="@dimen/login_edittext_horizontal_margin"
+		android:layout_marginTop="@dimen/login_edittext_vertical_margin"
+		android:layout_marginRight="@dimen/login_edittext_horizontal_margin"
 		android:ems="10"
 		android:hint="@string/username_input"
 		android:inputType="textPersonName"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		android:layout_marginStart="@dimen/login_edittext_horizontal_margin"
-		android:layout_marginLeft="@dimen/login_edittext_horizontal_margin"
-		android:layout_marginRight="@dimen/login_edittext_horizontal_margin"
-		android:layout_marginTop="@dimen/login_edittext_vertical_margin"/>
+		app:layout_constraintTop_toTopOf="parent" />
+
 	<EditText
 		android:id="@+id/password"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:ems="10"
-		android:inputType="textPassword"
-		android:hint="@string/password_input"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/username"
 		android:layout_marginStart="@dimen/login_edittext_horizontal_margin"
 		android:layout_marginLeft="@dimen/login_edittext_horizontal_margin"
+		android:layout_marginTop="@dimen/login_edittext_vertical_margin"
 		android:layout_marginRight="@dimen/login_edittext_horizontal_margin"
-		android:layout_marginTop="@dimen/login_edittext_vertical_margin"/>
+		android:ems="10"
+		android:hint="@string/password_input"
+		android:inputType="textPassword"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/username" />
+
 	<Button
 		android:id="@+id/login"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/login_edittext_horizontal_margin"
 		android:layout_marginLeft="@dimen/login_edittext_horizontal_margin"
+		android:layout_marginTop="@dimen/login_edittext_vertical_margin"
 		android:layout_marginRight="@dimen/login_edittext_horizontal_margin"
 		android:text="@string/login"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/password"
-		android:layout_marginTop="@dimen/login_edittext_vertical_margin"/>
-	<android.support.constraint.ConstraintLayout
+		app:layout_constraintTop_toBottomOf="@id/password" />
+
+	<androidx.constraintlayout.widget.ConstraintLayout
 		android:id="@+id/or"
-		app:layout_constraintTop_toBottomOf="@id/login"
 		android:layout_width="match_parent"
-		android:layout_height="@dimen/login_spacer_height">
+		android:layout_height="@dimen/login_spacer_height"
+		app:layout_constraintTop_toBottomOf="@id/login">
+
 		<View
 			android:id="@+id/leftorbar"
 			android:layout_width="0dp"
-			app:layout_constraintTop_toTopOf="parent"
+			android:layout_height="3dp"
+			android:layout_margin="@dimen/usual_margin"
+			android:background="@color/textBackground"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintLeft_toLeftOf="parent"
 			app:layout_constraintRight_toLeftOf="@id/ortext"
-			android:layout_margin="@dimen/usual_margin"
-			android:layout_height="3dp"
-			android:background="@color/textBackground"/>
+			app:layout_constraintTop_toTopOf="parent" />
+
 		<TextView
-			android:text="@string/or"
-			android:gravity="center"
-			android:layout_margin="@dimen/usual_margin"
 			android:id="@+id/ortext"
 			android:layout_width="wrap_content"
 			android:layout_height="0dp"
-			app:layout_constraintTop_toTopOf="parent"
+			android:layout_margin="@dimen/usual_margin"
+			android:gravity="center"
+			android:text="@string/or"
 			app:layout_constraintBottom_toTopOf="@id/spaceunderor"
 			app:layout_constraintLeft_toRightOf="@id/leftorbar"
 			app:layout_constraintRight_toLeftOf="@id/rightorbar"
-			/>
+			app:layout_constraintTop_toTopOf="parent" />
+
 		<Space
 			android:id="@+id/spaceunderor"
 			android:layout_width="wrap_content"
 			android:layout_height="3dp"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintLeft_toRightOf="@id/leftorbar"
-			app:layout_constraintRight_toLeftOf="@id/rightorbar"/>
+			app:layout_constraintRight_toLeftOf="@id/rightorbar" />
+
 		<View
 			android:id="@+id/rightorbar"
 			android:layout_width="0dp"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintRight_toRightOf="parent"
-			app:layout_constraintLeft_toRightOf="@id/ortext"
-			android:layout_margin="@dimen/usual_margin"
 			android:layout_height="3dp"
-			android:background="@color/textBackground"/>
-	</android.support.constraint.ConstraintLayout>
+			android:layout_margin="@dimen/usual_margin"
+			android:background="@color/textBackground"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintLeft_toRightOf="@id/ortext"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
 	<Button
 		android:id="@+id/register"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/login_edittext_horizontal_margin"
 		android:layout_marginLeft="@dimen/login_edittext_horizontal_margin"
 		android:layout_marginRight="@dimen/login_edittext_horizontal_margin"
 		android:text="@string/register"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/or"/>
-</android.support.constraint.ConstraintLayout>
+		app:layout_constraintTop_toBottomOf="@id/or" />
+
+	<!--TODO: Make it work-->
+
+	<CheckBox
+		android:id="@+id/remember_login"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/fab_margin"
+		android:text="@string/remember_login"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/register" />
+	<EditText
+		android:id="@+id/ip"
+		android:hint="IP"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		android:layout_margin="@dimen/fab_margin"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

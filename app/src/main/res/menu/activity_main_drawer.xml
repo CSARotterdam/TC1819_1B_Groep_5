@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/products"
+            android:title="Products" />
+        <item
+            android:id="@+id/my_items"
+            android:title="My Items" />
+        <item
+            android:id="@+id/loans"
+            android:title="Manage Loans"
+            android:visible="false"/>
+        <item
+            android:id="@+id/manage_users"
+            android:title="Manage Users"
+            android:visible="false"/>
+        <item
+            android:id="@+id/notifications"
+            android:title="Notifications" />
+        <item
+            android:visible="false"
+            android:id="@+id/help"
+            android:title="Help" />
+    </group>
+
+    <item android:title="">
+        <menu>
+            <!--<item
+                android:id="@+id/scan"
+                android:title="Scan" />
+            <item
+                android:id="@+id/statistics"
+                android:title="Statistics" />-->
+            <item
+                android:id="@+id/settings"
+                android:title="Settings" />
+            <item
+                android:id="@+id/log_out"
+                android:title="Log out" />
+        </menu>
+    </item>
+</menu>

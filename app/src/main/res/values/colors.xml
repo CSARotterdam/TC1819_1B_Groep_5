@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name="textColor">#fff</color>
-    <color name="ListTextColor">#000</color>
+    <color name="colorPrimary">#CC0133</color>
+    <color name="colorPrimaryDark">#94001F</color>
+    <color name="colorAccent">#EC003C</color>
+    <color name="textColor">#FFFFFF</color>
+    <color name="ListTextColor">#000000</color>
     <color name="textBackground">#70000000</color>
     <color name="check_image_background_color">#30008577</color>
+
+    <color name="viewfinder_mask">#31E91E2F</color>
+    <color name="result_view">#8BC34A</color>
+    <color name="viewfinder_laser">#06700F</color>
+    <color name="possible_result_points">#103F6B</color>
 </resources>

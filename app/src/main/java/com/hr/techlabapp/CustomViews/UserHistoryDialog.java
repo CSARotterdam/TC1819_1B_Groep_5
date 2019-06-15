@@ -3,9 +3,9 @@ package com.hr.techlabapp.CustomViews;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import com.hr.techlabapp.R;
 
@@ -30,9 +30,9 @@ public class UserHistoryDialog extends DialogFragment {
 		// makes a new builder
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		// sets the title to R.string.user_history_dialog_title with %07d replaced with the id of the user
-		builder.setTitle(getResources().getString(R.string.user_history_dialog_title,userID));
+		builder.setTitle(getResources().getString(R.string.user_history_dialog_title,userID)); //TODO Translate
 		// sets the message
-		builder.setMessage("This user hasn't borrowed any items.");
+		builder.setMessage(getResources().getString(R.string.user_no_borrowed_items));
 		// creates the dialog
 		return builder.create();
 	}

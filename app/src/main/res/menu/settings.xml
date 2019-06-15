@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="ExtraText">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@+id/action_settings">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/products"
+            android:title="Products" />
+        <item
+            android:id="@+id/my_items"
+            android:title="My Items" />
+        <item
+            android:id="@+id/notifications"
+            android:title="Notifications" />
+        <item
+            android:id="@+id/help"
+            android:title="Help" />
+    </group>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/settings"
+                android:title="Settings" />
+            <item
+                android:id="@+id/log_out"
+                android:title="Log out" />
+
+        </menu>
+    </item>
+</menu>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">TechLab App</string>
-	<string name="title_activity_login">تسجيل الدخول</string>
-	<string name="action_settings">الضبط</string>
+    <string name="action_settings">الضبط</string>
 	<string name="username_input">اسم المستخدم</string>
 	<string name="password_input">كلمة المرور</string>
 	<string name="login">تسجيل الدخول</string>
@@ -14,12 +13,10 @@
 	<string name="user_history">User history</string>
 	<string name="user_history_dialog_title">%07d:سجل المستخدم</string>
 	<string name="amount_value">%d:الكمية</string>
-	<string name="amount">الكمية:</string>
+	<string name="Stock">الكمية:</string>
 	<string name="decline">الغاء</string>
 	<string name="accept">موافق</string>
 	<string name="image_description">صورة المنتج</string>
-	<string name="delete_item_title">حذف "%s"</string>
-	<string name="delete_everything">حذف كل شيء</string>
 	<string name="add_product">إضافة منتج</string>
 	<string name="add_image">إضافة صورة</string>
 	<string name="product_statistics">احصائية عن المنتج</string>
@@ -27,4 +24,41 @@
 	<string name="this_week">هذا الأسبوع</string>
 	<string name="user_statistics">احصائية عن المستخدم</string>
 	<string name="statistics">احصائيات</string>
+	<string name="product_name_value">اسم المنتج: %36s</string>
+	<string name="product_id">هوية المنتج:</string>
+	<string name="product_id_value">هوية المنتج: %38s</string>
+	<string name="product_cat">فئة المنتج:</string>
+	<string name="product_cat_value">فئة المنتج: %31s</string>
+	<string name="product_des">وصف المنتج:</string>
+	<string name="product_des_value">وصف المنتج: %n%s</string>
+	<string name="product_man">صانع المنتج:</string>
+	<string name="product_man_value">صانع المنتج: %27s</string>
+	<string name="available_value">المنتج متاح: %29d</string>
+	<string name="available">المنتج متاح:</string>
+	<string name="delete_product">حذف المنتج</string>
+    <!-- TODO: Remove or change this placeholder text -->
+	<string name="unexpected_error">حدث خطأغير متوقع, ترجى المحاولة لاحقا.</string>
+	<string name="invalid_username">الرجاء استخدام رقم الاكتتاب الصحيح كاسم مستخدم</string>
+	<string name="invalid_password">كلمة المرور غير صحيحة!</string>
+	<string name="user_already_exists">هذا المستخدم موجود مسبقا</string>
+	<string name="registered">تم التسجيل بنجاح!</string>
+	<string name="loading">جاري التحميل...</string>
+	<string name="OK">حسنا</string>
+	<string name="cancel">الفاء</string>
+	<string name="product_removal_success">تم حذف المنتج بنجاح!</string>
+	<string name="stock_lowered">تم تخفيض المخزون بنجاح</string>
+	<string name="product_removal_failed_loaned_out">لا يمكن حذف المنتج بسبب اعارته</string>
+	<string name="user_no_borrowed_items">هذا المستخدم لم يستعر أي منتج بعد.</string>
+	<string name="product_id_required">هوية المنتج مطلوبة!</string>
+	<string name="product_name_required">اسم المنتج مطلوب!</string>
+	<string name="product_added_successfully">تمت اضافة المنتج بنجاح!</string>
+	<string name="product_already_exists">يوجد منتج بهذه الهوية مسبقا.</string>
+	<string name="product_category_doesnt_exist">فئة المنتج غير موجودة.</string>
+	<string name="logging_in">جاري تسجيل الدخول...</string>
+	<string name="login_success">تم تسجيل الدخول!</string>
+	<string name="login_failed">فشل تسجيل الدخول.</string>
+	<string name="loan_added_successfully">تم حجز المنتج بنجاح</string>
+	<string name="no_items_for_product">لا يوجد سلع متاحة لهذا المنتج في هذا الوقت</string>
+	<string name="create_loan">تأكيد الحجز</string>
+	<string name="logout_success">تم تسجيل الخروج!</string>
 </resources>

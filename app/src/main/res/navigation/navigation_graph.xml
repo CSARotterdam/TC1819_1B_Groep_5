@@ -3,7 +3,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/navigation_graph"
-	app:startDestination="@+id/productListFragment">
+	app:startDestination="@id/loginFragment">
 
 	<fragment
 		android:id="@+id/loginFragment"
@@ -13,9 +13,6 @@
 		<action
 			android:id="@+id/action_loginFragment_to_productListFragment"
 			app:destination="@id/productListFragment" />
-		<action
-			android:id="@+id/action_loginFragment_to_placeholder"
-			app:destination="@id/Register" />
 	</fragment>
 	<fragment
 		android:id="@+id/productListFragment"
@@ -35,51 +32,121 @@
 			android:id="@+id/action_productListFragment_to_loginFragment"
 			app:destination="@id/loginFragment" />
 		<action
-			android:id="@+id/action_productListFragment_to_placeholder2"
-			app:destination="@+id/Camera" />
+			android:id="@+id/action_productListFragment_to_Camera"
+			app:destination="@id/Camera" />
+		<action
+			android:id="@+id/action_productListFragment_to_settings2"
+			app:destination="@id/settings2" />
+		<action
+			android:id="@+id/action_productListFragment_to_manageLoanFragment"
+			app:destination="@id/manageLoanFragment" />
+		<action
+			android:id="@+id/action_productListFragment_to_myItemsFragment"
+			app:destination="@id/myItemsFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/productInfoFragment"
 		android:name="com.hr.techlabapp.Fragments.ProductInfoFragment"
 		android:label="fragment_product_info"
 		tools:layout="@layout/fragment_product_info" >
-		<action
-			android:id="@+id/action_productInfoFragment_to_checkLendRequestFragment"
-			app:destination="@id/checkLendRequestFragment" />
 		<argument
 			android:name="ProductID"
 			app:argType="string" />
+		<action
+			android:id="@+id/action_productInfoFragment_to_loginFragment"
+			app:destination="@id/loginFragment" />
+		<action
+			android:id="@+id/action_productInfoFragment_to_createLoanFragment"
+			app:destination="@id/createLoanFragment" />
+		<action
+			android:id="@+id/action_productInfoFragment_to_editProductFragment"
+			app:destination="@id/editProductFragment" />
+		<action
+			android:id="@+id/action_productInfoFragment_self"
+			app:destination="@id/productInfoFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/addProductFragment"
 		android:name="com.hr.techlabapp.Fragments.AddProductFragment"
 		android:label="fragment_add_product"
-		tools:layout="@layout/fragment_add_product" />
+		tools:layout="@layout/fragment_add_product">
+		<action
+			android:id="@+id/action_addProductFragment_to_loginFragment"
+			app:destination="@id/loginFragment" />
+	</fragment>
 	<fragment
 		android:id="@+id/statisticsFragment"
 		android:name="com.hr.techlabapp.Fragments.StatisticsFragment"
 		android:label="fragment_statistics"
-		tools:layout="@layout/fragment_statistics" />
-	<fragment android:id="@+id/Register">
+		tools:layout="@layout/fragment_statistics" >
 		<action
-			android:id="@+id/action_placeholder_to_productListFragment"
-			app:destination="@id/productListFragment" />
+			android:id="@+id/action_statisticsFragment_to_loginFragment"
+			app:destination="@id/loginFragment" />
 	</fragment>
 	<fragment
-		android:id="@+id/checkLendRequestFragment"
-		android:name="com.hr.techlabapp.Fragments.CheckLendRequestFragment"
+		android:id="@+id/manageLoanFragment"
+		android:name="com.hr.techlabapp.Fragments.AcceptLoanFragment"
 		android:label="fragment_check_lend_request"
-		tools:layout="@layout/fragment_check_lend_request" >
+		tools:layout="@layout/fragment_accept_loan" >
 		<action
 			android:id="@+id/action_checkLendRequestFragment_to_productListFragment"
 			app:destination="@id/productListFragment" />
 		<argument
 			android:name="ProductID"
 			app:argType="string" />
-	</fragment>
-	<fragment android:id="@+id/Camera" >
 		<action
-			android:id="@+id/action_Camera_to_checkLendRequestFragment"
-			app:destination="@id/checkLendRequestFragment" />
+			android:id="@+id/action_checkLendRequestFragment_to_loginFragment"
+			app:destination="@id/loginFragment" />
 	</fragment>
+	<fragment
+		android:id="@+id/Camera"
+		android:name="com.hr.techlabapp.Fragments.CameraFragment"
+		tools:layout="@layout/fragment_camera">
+		<action
+			android:id="@+id/action_Camera_to_loginFragment"
+			app:destination="@id/loginFragment" />
+	</fragment>
+	<fragment
+		android:id="@+id/createLoanFragment"
+		android:name="com.hr.techlabapp.Fragments.CreateLoanFragment"
+		android:label="fragment_create_loan2"
+		tools:layout="@layout/fragment_create_loan" >
+		<action
+			android:id="@+id/action_createLoanFragment_to_qrGenFragment"
+			app:destination="@id/qrGenFragment" />
+	</fragment>
+	<fragment
+		android:id="@+id/editProductFragment"
+		android:name="com.hr.techlabapp.Fragments.EditProductFragment"
+		android:label="fragment_edit_product">
+		<action
+			android:id="@+id/action_editProductFragment_to_loginFragment"
+			app:destination="@id/loginFragment" />
+		<action
+			android:id="@+id/action_editProductFragment_to_productInfoFragment"
+			app:destination="@id/productInfoFragment" />
+	</fragment>
+	<fragment
+		android:id="@+id/qrGenFragment"
+		android:name="com.hr.techlabapp.Fragments.qrGenFragment"
+		android:label="fragment_qr_gen"
+		tools:layout="@layout/fragment_qr_gen" />
+	<fragment
+		android:id="@+id/contactActivity"
+		android:name="com.hr.techlabapp.Fragments.ContactFragment"
+		android:label="activity_contact_form"
+		tools:layout="@layout/contact_form_fragment" />
+	<fragment
+		android:id="@+id/settings2"
+		android:name="com.hr.techlabapp.Fragments.Settings"
+		android:label="settings"
+		tools:layout="@layout/settings" >
+		<action
+			android:id="@+id/action_settings2_to_contactActivity"
+			app:destination="@id/contactActivity" />
+	</fragment>
+	<fragment
+		android:id="@+id/myItemsFragment"
+		android:name="com.hr.techlabapp.Fragments.MyItemsFragment"
+		android:label="MyItemsFragment" />
 </navigation>

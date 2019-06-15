@@ -73,8 +73,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             if(itemViewHolderBundlePair == null)
                 return;
             ProductItemView productItemView = itemViewHolderBundlePair.first.getProductItemView();
-            productItemView.icon.setImageBitmap((Bitmap) itemViewHolderBundlePair.second.getParcelable(PRODUCT_IMAGE_KEY));
-            productItemView.title.setText(itemViewHolderBundlePair.second.getString(PRODUCT_NAME_KEY));
+            // TODO use setLoanAsync / setItemAsync
+//            productItemView.icon.setImageBitmap((Bitmap) itemViewHolderBundlePair.second.getParcelable(PRODUCT_IMAGE_KEY));
+//            productItemView.title.setText(itemViewHolderBundlePair.second.getString(PRODUCT_NAME_KEY));
         }
     }
 

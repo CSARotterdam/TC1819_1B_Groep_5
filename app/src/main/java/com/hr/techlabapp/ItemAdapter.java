@@ -29,74 +29,52 @@ import static com.hr.techlabapp.Fragments.ProductInfoFragment.PRODUCT_NAME_KEY;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
-    private ProductItem[] dataSet;
+	private LoanItem[] dataSet;
 
 
-    @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.my_item_recycler_item_layout,parent,false);
-        return new ItemViewHolder(v);
-    }
+	@Override
+	public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+		View v = LayoutInflater.from(parent.getContext()).
+				inflate(R.layout.my_item_recycler_item_layout,parent,false);
+		return new ItemViewHolder(v);
+	}
 
-    @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, final int position) {
-        new BindViewHolder().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,new Pair<>(holder,position));
-    }
+	@Override
+	public void onBindViewHolder(@NonNull ItemViewHolder holder, final int position) {
+		new SetLoanItem().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,new Pair<>(holder,position));
+	}
 
-    class BindViewHolder extends AsyncTask<Pair<ItemViewHolder, Integer>, Void, Pair<ItemViewHolder, Bundle>>{
+	class SetLoanItem extends AsyncTask<Pair<ItemViewHolder, Integer>, Void, Void>{
+		@Override
+		protected Void doInBackground(Pair<ItemViewHolder, Integer>... pairs) {
+			ProductItemView productItemView = pairs[0].first.getProductItemView();
+			try{
+				productItemView.setLoanAsync(dataSet[pairs[0].second]);
+			}
+			catch (JSONException ex){}
+			return null;
+		}
+	}
 
-        @Override
-        protected Pair<ItemViewHolder, Bundle> doInBackground(Pair<ItemViewHolder, Integer>... pairs) {
-            HashMap<String,String> criteria = new HashMap<>();
-            criteria.put("id",dataSet[pairs[0].second].productId);
-            Product p;
-            try {
-                p = Product.getProducts(criteria, new String[]{AppConfig.getLanguage()}).get(0);
-            }
-            catch (JSONException ex){
-                return null;
-            }
-            Bundle bundle = new Bundle();
-            try{
-                bundle.putParcelable(PRODUCT_IMAGE_KEY, p.getImage());
-            }
-            catch (JSONException ex){
-                bundle.putParcelable(PRODUCT_IMAGE_KEY, null);
-            }
-            bundle.putString(PRODUCT_NAME_KEY, p.getName());
-            return new Pair<>(pairs[0].first, bundle);
-        }
+	@Override
+	public int getItemCount() {
+		return dataSet.length;
+	}
 
-        @Override
-        protected void onPostExecute(Pair<ItemViewHolder, Bundle> itemViewHolderBundlePair) {
-            if(itemViewHolderBundlePair == null)
-                return;
-            ProductItemView productItemView = itemViewHolderBundlePair.first.getProductItemView();
-            productItemView.icon.setImageBitmap((Bitmap) itemViewHolderBundlePair.second.getParcelable(PRODUCT_IMAGE_KEY));
-            productItemView.title.setText(itemViewHolderBundlePair.second.getString(PRODUCT_NAME_KEY));
-        }
-    }
+	class ItemViewHolder extends RecyclerView.ViewHolder {
+		final private ProductItemView productItemView;
 
-    @Override
-    public int getItemCount() {
-        return dataSet.length;
-    }
+		ItemViewHolder(View itemView) {
+			super(itemView);
+			productItemView = itemView.findViewById(R.id.product_item_view);
+		}
 
-    class ItemViewHolder extends RecyclerView.ViewHolder {
-        final private ProductItemView productItemView;
+		public ProductItemView getProductItemView() {
+			return productItemView;
+		}
+	}
 
-        ItemViewHolder(View itemView) {
-            super(itemView);
-            productItemView = itemView.findViewById(R.id.product_item_view);
-        }
-
-        public ProductItemView getProductItemView() {
-            return productItemView;
-        }
-    }
-
-    public ItemAdapter(ProductItem[] dataSet){
-        this.dataSet = dataSet;
-    }
+	public ItemAdapter(LoanItem[] dataSet){
+		this.dataSet = dataSet;
+	}
 }

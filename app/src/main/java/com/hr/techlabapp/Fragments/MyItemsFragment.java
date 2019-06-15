@@ -59,23 +59,14 @@ public class MyItemsFragment extends Fragment {
 
 	}
 
-	class GetLoanItems extends AsyncTask<Void,Void, ProductItem[]>{
+	class GetLoanItems extends AsyncTask<Void,Void, LoanItem[]>{
 
 		@Override
-		protected ProductItem[] doInBackground(Void... voids) {
+		protected LoanItem[] doInBackground(Void... voids) {
 			try{
 				List<LoanItem> loanItems = LoanItem.getLoans(null, currentUser.username, null, null, null);
-				ArrayList<Integer> productItemIdList = new ArrayList<>();
-				for(LoanItem loanItem: loanItems)
-					productItemIdList.add(loanItem.productItemID);
-				Integer[] productItemIds = new Integer[productItemIdList.size()];
-				productItemIdList.toArray(productItemIds);
-				HashMap<String, List<ProductItem>> HMSLPI = ProductItem.getProductItems(null, productItemIds);
-				ArrayList<ProductItem> res = new ArrayList<>();
-				for(List<ProductItem> productItems: HMSLPI.values())
-					res.addAll(productItems);
-				ProductItem[] resArray = new ProductItem[res.size()];
-				res.toArray(resArray);
+				LoanItem[] resArray = new LoanItem[loanItems.size()];
+				loanItems.toArray(resArray);
 				return resArray;
 			}
 			catch (JSONException ex){
@@ -84,7 +75,7 @@ public class MyItemsFragment extends Fragment {
 		}
 
 		@Override
-		protected void onPostExecute(ProductItem[] productItems) {
+		protected void onPostExecute(LoanItem[] productItems) {
 			recyclerView.setAdapter(new ItemAdapter(productItems));
 		}
 	}

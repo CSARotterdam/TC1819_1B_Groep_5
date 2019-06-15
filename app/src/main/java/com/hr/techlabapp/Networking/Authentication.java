@@ -72,7 +72,8 @@ public class Authentication {
                 .put("password", hash)
         );
 
-        Connection.Send(request);
+        JSONObject responseData = (JSONObject) Connection.Send(request);
+        AppConfig.currentUser = new User(username, hash, responseData.getLong("userToken"), responseData.getInt("permissionLevel"));
     }
 
     /*

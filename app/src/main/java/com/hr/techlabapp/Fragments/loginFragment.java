@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.hr.techlabapp.Activities.NavHostActivity;
+import com.hr.techlabapp.AppConfig;
 import com.hr.techlabapp.Networking.Authentication;
 import com.hr.techlabapp.Networking.Exceptions;
 import com.hr.techlabapp.R;
@@ -84,6 +85,7 @@ public class loginFragment extends Fragment {
 		loginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				AppConfig.serverAddress = ((EditText)getView().findViewById(R.id.ip)).getText().toString();
 				EditText usernameField = Objects.requireNonNull(getView()).findViewById(R.id.username);
 				String username = usernameField.getText().toString();
 				EditText passwordField = getView().findViewById((R.id.password));
@@ -96,6 +98,7 @@ public class loginFragment extends Fragment {
 		registerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				AppConfig.serverAddress = ((EditText)getView().findViewById(R.id.ip)).getText().toString();
 				EditText usernameField = Objects.requireNonNull(getView()).findViewById(R.id.username);
 				String username = usernameField.getText().toString();
 				EditText passwordField = getView().findViewById((R.id.password));

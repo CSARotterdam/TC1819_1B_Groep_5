@@ -162,9 +162,13 @@ public class ProductItemView extends CardView {
 		((Activity)getContext()).runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				title.setText(product.getName());
-				icon.setImageBitmap(product.image);
-				itemId.setText(item.id.toString());
+				try {
+					title.setText(product.getName());
+					icon.setImageBitmap(product.image);
+					itemId.setText(item.id.toString());
+				} catch (Exception e) {
+					reset();
+				}
 			}
 		});
 	}

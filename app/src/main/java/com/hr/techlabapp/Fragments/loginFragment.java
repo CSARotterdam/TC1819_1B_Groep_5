@@ -80,7 +80,7 @@ public class loginFragment extends Fragment {
 		usernameField.setText(username);
 		EditText passwordField = getView().findViewById(R.id.password);
 		passwordField.setText(password);
-
+		((EditText)getView().findViewById(R.id.ip)).setText(AppConfig.serverAddress);
 		Button loginButton = getView().findViewById(R.id.login);
 		loginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
